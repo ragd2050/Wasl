@@ -1,0 +1,898 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>فحص السمع الأولي | وصل</title>
+    <link rel="stylesheet" href="assets/wasl-fonts.css" />
+    <link rel="stylesheet" href="assets/wasl-enhance.css" />
+    <style>
+      :root {
+        --navy: #112d72;
+        --violet: #5754e9;
+        --blue: #1597ed;
+        --cyan: #08d8d2;
+        --bg: #f4f7fc;
+        --muted: #6f7b90;
+        --line: #dfe6f1;
+        --soft: #f7f9fd;
+        --green: #16865b;
+        --red: #df4c60;
+        --amber: #a55b12;
+        --shadow: 0 20px 55px rgba(17, 45, 114, 0.1);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        font-family: "Tajawal", sans-serif;
+        color: #17213b;
+        background: var(--bg);
+      }
+      .app {
+        min-height: 100dvh;
+        display: grid;
+        grid-template-rows: 68px 1fr;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 clamp(24px, 5vw, 70px);
+        background: #fff;
+        border-bottom: 1px solid var(--line);
+      }
+      .logo {
+        width: 126px;
+        height: 48px;
+        object-fit: contain;
+      }
+      .tools {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .secure {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        color: var(--green);
+        font-size: 0.8rem;
+      }
+      .secure i {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--green);
+      }
+      .lang {
+        height: 39px;
+        padding: 0 16px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: #fff;
+        color: var(--navy);
+        font-weight: 800;
+        cursor: pointer;
+      }
+      main {
+        padding: 22px clamp(18px, 5vw, 70px);
+        display: flex;
+        justify-content: center;
+      }
+      .shell {
+        width: min(880px, 100%);
+        padding: 26px clamp(22px, 4vw, 44px);
+        border: 1px solid var(--line);
+        border-radius: 25px;
+        background: #fff;
+        box-shadow: var(--shadow);
+      }
+      .head-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .section {
+        color: var(--violet);
+        font-size: 0.8rem;
+        font-weight: 800;
+      }
+      h1 {
+        margin: 6px 0 4px;
+        color: var(--navy);
+        font-size: clamp(1.5rem, 2.4vw, 2rem);
+      }
+      .lead {
+        color: var(--muted);
+        margin: 0 0 14px;
+        line-height: 1.7;
+      }
+      .screening-note {
+        display: flex;
+        gap: 11px;
+        align-items: flex-start;
+        padding: 13px 15px;
+        border-radius: 14px;
+        background: #fff7ea;
+        border: 1px solid #ffe3ad;
+        color: var(--amber);
+        font-size: 0.85rem;
+        line-height: 1.7;
+        font-weight: 600;
+        margin-bottom: 18px;
+      }
+      .screening-note svg {
+        flex: none;
+        width: 20px;
+        height: 20px;
+        margin-top: 1px;
+      }
+      #items {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0 18px;
+      }
+      .q {
+        padding: 16px 0;
+        border-top: 1px solid var(--line);
+      }
+      .q .qt {
+        font-weight: 800;
+        color: var(--navy);
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .opts {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+      .opt {
+        min-height: 48px;
+        border: 1.5px solid var(--line);
+        border-radius: 13px;
+        background: #fff;
+        color: var(--navy);
+        font:
+          700 0.9rem "Tajawal",
+          sans-serif;
+        cursor: pointer;
+        transition: 0.15s;
+      }
+      .opt:hover {
+        border-color: #86a7e8;
+      }
+      .opt.sel {
+        border-color: var(--violet);
+        background: #eef0ff;
+        color: #33308f;
+      }
+      .listening-task {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin: 2px 0 14px;
+        padding: 12px;
+        border: 1px solid #d9e7f5;
+        border-radius: 14px;
+        background: #f4f9ff;
+      }
+      .listening-task button.play {
+        height: 48px;
+        min-width: 190px;
+        padding: 0 20px;
+        border-radius: 13px;
+        border: 0;
+        background: linear-gradient(105deg, var(--blue), var(--cyan));
+        color: #fff;
+        font: 800 0.9rem "Tajawal";
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .listening-task button.play:disabled {
+        cursor: wait;
+        opacity: 0.72;
+      }
+      .listening-task button.play svg {
+        width: 18px;
+        height: 18px;
+      }
+      .sentence-help {
+        flex: 1;
+        min-width: 220px;
+        color: var(--muted);
+        font-size: 0.8rem;
+        line-height: 1.6;
+      }
+      .outcome {
+        margin-top: 20px;
+        padding: 16px;
+        border-radius: 15px;
+        display: none;
+      }
+      .outcome.show {
+        display: block;
+      }
+      .outcome.pass {
+        background: #e8f7ef;
+        border: 1px solid #bfe6d2;
+        color: #136c4c;
+      }
+      .outcome.refer {
+        background: #fff2e6;
+        border: 1px solid #ffd9a8;
+        color: var(--amber);
+      }
+      .outcome strong {
+        display: block;
+        font-size: 1.05rem;
+        margin-bottom: 3px;
+      }
+      .report-section {
+        margin-top: 20px;
+        padding-top: 18px;
+        border-top: 1px solid var(--line);
+      }
+      .rs-title {
+        margin: 0 0 12px;
+        color: var(--navy);
+        font-size: 1.05rem;
+        font-weight: 800;
+      }
+      .rs-opts {
+        grid-template-columns: 1fr 1fr;
+        max-width: 520px;
+      }
+      .uploader {
+        margin-top: 14px;
+      }
+      .drop {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        padding: 22px;
+        border: 2px dashed #c7d3e8;
+        border-radius: 15px;
+        background: var(--soft);
+        color: var(--muted);
+        cursor: pointer;
+        text-align: center;
+        transition: 0.15s;
+      }
+      .drop:hover {
+        border-color: var(--violet);
+        color: var(--navy);
+      }
+      .drop svg {
+        width: 26px;
+        height: 26px;
+      }
+      .rs-hint {
+        margin: 8px 0 0;
+        font-size: 0.76rem;
+        color: var(--muted);
+      }
+      .file-error {
+        margin-top: 8px;
+        color: var(--red);
+        font-size: 0.8rem;
+        font-weight: 700;
+        min-height: 16px;
+      }
+      .file-card {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 12px;
+        padding: 12px 14px;
+        border: 1px solid var(--line);
+        border-radius: 13px;
+        background: #fff;
+      }
+      .fc-icon {
+        width: 38px;
+        height: 38px;
+        flex: none;
+        border-radius: 10px;
+        background: #eef0ff;
+        color: var(--violet);
+        display: grid;
+        place-items: center;
+      }
+      .fc-icon svg {
+        width: 20px;
+        height: 20px;
+      }
+      .fc-body {
+        flex: 1;
+        min-width: 0;
+      }
+      .fc-body b {
+        display: block;
+        color: var(--navy);
+        font-size: 0.9rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .fc-body small {
+        color: var(--green);
+        font-size: 0.74rem;
+        font-weight: 700;
+      }
+      .fc-actions {
+        display: flex;
+        gap: 6px;
+      }
+      .fc-btn {
+        height: 34px;
+        padding: 0 12px;
+        border-radius: 9px;
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--navy);
+        font:
+          700 0.76rem "Tajawal",
+          sans-serif;
+        cursor: pointer;
+      }
+      .fc-btn.danger {
+        color: var(--red);
+        border-color: #f2cdd4;
+      }
+      .actions {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 22px;
+      }
+      .primary,
+      .secondary {
+        height: 48px;
+        padding: 0 24px;
+        border-radius: 13px;
+        font:
+          700 0.9rem "Tajawal",
+          sans-serif;
+        cursor: pointer;
+      }
+      .primary {
+        min-width: 180px;
+        border: 0;
+        color: #fff;
+        background: linear-gradient(105deg, var(--navy), var(--violet));
+        box-shadow: 0 9px 20px rgba(87, 84, 233, 0.18);
+      }
+      .primary:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+      .secondary {
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--navy);
+      }
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 18px;
+        transform: translate(-50%, 20px);
+        opacity: 0;
+        padding: 11px 17px;
+        border-radius: 11px;
+        background: #17213b;
+        color: #fff;
+        font-size: 0.8rem;
+        transition: 0.2s;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+      @media (max-width: 620px) {
+        #items {
+          display: block;
+        }
+        .opts {
+          grid-template-columns: 1fr;
+        }
+        .actions {
+          flex-direction: column-reverse;
+        }
+        .primary,
+        .secondary {
+          width: 100%;
+        }
+        .logo {
+          width: 104px;
+        }
+        .secure {
+          display: none;
+        }
+      }
+      @media (max-width: 480px) {
+        .rs-opts {
+          grid-template-columns: 1fr;
+        }
+        .file-card {
+          flex-wrap: wrap;
+        }
+        .fc-actions {
+          width: 100%;
+          justify-content: flex-end;
+        }
+        .fc-body {
+          min-width: 60%;
+        }
+        .drop span {
+          overflow-wrap: anywhere;
+        }
+      }
+    </style>
+    <script src="assets/wasl-store.js"></script>
+    <script src="assets/wasl-api.js"></script>
+    <script defer src="assets/wasl-enhance.js"></script>
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <img class="logo" src="assets/wasl-logo-1.webp" alt="منصة وصل" />
+        <div class="tools"><button class="lang" id="langBtn">EN</button></div>
+      </header>
+      <main>
+        <section class="shell">
+          <div class="head-row">
+            <span class="section" data-ar="المرحلة ٩ · فحص السمع الأولي" data-en="Step 9 · Hearing screening"
+              >المرحلة ٩ · فحص السمع الأولي</span
+            >
+          </div>
+          <h1 data-ar="فحص السمع الأولي" data-en="Hearing screening">فحص السمع الأولي</h1>
+          <p
+            class="lead"
+            data-ar="فحص مبدئي سريع للاستدلال على الحاجة لإحالة سمعية."
+            data-en="A quick preliminary screen to indicate whether an audiology referral may be needed."
+          >
+            فحص مبدئي سريع للاستدلال على الحاجة لإحالة سمعية.
+          </p>
+          <div class="screening-note">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.9"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="9" />
+              <path d="M12 8h.01M11 12h1v4h1" />
+            </svg>
+            <span
+              data-ar="هذا فحص أولي (Screening) للاسترشاد فقط، وليس تشخيصًا سمعيًا نهائيًا. التشخيص الكامل يتطلب أجهزة معتمدة ومختص سمعيات."
+              data-en="This is a preliminary screening for guidance only — not a final audiological diagnosis. A full diagnosis requires certified equipment and an audiologist."
+              >هذا فحص أولي (Screening) للاسترشاد فقط، وليس تشخيصًا سمعيًا نهائيًا. التشخيص الكامل يتطلب أجهزة معتمدة
+              ومختص سمعيات.</span
+            >
+          </div>
+
+          <div id="items"></div>
+
+          <section class="report-section" id="reportSection">
+            <h2
+              class="rs-title"
+              data-ar="هل لدى الطفل فحص سمع سابق؟"
+              data-en="Does the child have a previous hearing test?"
+            >
+              هل لدى الطفل فحص سمع سابق؟
+            </h2>
+            <div class="opts rs-opts">
+              <button class="opt" data-report="yes" data-ar="نعم، لدي تقرير" data-en="Yes, I have a report">
+                نعم، لدي تقرير
+              </button>
+              <button class="opt" data-report="no" data-ar="لا يوجد تقرير" data-en="No report">لا يوجد تقرير</button>
+            </div>
+            <div class="uploader" id="uploader" hidden>
+              <label class="drop" id="drop">
+                <input
+                  type="file"
+                  id="reportFile"
+                  accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/png,image/jpeg"
+                  hidden
+                />
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M12 16V4M7 9l5-5 5 5" />
+                  <path d="M4 20h16" />
+                </svg>
+                <span
+                  data-ar="اختر ملفًا للرفع (PDF أو صورة، حتى 10 ميجابايت)"
+                  data-en="Choose a file to upload (PDF or image, up to 10 MB)"
+                  >اختر ملفًا للرفع (PDF أو صورة، حتى 10 ميجابايت)</span
+                >
+              </label>
+              <p
+                class="rs-hint"
+                data-ar="رفع التقرير اختياري ولا يمنع المتابعة."
+                data-en="Uploading a report is optional and does not block continuing."
+              >
+                رفع التقرير اختياري ولا يمنع المتابعة.
+              </p>
+              <div class="file-error" id="fileError"></div>
+              <div class="file-card" id="fileCard" hidden>
+                <div class="fc-icon">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.7"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <path d="M14 2v6h6" />
+                  </svg>
+                </div>
+                <div class="fc-body"><b id="fileName"></b><small id="fileMeta"></small></div>
+                <div class="fc-actions">
+                  <button type="button" id="replaceBtn" class="fc-btn" data-ar="استبدال" data-en="Replace">
+                    استبدال
+                  </button>
+                  <button type="button" id="deleteBtn" class="fc-btn danger" data-ar="حذف" data-en="Delete">حذف</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div class="outcome" id="outcome"><strong id="outTitle"></strong><span id="outText"></span></div>
+
+          <div class="actions">
+            <button class="secondary" id="backBtn" data-ar="رجوع" data-en="Back">رجوع</button
+            ><button
+              class="primary"
+              id="nextBtn"
+              disabled
+              data-ar="متابعة إلى مهام النطق"
+              data-en="Continue to speech tasks"
+            >
+              متابعة إلى مهام النطق
+            </button>
+          </div>
+        </section>
+      </main>
+    </div>
+    <div class="toast" id="toast"></div>
+    <script>
+      const ASSESS_ID = WASL_STORE.ensureAssessmentId("hearing");
+      const $ = (s) => document.querySelector(s),
+        $$ = (s) => document.querySelectorAll(s);
+      let lang = "ar";
+      const YN = [
+        { v: "yes", ar: "نعم", en: "Yes" },
+        { v: "sometimes", ar: "أحيانًا", en: "Sometimes" },
+        { v: "no", ar: "لا", en: "No" },
+      ];
+      const items = [
+        {
+          id: "name_response",
+          q: {
+            ar: "هل يستجيب الطفل عند مناداته باسمه من مسافة قصيرة؟",
+            en: "Does the child respond when called by name from a short distance?",
+          },
+          good: "yes",
+        },
+        {
+          id: "sound_turn",
+          q: { ar: "هل يلتفت نحو مصدر الصوت المفاجئ؟", en: "Does the child turn toward a sudden sound source?" },
+          good: "yes",
+        },
+        {
+          id: "tv_volume",
+          q: {
+            ar: "هل يحتاج إلى رفع صوت التلفاز أعلى من المعتاد؟",
+            en: "Does the child need the TV louder than usual?",
+          },
+          good: "no",
+        },
+        {
+          id: "tone_heard",
+          q: {
+            ar: "بعد تشغيل الجملة في مكان هادئ، هل نفّذ الطفل التعليمات دون رؤية الشاشة؟",
+            en: "After playing the sentence in a quiet room, did the child follow the instruction without seeing the screen?",
+          },
+          good: "yes",
+          sentence: true,
+        },
+      ];
+      const answers = {};
+
+      function text(ar, en) {
+        return lang === "ar" ? ar : en;
+      }
+      function render() {
+        $("#items").innerHTML = items
+          .map((it) => {
+            const sentence = it.sentence
+              ? `<div class="listening-task">
+                  <button class="play" type="button" data-sentence="1">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.9"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M11 5 6 9H3v6h3l5 4V5Z"/>
+                      <path d="M16 9a3 3 0 0 1 0 6M18.5 6.5a7 7 0 0 1 0 11"/>
+                    </svg>
+                    <span data-ar="استمع إلى الجملة" data-en="Play sentence">
+                      استمع إلى الجملة
+                    </span>
+                  </button>
+                  <span
+                    class="sentence-help"
+                    id="sentenceStatus"
+                    data-ar="اخفض سطوع الشاشة، ثم شغّل الجملة مرة واحدة وراقب استجابة الطفل."
+                    data-en="Dim the screen, play the sentence once, and observe the child's response."
+                  >اخفض سطوع الشاشة، ثم شغّل الجملة مرة واحدة وراقب استجابة الطفل.</span>
+                </div>`
+              : "";
+            const opts = YN.map(
+              (o) =>
+                `<button class="opt ${answers[it.id] === o.v ? "sel" : ""}" data-q="${it.id}" data-v="${o.v}">${text(o.ar, o.en)}</button>`,
+            ).join("");
+            return `<div class="q"><div class="qt">${it.q[lang]}</div>${sentence}<div class="opts">${opts}</div></div>`;
+          })
+          .join("");
+        $$("[data-q]").forEach(
+          (b) =>
+            (b.onclick = () => {
+              answers[b.dataset.q] = b.dataset.v;
+              render();
+              evaluate();
+            }),
+        );
+        $$("[data-sentence]").forEach((b) => (b.onclick = playSentence));
+        // keep language on dynamically-created nodes
+        document.querySelectorAll("#items [data-ar][data-en]").forEach((e) => (e.textContent = e.dataset[lang]));
+      }
+      function preferredSentenceVoice(targetLanguage) {
+        const voices = window.speechSynthesis.getVoices() || [];
+        const prefix = targetLanguage === "ar" ? "ar" : "en";
+
+        return (
+          voices.find((voice) => (voice.lang || "").toLowerCase().startsWith(prefix) && voice.localService) ||
+          voices.find((voice) => (voice.lang || "").toLowerCase().startsWith(prefix)) ||
+          null
+        );
+      }
+
+      function playSentence() {
+        if (!("speechSynthesis" in window)) {
+          toast(text("القراءة الصوتية غير متاحة على هذا الجهاز", "Speech playback is unavailable on this device"));
+          return;
+        }
+
+        const button = $("[data-sentence]");
+        const message = text(
+          "عندما تسمع هذه الجملة، المس رأسك بيدك.",
+          "When you hear this sentence, touch your head with your hand.",
+        );
+        const utterance = new SpeechSynthesisUtterance(message);
+        const selectedVoice = preferredSentenceVoice(lang);
+
+        utterance.lang = lang === "ar" ? "ar-SA" : "en-US";
+        utterance.rate = 0.82;
+        utterance.pitch = 1;
+        utterance.volume = 1;
+
+        if (selectedVoice) {
+          utterance.voice = selectedVoice;
+        }
+
+        window.speechSynthesis.cancel();
+        button.disabled = true;
+        utterance.onend = () => {
+          button.disabled = false;
+          toast(text("اكتمل تشغيل الجملة", "Sentence playback complete"));
+        };
+        utterance.onerror = () => {
+          button.disabled = false;
+          toast(text("تعذّر تشغيل الجملة", "Could not play the sentence"));
+        };
+        window.speechSynthesis.speak(utterance);
+      }
+      function evaluate() {
+        if (
+          Object.keys(answers).filter((key) => key !== "_outcome").length < items.length ||
+          hasReport === null
+        ) {
+          $("#nextBtn").disabled = true;
+          return;
+        }
+        let flags = 0;
+        items.forEach((it) => {
+          const a = answers[it.id];
+          if (a !== it.good && a !== "sometimes") flags++;
+          else if (a === "sometimes") flags += 0.5;
+        });
+        const outcome = flags >= 1.5 ? "refer" : "pass";
+        const box = $("#outcome");
+        box.className = "outcome show " + outcome;
+        if (outcome === "pass") {
+          $("#outTitle").textContent = text("لم تظهر مؤشرات سمعية واضحة", "No clear hearing indicators observed");
+          $("#outText").textContent = text(
+            "هذه ملاحظة أولية غير تشخيصية، وسيُكمل الطفل مهام النطق والصوت.",
+            "This is a non-diagnostic preliminary observation. The child will continue to the speech and voice tasks.",
+          );
+        } else {
+          $("#outTitle").textContent = text("يُوصى بإحالة سمعية", "Audiology referral suggested");
+          $("#outText").textContent = text(
+            "ظهرت مؤشرات أولية تستدعي فحصًا سمعيًا لدى مختص. سيُدرَج ذلك ضمن نتيجة الفرز.",
+            "Preliminary indicators suggest a specialist hearing check. This will be included in the triage result.",
+          );
+        }
+        $("#outTitle").setAttribute("data-ar", $("#outTitle").textContent);
+        $("#nextBtn").disabled = false;
+        answers._outcome = outcome;
+      }
+      $("#nextBtn").onclick = async () => {
+        const hearing = {
+          outcome: answers._outcome || "pass",
+          responses: Object.assign({}, answers),
+          has_report: hasReport === "yes" && !!reportMeta,
+        };
+        if (hearing.has_report) {
+          hearing.report = reportMeta;
+        }
+        await WASL_STORE.patchAssessment(ASSESS_ID, { hearing: hearing });
+        WASL_STORE.setResume({
+          assessment_id: ASSESS_ID,
+          url: "audio.html",
+          step: "audio",
+          label_ar: "مهام النطق والصوت",
+          label_en: "Speech & voice tasks",
+        });
+        location.href = "audio.html";
+      };
+      $("#backBtn").onclick = () => (location.href = "questions.html");
+      window.setLang = function (n) {
+        lang = n;
+        document.documentElement.lang = n;
+        document.documentElement.dir = n === "ar" ? "rtl" : "ltr";
+        document.querySelectorAll("[data-ar][data-en]").forEach((e) => (e.textContent = e.dataset[n]));
+        const lb = $("#langBtn");
+        if (lb) lb.textContent = n === "ar" ? "EN" : "ع";
+        document.title = text("فحص السمع الأولي | وصل", "Hearing screening | WASL");
+        render();
+        if (answers._outcome) evaluate();
+      };
+      $("#langBtn").onclick = () => setLang(lang === "ar" ? "en" : "ar");
+      function toast(m) {
+        const x = $("#toast");
+        x.textContent = m;
+        x.classList.add("show");
+        setTimeout(() => x.classList.remove("show"), 2000);
+      }
+
+      /* ----- prior hearing report upload (optional, stored in IndexedDB) ----- */
+      const MAX_BYTES = 10 * 1024 * 1024;
+      const OK_TYPES = ["application/pdf", "image/png", "image/jpeg"];
+      let hasReport = null; // 'yes' | 'no' | null
+      let reportMeta = null; // {filename, size, mime}
+
+      function fmtSize(b) {
+        if (b < 1024) return b + " B";
+        if (b < 1048576) return (b / 1024).toFixed(0) + " KB";
+        return (b / 1048576).toFixed(1) + " MB";
+      }
+
+      function wireReport() {
+        $$("[data-report]").forEach(
+          (b) =>
+            (b.onclick = () => {
+              hasReport = b.dataset.report;
+              $$("[data-report]").forEach((x) => x.classList.toggle("sel", x.dataset.report === hasReport));
+              $("#uploader").hidden = hasReport !== "yes";
+              if (hasReport === "no") {
+                removeReport(false);
+              }
+              evaluate();
+            }),
+        );
+        $("#reportFile").onchange = (e) => handleFile(e.target.files && e.target.files[0]);
+        $("#replaceBtn").onclick = () => $("#reportFile").click();
+        $("#deleteBtn").onclick = () => removeReport(true);
+      }
+
+      async function handleFile(file) {
+        const err = $("#fileError");
+        err.textContent = "";
+        if (!file) return;
+        const nameOk = OK_TYPES.indexOf(file.type) > -1 || /\.(pdf|png|jpe?g)$/i.test(file.name);
+        if (!nameOk) {
+          err.textContent = text(
+            "صيغة غير مدعومة. المسموح: PDF أو JPG أو PNG.",
+            "Unsupported format. Allowed: PDF, JPG, PNG.",
+          );
+          return;
+        }
+        if (file.size > MAX_BYTES) {
+          err.textContent = text("حجم الملف يتجاوز 10 ميجابايت.", "File exceeds 10 MB.");
+          return;
+        }
+        try {
+          await WASL_STORE.putRecording(ASSESS_ID, "hearing_report", file, {
+            quality: { filename: file.name, size: file.size, mime: file.type || "application/octet-stream" },
+          });
+          reportMeta = { filename: file.name, size: file.size, mime: file.type };
+          showFileCard();
+          toast(text("تم رفع التقرير", "Report uploaded"));
+        } catch (e) {
+          err.textContent = text("تعذّر حفظ الملف.", "Could not save the file.");
+        }
+      }
+
+      function showFileCard() {
+        if (!reportMeta) {
+          $("#fileCard").hidden = true;
+          return;
+        }
+        $("#fileName").textContent = reportMeta.filename;
+        $("#fileMeta").textContent = text("تم الرفع", "Uploaded") + " · " + fmtSize(reportMeta.size);
+        $("#fileCard").hidden = false;
+      }
+
+      async function removeReport(clearChoice) {
+        try {
+          await WASL_STORE.deleteRecording(ASSESS_ID, "hearing_report");
+        } catch (e) {}
+        reportMeta = null;
+        $("#fileCard").hidden = true;
+        $("#fileError").textContent = "";
+        $("#reportFile").value = "";
+        if (clearChoice) {
+          toast(text("تم حذف التقرير", "Report removed"));
+        }
+      }
+
+      async function restoreReport() {
+        try {
+          const metas = await WASL_STORE.listRecordingsMeta(ASSESS_ID);
+          const r = metas.find((m) => m.task === "hearing_report");
+          if (r && r.quality) {
+            reportMeta = {
+              filename: r.quality.filename || "report",
+              size: r.quality.size || r.size || 0,
+              mime: r.quality.mime,
+            };
+            hasReport = "yes";
+            $$("[data-report]").forEach((x) => x.classList.toggle("sel", x.dataset.report === "yes"));
+            $("#uploader").hidden = false;
+            showFileCard();
+          }
+        } catch (e) {}
+        evaluate();
+      }
+
+      wireReport();
+      restoreReport();
+      render();
+    </script>
+  </body>
+</html>

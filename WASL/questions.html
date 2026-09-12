@@ -1,0 +1,1326 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>استبيان الحالة | وصل</title>
+    <link rel="stylesheet" href="assets/wasl-fonts.css" />
+    <link rel="stylesheet" href="assets/wasl-enhance.css" />
+    <style>
+      :root {
+        --navy: #112d72;
+        --violet: #5754e9;
+        --blue: #1597ed;
+        --cyan: #08d8d2;
+        --bg: #f4f7fc;
+        --muted: #6f7b90;
+        --line: #dfe6f1;
+        --soft: #f7f9fd;
+        --green: #16865b;
+        --red: #bc3545;
+        --shadow: 0 20px 55px rgba(17, 45, 114, 0.1);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        font-family: "Tajawal", sans-serif;
+        color: #17213b;
+        background: var(--bg);
+      }
+      body {
+        overflow: hidden;
+      }
+      .app {
+        height: 100dvh;
+        display: grid;
+        grid-template-rows: 68px 1fr;
+        background: radial-gradient(circle at 4% 92%, rgba(8, 216, 210, 0.12), transparent 25%), var(--bg);
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 clamp(24px, 5vw, 70px);
+        background: #fff;
+        border-bottom: 1px solid var(--line);
+      }
+      .logo {
+        width: 126px;
+        height: 48px;
+        object-fit: contain;
+      }
+      .tools {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .secure {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        color: var(--green);
+        font-size: 0.78rem;
+      }
+      .secure i {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--green);
+      }
+      .lang {
+        height: 39px;
+        padding: 0 16px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: #fff;
+        color: var(--navy);
+        font-weight: 800;
+        cursor: pointer;
+      }
+      main {
+        min-height: 0;
+        padding: 20px clamp(22px, 5vw, 76px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .shell {
+        width: min(1080px, 100%);
+        height: min(680px, calc(100dvh - 108px));
+        min-height: 570px;
+        padding: 30px clamp(30px, 5vw, 60px);
+        border: 1px solid var(--line);
+        border-radius: 25px;
+        background: #fff;
+        box-shadow: var(--shadow);
+        display: flex;
+        flex-direction: column;
+      }
+      .top {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 28px;
+        align-items: center;
+        padding-bottom: 17px;
+        border-bottom: 1px solid var(--line);
+      }
+      .patient {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .avatar {
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        border-radius: 13px;
+        background: #e9edff;
+        color: var(--violet);
+        font-weight: 800;
+        line-height: 1;
+      }
+      .patient strong {
+        display: block;
+        color: var(--navy);
+        font-size: 0.9rem;
+      }
+      .patient span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.72rem;
+      }
+      .progress-label {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 7px;
+        color: var(--muted);
+        font-size: 0.75rem;
+      }
+      .track {
+        height: 7px;
+        border-radius: 99px;
+        background: #edf1f7;
+        overflow: hidden;
+      }
+      .bar {
+        height: 100%;
+        width: 4%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, var(--cyan), var(--violet));
+        transition: 0.25s;
+      }
+      .question-area {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding-top: 27px;
+      }
+      .section {
+        display: inline-flex;
+        align-self: flex-start;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: #efefff;
+        color: var(--violet);
+        font-size: 0.74rem;
+        font-weight: 800;
+      }
+      .question {
+        margin: 13px 0 6px;
+        color: var(--navy);
+        font-size: clamp(1.45rem, 2.7vw, 2.05rem);
+        line-height: 1.4;
+      }
+      .help {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.82rem;
+        line-height: 1.5;
+      }
+      .answer {
+        margin-top: 22px;
+      }
+      .options {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+      .options.many {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .option {
+        min-height: 54px;
+        padding: 10px 15px;
+        border: 1.5px solid var(--line);
+        border-radius: 13px;
+        background: #fff;
+        color: var(--navy);
+        font:
+          700 0.83rem "Tajawal",
+          sans-serif;
+        text-align: start;
+        cursor: pointer;
+        transition: 0.15s;
+      }
+      .option:hover {
+        border-color: #9eb3e8;
+        background: #fafbff;
+      }
+      .option.selected {
+        border-color: var(--blue);
+        background: #edf6ff;
+        box-shadow: 0 0 0 3px rgba(21, 151, 237, 0.08);
+      }
+      .option.selected:before {
+        content: "✓";
+        display: inline-grid;
+        place-items: center;
+        width: 21px;
+        height: 21px;
+        margin-inline-end: 8px;
+        border-radius: 7px;
+        background: var(--blue);
+        color: #fff;
+        font-size: 0.7rem;
+      }
+      .field {
+        width: 100%;
+        min-height: 58px;
+        padding: 15px 17px;
+        border: 1.5px solid var(--line);
+        border-radius: 13px;
+        background: #fff;
+        color: var(--navy);
+        font:
+          600 0.9rem "Tajawal",
+          sans-serif;
+        outline: none;
+        resize: none;
+      }
+      .field:focus {
+        border-color: var(--blue);
+        box-shadow: 0 0 0 3px rgba(21, 151, 237, 0.08);
+      }
+      textarea.field {
+        min-height: 118px;
+      }
+      .tip {
+        margin-top: 8px;
+        color: #8a95a8;
+        font-size: 0.7rem;
+      }
+      .error {
+        min-height: 20px;
+        margin-top: 9px;
+        color: var(--red);
+        font-size: 0.76rem;
+        font-weight: 700;
+      }
+      .actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: auto;
+        padding-top: 14px;
+      }
+      .nav {
+        display: flex;
+        gap: 9px;
+      }
+      .primary,
+      .secondary {
+        height: 47px;
+        padding: 0 23px;
+        border-radius: 12px;
+        font:
+          700 0.88rem "Tajawal",
+          sans-serif;
+        cursor: pointer;
+      }
+      .primary {
+        min-width: 160px;
+        border: 0;
+        color: #fff;
+        background: linear-gradient(105deg, var(--navy), var(--violet));
+        box-shadow: 0 9px 20px rgba(87, 84, 233, 0.18);
+      }
+      .secondary {
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--navy);
+      }
+      .secondary:disabled {
+        opacity: 0.35;
+      }
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 18px;
+        transform: translate(-50%, 20px);
+        opacity: 0;
+        padding: 11px 17px;
+        border-radius: 11px;
+        background: #17213b;
+        color: #fff;
+        font-size: 0.8rem;
+        transition: 0.2s;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+      @media (max-width: 760px) {
+        body {
+          overflow: auto;
+        }
+        .app {
+          height: auto;
+          min-height: 100dvh;
+        }
+        .secure {
+          display: none;
+        }
+        main {
+          padding: 14px;
+        }
+        .shell {
+          height: auto;
+          min-height: calc(100dvh - 96px);
+          padding: 24px 19px;
+        }
+        .top {
+          grid-template-columns: 1fr;
+        }
+        .question-area {
+          min-height: 510px;
+        }
+        .options,
+        .options.many {
+          grid-template-columns: 1fr;
+        }
+        .actions {
+          align-items: stretch;
+          flex-direction: column-reverse;
+          gap: 10px;
+        }
+        .nav {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+        }
+        .primary,
+        .secondary {
+          width: 100%;
+          min-width: 0;
+        }
+        .logo {
+          width: 104px;
+        }
+      }
+
+      .ini {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      .ini text {
+        fill: currentColor;
+        font-weight: 800;
+        font-size: 50px;
+        font-family: Tajawal, sans-serif;
+      }
+      .why-ask {
+        margin-top: 12px;
+      }
+      .why-ask button {
+        border: 0;
+        background: none;
+        color: #1f6feb;
+        font-weight: 800;
+        cursor: pointer;
+        font-family: inherit;
+        font-size: 0.85rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 0;
+      }
+      .why-ask button svg {
+        width: 15px;
+        height: 15px;
+      }
+      .why-ask .wa-body {
+        margin-top: 8px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        background: #eef4ff;
+        border: 1px solid #d7e5ff;
+        color: #274a86;
+        font-size: 0.84rem;
+        line-height: 1.7;
+        font-weight: 600;
+        display: none;
+      }
+      .why-ask.open .wa-body {
+        display: block;
+      }
+    </style>
+    <script src="assets/wasl-store.js"></script>
+    <script src="assets/wasl-api.js"></script>
+    <script src="assets/wasl-red-flags.js"></script>
+    <script defer src="assets/wasl-enhance.js"></script>
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <img class="logo" src="assets/wasl-logo-1.webp" alt="منصة وصل" />
+        <div class="tools"><button class="lang" id="langBtn">EN</button></div>
+      </header>
+      <main>
+        <section class="shell">
+          <div class="top">
+            <div class="patient">
+              <span class="avatar"
+                ><svg class="ini" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+                  <text x="50" y="50" text-anchor="middle" dominant-baseline="central" data-ar="س" data-en="S">س</text>
+                </svg></span
+              >
+              <div>
+                <strong data-ar="سارة عبدالله العتيبي" data-en="Sara Abdullah Al-Otaibi">سارة عبدالله العتيبي</strong
+                ><span data-ar="6 سنوات · الزيارة الأولى" data-en="6 years · First visit"
+                  >6 سنوات · الزيارة الأولى</span
+                >
+              </div>
+            </div>
+            <div>
+              <div class="progress-label"><span id="progressText"></span><span id="progressCount"></span></div>
+              <div class="track"><div class="bar" id="bar"></div></div>
+            </div>
+          </div>
+          <div class="question-area">
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap">
+              <span class="section" id="section"></span
+              ><button class="wasl-speak" data-speak="#question" type="button">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M11 5 6 9H3v6h3l5 4V5Z" />
+                  <path d="M16 9a3 3 0 0 1 0 6M18.5 6.5a7 7 0 0 1 0 11" />
+                </svg>
+              </button>
+            </div>
+            <h1 class="question" id="question" data-speak-auto></h1>
+            <p class="help" id="help"></p>
+            <div class="answer" id="answer"></div>
+            <div class="error" id="error"></div>
+            <div class="actions">
+              <button class="secondary" id="saveBtn" data-ar="حفظ والخروج مؤقتًا" data-en="Save and exit">
+                حفظ والخروج مؤقتًا
+              </button>
+              <div class="nav">
+                <button class="secondary" id="prevBtn" data-ar="رجوع" data-en="Back">رجوع</button
+                ><button class="primary" id="nextBtn" data-ar="متابعة" data-en="Continue">متابعة</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <div class="toast" id="toast"></div>
+    <script>
+      const S = {
+        history: { ar: "تاريخ الحالة", en: "Case history" },
+        concern: { ar: "نوع المشكلة", en: "Main concerns" },
+        hearing: { ar: "السمع", en: "Hearing" },
+        language: { ar: "مهارات اللغة والنطق", en: "Speech and language skills" },
+        oral: { ar: "المضغ والبلع وعضلات الوجه والفم", en: "Chewing, swallowing and oral motor skills" },
+      };
+      const yn = [
+          { v: "no", ar: "لا", en: "No" },
+          { v: "yes", ar: "نعم", en: "Yes" },
+        ],
+        freq = [
+          { v: "yes", ar: "نعم", en: "Yes" },
+          { v: "sometimes", ar: "أحيانًا", en: "Sometimes" },
+          { v: "no", ar: "لا", en: "No" },
+        ];
+      const questions = [
+        {
+          id: "grade",
+          s: "history",
+          q: { ar: "ما الصف الدراسي الذي تدرس فيه سارة؟", en: "What grade is Sara currently in?" },
+          h: {
+            ar: "إذا لم تلتحق بالمدرسة بعد، اختر «لا ينطبق».",
+            en: "Choose “Not applicable” if she has not started school.",
+          },
+          type: "single",
+          o: [
+            { v: "na", ar: "لا ينطبق", en: "Not applicable" },
+            { v: "kg", ar: "روضة أو تمهيدي", en: "Kindergarten" },
+            { v: "g1", ar: "الصف الأول", en: "Grade 1" },
+            { v: "other", ar: "صف آخر", en: "Another grade" },
+          ],
+        },
+        {
+          id: "respondent",
+          s: "history",
+          q: { ar: "ما صلة الشخص الذي يعبّئ الاستبيان بالطفلة؟", en: "Who is completing this questionnaire?" },
+          type: "single",
+          o: [
+            { v: "mother", ar: "الأم", en: "Mother" },
+            { v: "father", ar: "الأب", en: "Father" },
+            { v: "sibling", ar: "الأخ أو الأخت", en: "Sibling" },
+            { v: "relative", ar: "قريب آخر أو مقدّم رعاية", en: "Other relative or caregiver" },
+          ],
+        },
+        {
+          id: "home_lang",
+          s: "history",
+          q: { ar: "ما اللغة المستخدمة غالبًا في المنزل؟", en: "Which language is mainly used at home?" },
+          type: "single",
+          o: [
+            { v: "ar", ar: "العربية", en: "Arabic" },
+            { v: "en", ar: "الإنجليزية", en: "English" },
+            { v: "both", ar: "العربية والإنجليزية", en: "Arabic and English" },
+            { v: "other", ar: "لغة أخرى", en: "Another language" },
+          ],
+        },
+        {
+          id: "family_history",
+          s: "history",
+          q: {
+            ar: "هل عانى أحد أفراد الأسرة من مشكلات في اللغة أو النطق؟",
+            en: "Has anyone in the family had speech or language difficulties?",
+          },
+          type: "single",
+          o: yn,
+        },
+        {
+          id: "family_details",
+          s: "history",
+          q: { ar: "اذكر صلة القرابة ونوع المشكلة باختصار.", en: "Briefly describe the relative and the difficulty." },
+          type: "textarea",
+          when: (a) => a.family_history === "yes",
+        },
+        {
+          id: "health_history",
+          s: "history",
+          q: {
+            ar: "هل لدى سارة حالة صحية مزمنة أو اضطراب نمائي، أو سبق أن أجرت عملية جراحية؟",
+            en: "Does Sara have a chronic condition, developmental disorder, or previous surgery?",
+          },
+          h: {
+            ar: "مثل عمليات اللوز أو اللحمية، الشفة أو الحنك، أو الحبال الصوتية.",
+            en: "For example tonsils, adenoids, cleft lip or palate, or vocal cords.",
+          },
+          type: "single",
+          o: yn,
+        },
+        {
+          id: "health_details",
+          s: "history",
+          q: {
+            ar: "اكتب الحالة الصحية أو العملية وتاريخها إن أمكن.",
+            en: "Describe the condition or surgery and its date, if known.",
+          },
+          type: "textarea",
+          when: (a) => a.health_history === "yes",
+        },
+        {
+          id: "therapy",
+          s: "history",
+          q: { ar: "هل حصلت سارة سابقًا على جلسات علاج؟", en: "Has Sara previously received therapy?" },
+          h: {
+            ar: "يشمل علاج التخاطب أو العلاج الطبيعي أو الوظيفي أو السلوكي.",
+            en: "Including speech, physical, occupational, or behavioral therapy.",
+          },
+          type: "single",
+          o: yn,
+        },
+        {
+          id: "therapy_details",
+          s: "history",
+          q: {
+            ar: "ما نوع العلاج؟ ومتى بدأ وكم كانت مدته؟",
+            en: "What type of therapy, when did it start, and for how long?",
+          },
+          type: "textarea",
+          when: (a) => a.therapy === "yes",
+        },
+        {
+          id: "concerns",
+          s: "concern",
+          q: { ar: "ما الصعوبات التي تلاحظها على سارة؟", en: "Which difficulties have you noticed in Sara?" },
+          h: { ar: "يمكن اختيار أكثر من خيار.", en: "You may select more than one." },
+          type: "multi",
+          o: [
+            { v: "hearing", ar: "سماع الأصوات أو تمييزها", en: "Hearing or distinguishing sounds" },
+            {
+              v: "understanding",
+              ar: "فهم الكلام أو الأوامر أو الإشارات",
+              en: "Understanding speech, instructions, or gestures",
+            },
+            {
+              v: "social",
+              ar: "التواصل الاجتماعي والبصري أو مهارات اللعب",
+              en: "Social/visual communication or play skills",
+            },
+            {
+              v: "language",
+              ar: "اكتساب الكلمات أو استخدامها وتكوين الجمل",
+              en: "Learning/using words and forming sentences",
+            },
+            { v: "clarity", ar: "صعوبة الآخرين في فهم كلامها", en: "Others have difficulty understanding her speech" },
+            { v: "sounds", ar: "نطق أو إنتاج بعض الأصوات الكلامية", en: "Producing certain speech sounds" },
+            { v: "fluency", ar: "طلاقة أو استرسال الكلام", en: "Speech fluency" },
+            { v: "feeding", ar: "المضغ أو البلع أو عضلات الفم", en: "Chewing, swallowing, or oral motor skills" },
+          ],
+        },
+        {
+          id: "regression",
+          s: "history",
+          q: {
+            ar: "هل فقدت سارة مؤخرًا كلمات أو مهارات تواصل كانت تستخدمها من قبل؟",
+            en: "Has Sara recently lost words or communication skills she previously used?",
+          },
+          h: {
+            ar: "نقصد تغيرًا ملحوظًا ومفاجئًا، وليس اختلافًا بسيطًا من يوم لآخر.",
+            en: "This means a noticeable, sudden change rather than a small day-to-day difference.",
+          },
+          type: "single",
+          o: yn,
+        },
+        {
+          id: "hearing_problem",
+          s: "hearing",
+          q: { ar: "هل تعاني سارة من صعوبة أو مشكلة في السمع؟", en: "Does Sara have a hearing difficulty?" },
+          type: "single",
+          o: yn,
+          when: (a) => has(a, "hearing"),
+        },
+        {
+          id: "sudden_hearing",
+          s: "hearing",
+          q: {
+            ar: "هل ظهرت صعوبة السمع أو تغيّرت بشكل مفاجئ؟",
+            en: "Did the hearing difficulty begin or change suddenly?",
+          },
+          type: "single",
+          o: yn,
+          when: (a) => a.hearing_problem === "yes",
+        },
+        {
+          id: "hearing_aid",
+          s: "hearing",
+          q: { ar: "هل تستخدم سارة معينات سمعية؟", en: "Does Sara use hearing aids?" },
+          type: "single",
+          o: yn,
+          when: (a) => a.hearing_problem === "yes",
+        },
+        {
+          id: "ear_infections",
+          s: "hearing",
+          q: { ar: "هل تعاني سارة من التهابات متكررة في الأذن؟", en: "Does Sara have recurrent ear infections?" },
+          type: "single",
+          o: yn,
+          when: (a) => has(a, "hearing"),
+        },
+        {
+          id: "ear_treatment",
+          s: "hearing",
+          q: {
+            ar: "ما العلاج الذي تلقته لالتهابات الأذن؟",
+            en: "What treatment did she receive for the ear infections?",
+          },
+          h: {
+            ar: "مثل عملية، قطرة، مضاد حيوي، أو علاج آخر.",
+            en: "For example surgery, drops, antibiotics, or another treatment.",
+          },
+          type: "textarea",
+          when: (a) => a.ear_infections === "yes",
+        },
+        {
+          id: "sound_response",
+          s: "hearing",
+          q: {
+            ar: "هل تستجيب سارة لنداء اسمها وللأصوات المحيطة مثل الجرس أو السيارة؟",
+            en: "Does Sara respond to her name and environmental sounds such as a bell or car?",
+          },
+          type: "single",
+          o: freq,
+          when: (a) => has(a, "hearing"),
+        },
+        {
+          id: "hearing_test",
+          s: "hearing",
+          q: {
+            ar: "هل أجرت سارة فحصًا أو مسحًا سمعيًا خلال الأشهر الثلاثة الماضية؟",
+            en: "Has Sara had a hearing screening in the past three months?",
+          },
+          type: "single",
+          o: yn,
+          when: (a) => has(a, "hearing"),
+        },
+        {
+          id: "hearing_result",
+          s: "hearing",
+          q: { ar: "ما نتيجة فحص السمع؟", en: "What was the hearing test result?" },
+          type: "single",
+          o: [
+            { v: "pass", ar: "اجتازت الفحص", en: "Passed" },
+            { v: "refer", ar: "تحتاج إلى متابعة", en: "Follow-up needed" },
+            { v: "unknown", ar: "غير واضحة أو لا أعرف", en: "Unclear or unknown" },
+          ],
+          when: (a) => a.hearing_test === "yes",
+        },
+        {
+          id: "vision",
+          s: "hearing",
+          q: {
+            ar: "هل تعاني سارة من ضعف في النظر أو حول في إحدى العينين أو كلتيهما؟",
+            en: "Does Sara have reduced vision or a squint in either eye?",
+          },
+          type: "single",
+          o: yn,
+          when: (a) => has(a, "hearing"),
+        },
+        {
+          id: "communication",
+          s: "language",
+          q: { ar: "كيف تتواصل سارة غالبًا؟", en: "How does Sara usually communicate?" },
+          type: "single",
+          o: [
+            { v: "gesture", ar: "بالإشارات", en: "Gestures" },
+            { v: "words", ar: "بالكلمات", en: "Words" },
+            { v: "both", ar: "بالإشارات والكلمات", en: "Gestures and words" },
+            { v: "none", ar: "لا شيء مما سبق", en: "None of these" },
+          ],
+          when: needsLanguage,
+        },
+        {
+          id: "sentence_words",
+          s: "language",
+          q: {
+            ar: "كم كلمة تستخدم سارة عادةً في الجملة الواحدة؟",
+            en: "How many words does Sara usually use in one sentence?",
+          },
+          type: "single",
+          o: [
+            { v: "one", ar: "كلمة واحدة", en: "One word" },
+            { v: "two", ar: "كلمتان", en: "Two words" },
+            { v: "three", ar: "3 إلى 4 كلمات", en: "3–4 words" },
+            { v: "five", ar: "5 كلمات أو أكثر", en: "5 or more words" },
+          ],
+          when: (a) => needsLanguage(a) && a.communication !== "none",
+        },
+        {
+          id: "eye_contact",
+          s: "language",
+          q: {
+            ar: "هل تحافظ سارة على التواصل البصري أثناء الحديث؟",
+            en: "Does Sara maintain eye contact while communicating?",
+          },
+          type: "single",
+          o: freq,
+          when: needsLanguage,
+        },
+        {
+          id: "expression",
+          s: "language",
+          q: {
+            ar: "هل تستخدم سارة تعابير الوجه وحركات الجسد بطريقة مناسبة أثناء التواصل؟",
+            en: "Does Sara use facial expressions and body movements appropriately while communicating?",
+          },
+          type: "single",
+          o: freq,
+          when: needsLanguage,
+        },
+        {
+          id: "play",
+          s: "language",
+          q: { ar: "كيف تستخدم سارة الألعاب عادةً؟", en: "How does Sara usually use toys?" },
+          type: "single",
+          o: [
+            { v: "none", ar: "لا تهتم بالألعاب", en: "Shows little interest in toys" },
+            { v: "mouth", ar: "تضع الألعاب في فمها غالبًا", en: "Often mouths toys" },
+            { v: "different", ar: "تستخدمها بطريقة مختلفة عن وظيفتها", en: "Uses them differently from their purpose" },
+            { v: "functional", ar: "تستخدمها بطريقة مناسبة", en: "Uses them appropriately" },
+          ],
+          when: needsLanguage,
+        },
+        {
+          id: "understands",
+          s: "language",
+          q: { ar: "هل تفهم سارة الكلام الموجّه إليها؟", en: "Does Sara understand speech directed to her?" },
+          type: "single",
+          o: freq,
+          when: needsLanguage,
+        },
+        {
+          id: "commands",
+          s: "language",
+          q: {
+            ar: "هل تستطيع سارة اتباع أوامر بسيطة مثل «أعطيني» أو «خذي» أو «أشِر»؟",
+            en: "Can Sara follow simple instructions such as “give me,” “take,” or “point”?",
+          },
+          type: "single",
+          o: freq,
+          when: needsLanguage,
+        },
+        {
+          id: "yes_no",
+          s: "language",
+          q: { ar: "هل تجيب سارة عن الأسئلة بنعم أو لا؟", en: "Can Sara answer yes/no questions?" },
+          type: "single",
+          o: freq,
+          when: needsLanguage,
+        },
+        {
+          id: "word_classes",
+          s: "language",
+          q: {
+            ar: "هل تميّز سارة بين الأسماء والأفعال والصفات؟",
+            en: "Can Sara distinguish nouns, verbs, and adjectives?",
+          },
+          type: "single",
+          o: yn,
+          when: needsLanguage,
+        },
+        {
+          id: "uses_classes",
+          s: "language",
+          q: { ar: "ما أنواع الكلمات التي تستخدمها في كلامها؟", en: "Which types of words does she use in speech?" },
+          type: "multi",
+          o: [
+            { v: "nouns", ar: "أسماء", en: "Nouns" },
+            { v: "verbs", ar: "أفعال", en: "Verbs" },
+            { v: "adjectives", ar: "صفات", en: "Adjectives" },
+            { v: "none", ar: "لا تستخدم أيًا منها", en: "None" },
+          ],
+          when: (a) => a.word_classes === "yes",
+        },
+        {
+          id: "family_understand",
+          s: "language",
+          q: { ar: "هل يستطيع أفراد الأسرة فهم كلام سارة؟", en: "Can family members understand Sara’s speech?" },
+          type: "single",
+          o: freq,
+          when: needsLanguage,
+        },
+        {
+          id: "strangers_understand",
+          s: "language",
+          q: {
+            ar: "هل يستطيع الأشخاص غير المألوفين فهم كلام سارة؟",
+            en: "Can unfamiliar people understand Sara’s speech?",
+          },
+          type: "single",
+          o: freq,
+          when: needsLanguage,
+        },
+        {
+          id: "pronunciation",
+          s: "language",
+          q: {
+            ar: "هل تنطق سارة بعض الأصوات أو الكلمات بطريقة غير صحيحة؟",
+            en: "Does Sara pronounce some sounds or words incorrectly?",
+          },
+          type: "single",
+          o: yn,
+          when: needsLanguage,
+        },
+        {
+          id: "sound_changes",
+          s: "language",
+          q: {
+            ar: "هل تحذف سارة أصواتًا من الكلمات أو تستبدلها بأصوات أخرى؟",
+            en: "Does Sara omit sounds from words or replace them with other sounds?",
+          },
+          type: "single",
+          o: yn,
+          when: needsLanguage,
+        },
+        {
+          id: "fluency",
+          s: "language",
+          q: {
+            ar: "هل تواجه سارة صعوبة في طلاقة أو استرسال الكلام؟",
+            en: "Does Sara have difficulty with speech fluency?",
+          },
+          type: "single",
+          o: yn,
+          when: needsLanguage,
+        },
+        {
+          id: "impact",
+          s: "language",
+          q: {
+            ar: "هل تؤثر المشكلة على سارة اجتماعيًا أو أكاديميًا؟",
+            en: "Does the difficulty affect Sara socially or academically?",
+          },
+          type: "single",
+          o: freq,
+          when: needsLanguage,
+        },
+        {
+          id: "awareness",
+          s: "language",
+          q: { ar: "هل سارة مدركة للصعوبة التي تواجهها؟", en: "Is Sara aware of the difficulty?" },
+          type: "single",
+          o: [
+            { v: "yes", ar: "نعم", en: "Yes" },
+            { v: "partly", ar: "إلى حد ما", en: "Partly" },
+            { v: "no", ar: "لا", en: "No" },
+          ],
+          when: needsLanguage,
+        },
+        {
+          id: "breathing",
+          s: "oral",
+          q: { ar: "كيف تتنفس سارة عادةً؟", en: "How does Sara usually breathe?" },
+          type: "single",
+          o: [
+            { v: "natural", ar: "تنفس طبيعي", en: "Natural breathing" },
+            { v: "support", ar: "بمساعدة جهاز أو أنبوب", en: "With device or tube support" },
+          ],
+          when: (a) => has(a, "feeding"),
+        },
+        {
+          id: "face_weakness",
+          s: "oral",
+          q: {
+            ar: "هل يوجد ضعف أو ميلان واضح في أحد جانبي الوجه أو كليهما؟",
+            en: "Is there noticeable weakness or drooping on either side of the face?",
+          },
+          type: "single",
+          o: yn,
+          when: (a) => has(a, "feeding"),
+        },
+        {
+          id: "sensation",
+          s: "oral",
+          q: {
+            ar: "هل يوجد ضعف في الإحساس في أحد جانبي الوجه أو كليهما؟",
+            en: "Is there reduced sensation on either side of the face?",
+          },
+          type: "single",
+          o: yn,
+          when: (a) => has(a, "feeding"),
+        },
+        {
+          id: "drooling",
+          s: "oral",
+          q: { ar: "هل تعاني سارة من سيلان اللعاب المستمر؟", en: "Does Sara have persistent drooling?" },
+          type: "single",
+          o: yn,
+          when: (a) => has(a, "feeding"),
+        },
+        {
+          id: "oral_move",
+          s: "oral",
+          q: {
+            ar: "هل تواجه سارة صعوبة في تحريك الفك أو اللسان أو الشفتين أثناء الكلام أو الأكل؟",
+            en: "Does Sara have difficulty moving her jaw, tongue, or lips while speaking or eating?",
+          },
+          type: "single",
+          o: yn,
+          when: (a) => has(a, "feeding"),
+        },
+        {
+          id: "cleft",
+          s: "oral",
+          q: { ar: "هل لدى سارة شفة أرنبية أو شق في الحنك؟", en: "Does Sara have a cleft lip or palate?" },
+          type: "single",
+          o: yn,
+          when: (a) => has(a, "feeding"),
+        },
+        {
+          id: "cleft_surgery",
+          s: "oral",
+          q: { ar: "هل أجرت عملية جراحية للشفة أو الحنك؟", en: "Has Sara had surgery for the lip or palate?" },
+          type: "single",
+          o: yn,
+          when: (a) => a.cleft === "yes",
+        },
+        {
+          id: "tube",
+          s: "oral",
+          q: { ar: "هل تعتمد سارة على التغذية الأنبوبية؟", en: "Does Sara use tube feeding?" },
+          type: "single",
+          o: yn,
+          when: (a) => has(a, "feeding"),
+        },
+        {
+          id: "thickener",
+          s: "oral",
+          q: { ar: "هل تستخدم سارة مكثفات للسوائل؟", en: "Does Sara use liquid thickeners?" },
+          type: "single",
+          o: yn,
+          when: (a) => has(a, "feeding"),
+        },
+        {
+          id: "textures",
+          s: "oral",
+          q: { ar: "هل تستطيع سارة تناول أطعمة بقوامات مختلفة؟", en: "Can Sara eat foods with different textures?" },
+          type: "single",
+          o: freq,
+          when: (a) => has(a, "feeding"),
+        },
+        {
+          id: "food_types",
+          s: "oral",
+          q: {
+            ar: "ما أنواع وقوام الأطعمة التي تتناولها سارة عادةً؟",
+            en: "What food types and textures does Sara usually eat?",
+          },
+          type: "textarea",
+          when: (a) => has(a, "feeding"),
+        },
+        {
+          id: "oral_control",
+          s: "oral",
+          q: {
+            ar: "هل تواجه سارة صعوبة في التحكم بالطعام أو السوائل داخل الفم؟",
+            en: "Does Sara have difficulty controlling food or liquid in her mouth?",
+          },
+          type: "single",
+          o: yn,
+          when: (a) => has(a, "feeding"),
+        },
+        {
+          id: "pocketing",
+          s: "oral",
+          q: {
+            ar: "هل تُبقي سارة الطعام في فمها مدة طويلة قبل بلعه؟",
+            en: "Does Sara hold food in her mouth for a long time before swallowing?",
+          },
+          type: "single",
+          o: yn,
+          when: (a) => has(a, "feeding"),
+        },
+        {
+          id: "swallow",
+          s: "oral",
+          q: {
+            ar: "هل تواجه سارة صعوبة في بلع الطعام أو السوائل؟",
+            en: "Does Sara have difficulty swallowing food or liquids?",
+          },
+          type: "single",
+          o: yn,
+          when: (a) => has(a, "feeding"),
+        },
+        {
+          id: "choking",
+          s: "oral",
+          q: {
+            ar: "هل تشرق أو تسعل أو تختنق سارة أثناء البلع أو بعده؟",
+            en: "Does Sara cough, choke, or gag during or after swallowing?",
+          },
+          type: "single",
+          o: [
+            { v: "often", ar: "نعم، بشكل متكرر", en: "Yes, often" },
+            { v: "sometimes", ar: "أحيانًا", en: "Sometimes" },
+            { v: "no", ar: "لا", en: "No" },
+          ],
+          when: (a) => has(a, "feeding"),
+        },
+        {
+          id: "pneumonia",
+          s: "oral",
+          q: { ar: "هل عانت سارة من التهاب رئوي متكرر؟", en: "Has Sara had recurrent pneumonia?" },
+          type: "single",
+          o: yn,
+          when: (a) => has(a, "feeding"),
+        },
+        {
+          id: "voice_after_food",
+          s: "oral",
+          q: {
+            ar: "هل تتغير جودة صوت سارة أثناء تناول الطعام أو بعده؟",
+            en: "Does Sara’s voice quality change during or after eating?",
+          },
+          type: "single",
+          o: yn,
+          when: (a) => has(a, "feeding"),
+        },
+      ];
+      let lang = "ar",
+        index = 0;
+      const answers = {};
+      const ASSESS_ID = WASL_STORE.ensureAssessmentId("questions");
+      const $ = (s) => document.querySelector(s),
+        $$ = (s) => document.querySelectorAll(s);
+      function has(a, v) {
+        return Array.isArray(a.concerns) && a.concerns.includes(v);
+      }
+      function needsLanguage(a) {
+        return ["understanding", "social", "language", "clarity", "sounds", "fluency"].some((v) => has(a, v));
+      }
+      function queue() {
+        return questions.filter((q) => !q.when || q.when(answers));
+      }
+      function val(q) {
+        return answers[q.id];
+      }
+      function render() {
+        const list = queue();
+        if (index >= list.length) index = list.length - 1;
+        const q = list[index],
+          n = index + 1,
+          p = Math.max(4, Math.round((n / list.length) * 100));
+        $("#section").textContent = S[q.s][lang];
+        $("#question").textContent = q.q[lang];
+        $("#help").textContent = q.h ? q.h[lang] : "";
+        $("#progressText").textContent = lang === "ar" ? "تقدم الاستبيان" : "Questionnaire progress";
+        $("#progressCount").textContent = `${n} / ${list.length}`;
+        $("#bar").style.width = p + "%";
+        $("#prevBtn").disabled = index === 0;
+        $("#nextBtn").textContent =
+          n === list.length
+            ? lang === "ar"
+              ? "الانتقال إلى جمع العينة"
+              : "Continue to sample collection"
+            : lang === "ar"
+              ? "متابعة"
+              : "Continue";
+        $("#error").textContent = "";
+        const box = $("#answer");
+        if (q.type === "single" || q.type === "multi") {
+          box.innerHTML = `<div class="options ${q.o.length > 4 ? "many" : ""}">${q.o.map((o) => `<button class="option ${(q.type === "multi" ? (val(q) || []).includes(o.v) : val(q) === o.v) ? "selected" : ""}" data-v="${o.v}">${o[lang]}</button>`).join("")}</div>`;
+          $$(".option").forEach(
+            (b) =>
+              (b.onclick = () => {
+                if (q.type === "multi") {
+                  const a = answers[q.id] || [],
+                    v = b.dataset.v;
+                  answers[q.id] = a.includes(v) ? a.filter((x) => x !== v) : [...a, v];
+                } else answers[q.id] = b.dataset.v;
+                render();
+              }),
+          );
+        } else {
+          box.innerHTML =
+            q.type === "textarea"
+              ? `<textarea class="field" id="field" placeholder="${lang === "ar" ? "اكتب التفاصيل هنا" : "Enter details here"}">${val(q) || ""}</textarea>`
+              : `<input class="field" id="field" value="${val(q) || ""}" placeholder="${lang === "ar" ? "اكتب الإجابة هنا" : "Enter your answer"}">`;
+          $("#field").oninput = (e) => (answers[q.id] = e.target.value);
+        }
+        document.title = (lang === "ar" ? "استبيان الحالة" : "Case questionnaire") + " | WASL";
+      }
+      function valid(q) {
+        const v = val(q);
+        return q.type === "multi" ? Array.isArray(v) && v.length > 0 : typeof v === "string" && v.trim().length > 0;
+      }
+      $("#nextBtn").onclick = () => {
+        const list = queue(),
+          q = list[index];
+        if (!valid(q)) {
+          $("#error").textContent =
+            lang === "ar" ? "يرجى إدخال إجابة للمتابعة." : "Please provide an answer to continue.";
+          return;
+        }
+        if (index < list.length - 1) {
+          index++;
+          render();
+        } else {
+          (async () => {
+            const id = WASL_STORE.ensureAssessmentId("questions");
+            const redFlags = WASL_RED_FLAGS.evaluate(answers);
+            await WASL_STORE.patchAssessment(id, {
+              answers: Object.assign({}, answers),
+              red_flags: redFlags,
+              last_step: "questions",
+            });
+            await WASL_STORE.appendAudit(id, {
+              event: redFlags.requires_staff_review ? "safety_review_required" : "safety_screen_clear",
+              actor: "system",
+              details: {
+                level: redFlags.level,
+                codes: redFlags.matched_rules.map((item) => item.code),
+              },
+            });
+            const nextUrl = redFlags.requires_staff_review ? "safety-review.html" : "hearing.html";
+            WASL_STORE.setResume({
+              assessment_id: id,
+              url: nextUrl,
+              step: redFlags.requires_staff_review ? "safety_review" : "hearing",
+              label_ar: redFlags.requires_staff_review ? "مراجعة أولوية الحالة" : "فحص السمع الأولي",
+              label_en: redFlags.requires_staff_review ? "Priority safety review" : "Hearing screening",
+            });
+            location.href = nextUrl;
+          })();
+        }
+      };
+      $("#prevBtn").onclick = () => {
+        if (index > 0) {
+          index--;
+          render();
+        }
+      };
+      function setLang(n) {
+        lang = n;
+        document.documentElement.lang = n;
+        document.documentElement.dir = n === "ar" ? "rtl" : "ltr";
+        $$("[data-ar][data-en]").forEach((e) => (e.textContent = e.dataset[n]));
+        $("#langBtn").textContent = n === "ar" ? "EN" : "ع";
+        render();
+      }
+      $("#langBtn").onclick = () => setLang(lang === "ar" ? "en" : "ar");
+      $("#saveBtn").onclick = () => {
+        _saveResume();
+        toast(lang === "ar" ? "تم حفظ التقدم. يمكنك الاستئناف لاحقًا." : "Progress saved. You can resume later.");
+        setTimeout(() => (location.href = "dashboard.html"), 900);
+      };
+      function toast(msg) {
+        const t = $("#toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 2300);
+      }
+      render();
+
+      const renderWithReadableCount = render;
+      render = function () {
+        renderWithReadableCount();
+        const list = queue(),
+          n = index + 1;
+        $("#progressCount").textContent =
+          lang === "ar" ? `السؤال ${n} من ${list.length}` : `Question ${n} of ${list.length}`;
+      };
+      render();
+
+      function _saveResume() {
+        // localStorage holds ONLY a non-sensitive pointer — never answers or medical data.
+        try {
+          WASL_STORE.setResume({
+            assessment_id: ASSESS_ID,
+            url: "questions.html",
+            step: "questions",
+            label_ar: "استبيان تاريخ الحالة",
+            label_en: "Case-history questionnaire",
+          });
+        } catch (e) {}
+      }
+      function _persist() {
+        // Sensitive answers + current question index live in IndexedDB.
+        try {
+          WASL_STORE.patchAssessment(ASSESS_ID, {
+            answers: Object.assign({}, answers),
+            question_index: index,
+            last_step: "questions",
+          });
+        } catch (e) {}
+      }
+      var WHY = {
+        hearing: {
+          ar: "نسأل عن السمع لأن ضعف السمع قد يكون سببًا مباشرًا لتأخر النطق واللغة؛ واكتشافه مبكرًا يغيّر مسار التوجيه بالكامل.",
+          en: "We ask about hearing because hearing loss can be a direct cause of speech and language delay, and finding it early changes the routing entirely.",
+        },
+        oral: {
+          ar: "نسأل عن المضغ والبلع لأن صعوبات عضلات الفم والوجه قد ترتبط باضطرابات النطق وتستدعي نوعًا مختلفًا من التقييم.",
+          en: "We ask about chewing and swallowing because oral and facial muscle difficulties can relate to speech disorders and call for a different kind of assessment.",
+        },
+      };
+      function _whyAsk() {
+        var ex = document.getElementById("whyAsk");
+        if (ex) ex.remove();
+        var list = queue(),
+          q = list[index];
+        if (!q || !WHY[q.s]) return;
+        var help = document.getElementById("help");
+        var w = document.createElement("div");
+        w.className = "why-ask";
+        w.id = "whyAsk";
+        var lbl = lang === "ar" ? "لماذا نسأل هذا؟" : "Why do we ask this?";
+        w.innerHTML =
+          '<button type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>' +
+          lbl +
+          '</button><div class="wa-body">' +
+          WHY[q.s][lang] +
+          "</div>";
+        help.parentNode.insertBefore(w, help.nextSibling);
+        w.querySelector("button").onclick = function () {
+          w.classList.toggle("open");
+        };
+      }
+      (function () {
+        var _r = render;
+        render = function () {
+          _r();
+          _saveResume();
+          _persist();
+          _whyAsk();
+        };
+        (async function () {
+          try {
+            const a = await WASL_STORE.getAssessment(ASSESS_ID);
+            if (a) {
+              if (a.answers) Object.assign(answers, a.answers);
+              const ql = queue();
+              if (typeof a.question_index === "number") {
+                index = Math.max(0, Math.min(a.question_index, ql.length - 1));
+              }
+              render();
+              if ((a.answers && Object.keys(a.answers).length) || a.question_index) {
+                setTimeout(function () {
+                  toast(
+                    lang === "ar" ? "تم استئناف تقييمك من حيث توقفت." : "Your assessment resumed where you left off.",
+                  );
+                }, 350);
+              }
+            }
+          } catch (e) {}
+        })();
+      })();
+    </script>
+  </body>
+</html>

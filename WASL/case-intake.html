@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>استبيان وفحص السمع | وصل</title>
+    <link rel="stylesheet" href="assets/wasl-fonts.css" />
+    <link rel="stylesheet" href="assets/wasl-enhance.css" />
+    <style>
+      :root {
+        --navy: #112d72;
+        --violet: #5754e9;
+        --cyan: #08c9c6;
+        --green: #16865b;
+        --red: #c94155;
+        --ink: #17213b;
+        --muted: #6f7b90;
+        --line: #dfe6f1;
+        --bg: #f4f7fc;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Tajawal", sans-serif;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 5% 90%, rgba(8, 201, 198, 0.12), transparent 28%),
+          var(--bg);
+      }
+      header {
+        height: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 clamp(20px, 5vw, 72px);
+        background: #fff;
+        border-bottom: 1px solid var(--line);
+      }
+      .logo { width: 126px; height: 50px; object-fit: contain; }
+      .header-actions { display: flex; gap: 10px; }
+      .lang, .back {
+        min-height: 40px; padding: 0 15px;
+        border: 1px solid var(--line); border-radius: 11px;
+        color: var(--navy); background: #fff; font-weight: 800; cursor: pointer;
+        font-family: inherit;
+      }
+      main {
+        width: min(960px, calc(100% - 36px));
+        margin: 26px auto 40px;
+        display: grid;
+        gap: 20px;
+      }
+      .eyebrow {
+        display: inline-flex; padding: 7px 11px; border-radius: 999px;
+        color: #4643ce; background: #eeedff; font-size: 0.78rem; font-weight: 800;
+      }
+      h1 { margin: 14px 0 6px; color: var(--navy); font-size: clamp(1.5rem, 3vw, 2.15rem); }
+      .lead { margin: 0; color: var(--muted); line-height: 1.8; }
+      .steps {
+        display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px;
+      }
+      .chip {
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 8px 14px; border-radius: 999px; font-weight: 800; font-size: 0.82rem;
+        background: #eef1f7; color: #6f7b90; border: 1px solid #e2e8f2;
+      }
+      .chip .n {
+        width: 20px; height: 20px; border-radius: 50%; display: grid; place-items: center;
+        background: #cfd6e6; color: #fff; font-size: 0.72rem;
+      }
+      .chip.done { background: #e8f7ef; color: #136c4c; border-color: #bfe6d2; }
+      .chip.done .n { background: var(--green); }
+      .chip.active { background: #eef0ff; color: var(--navy); border-color: #d3d5ff; }
+      .chip.active .n { background: var(--violet); }
+      .card {
+        padding: clamp(20px, 3vw, 30px);
+        border: 1px solid var(--line); border-radius: 22px; background: #fff;
+        box-shadow: 0 18px 45px rgba(17, 45, 114, 0.08);
+      }
+      .card h2 { margin: 0 0 6px; color: var(--navy); font-size: 1.2rem; }
+      .card .sub { margin: 0 0 18px; color: var(--muted); font-size: 0.9rem; line-height: 1.7; }
+      .q { padding: 14px 0; border-bottom: 1px solid #eef1f7; }
+      .q:last-child { border-bottom: 0; }
+      .q > b { display: block; color: var(--navy); font-size: 0.98rem; margin-bottom: 10px; }
+      .opts { display: flex; gap: 8px; flex-wrap: wrap; }
+      .opt {
+        min-height: 42px; padding: 0 16px; border-radius: 11px;
+        border: 1px solid #cfd9ea; background: #fff; color: #3a4560;
+        font: 700 0.86rem "Tajawal", sans-serif; cursor: pointer; transition: 0.15s;
+      }
+      .opt:hover { border-color: var(--violet); }
+      .opt.sel {
+        border-color: var(--violet); color: #fff;
+        background: linear-gradient(110deg, var(--navy), var(--violet));
+        box-shadow: 0 8px 18px rgba(87, 84, 233, 0.18);
+      }
+      .quickfill {
+        display: inline-flex; align-items: center; gap: 8px;
+        margin-top: 4px; padding: 8px 14px; border-radius: 11px;
+        border: 1px dashed #bcc6dc; background: #f7f9ff; color: var(--violet);
+        font: 800 0.82rem "Tajawal", sans-serif; cursor: pointer;
+      }
+      .hearing-outcome {
+        margin-top: 14px; padding: 14px 16px; border-radius: 13px;
+        display: none; line-height: 1.7; font-weight: 700;
+      }
+      .hearing-outcome.show { display: block; }
+      .hearing-outcome.pass { background: #e8f7ef; border: 1px solid #bfe6d2; color: #136c4c; }
+      .notice {
+        padding: 12px 15px; border-radius: 13px;
+        background: #fff7ea; border: 1px solid #ffe3ad; color: #855d12;
+        font-size: 0.84rem; line-height: 1.7; font-weight: 600;
+      }
+      .footer {
+        position: sticky; bottom: 0;
+        display: flex; align-items: center; justify-content: space-between; gap: 14px;
+        padding: 14px clamp(16px, 3vw, 24px);
+        border: 1px solid var(--line); border-radius: 18px; background: #fff;
+        box-shadow: 0 -10px 30px rgba(17, 45, 114, 0.06);
+        flex-wrap: wrap;
+      }
+      .footer .status { color: var(--muted); font-size: 0.86rem; }
+      .continue {
+        min-height: 50px; padding: 0 26px; border: 0; border-radius: 13px;
+        color: #fff; background: linear-gradient(110deg, var(--navy), var(--violet));
+        box-shadow: 0 10px 24px rgba(87, 84, 233, 0.2);
+        font: 800 0.95rem "Tajawal", sans-serif; cursor: pointer;
+      }
+      .continue:disabled { opacity: 0.45; cursor: not-allowed; }
+      @media (max-width: 560px) {
+        header { height: 64px; padding: 0 16px; }
+        .logo { width: 106px; }
+        .footer { flex-direction: column; align-items: stretch; }
+        .continue { width: 100%; }
+      }
+    </style>
+    <script src="assets/wasl-store.js"></script>
+    <script src="assets/wasl-api.js"></script>
+    <script src="assets/wasl-sim.js"></script>
+    <script defer src="assets/wasl-enhance.js"></script>
+  </head>
+  <body>
+    <header>
+      <img class="logo" src="assets/wasl-logo-1.webp" alt="وصل" />
+      <div class="header-actions">
+        <button class="lang" id="langBtn" type="button">EN</button>
+        <button class="back" id="backBtn" type="button">
+          <span data-ar="العودة للمواعيد" data-en="Back to appointments">العودة للمواعيد</span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section>
+        <span class="eyebrow" data-ar="رقم التقييم · WS-ST-001" data-en="Assessment ID · WS-ST-001">
+          رقم التقييم · WS-ST-001
+        </span>
+        <h1 data-ar="بدء تقييم سارة العتيبي" data-en="Start Sara Al-Otaibi's assessment">
+          بدء تقييم سارة العتيبي
+        </h1>
+        <p class="lead"
+          data-ar="أكملي الاستبيان الأولي وفحص السمع، ثم سجّلي عينة الكلام. هذه محاكاة لعرض سير النظام."
+          data-en="Complete the initial questionnaire and hearing screen, then record the speech sample. This is a simulation of the system flow.">
+          أكملي الاستبيان الأولي وفحص السمع، ثم سجّلي عينة الكلام. هذه محاكاة لعرض سير النظام.
+        </p>
+        <div class="steps">
+          <span class="chip active" id="chipQ"><span class="n">1</span><span data-ar="الاستبيان" data-en="Questionnaire">الاستبيان</span></span>
+          <span class="chip" id="chipH"><span class="n">2</span><span data-ar="فحص السمع" data-en="Hearing screen">فحص السمع</span></span>
+          <span class="chip" id="chipR"><span class="n">3</span><span data-ar="تسجيل العينة" data-en="Record sample">تسجيل العينة</span></span>
+        </div>
+      </section>
+
+      <!-- الاستبيان -->
+      <section class="card" id="cardQ">
+        <h2 data-ar="الاستبيان الأولي" data-en="Initial questionnaire">الاستبيان الأولي</h2>
+        <p class="sub"
+          data-ar="إجابات مبنية على بيانات الإحالة. يمكنك تعديل أي إجابة قبل المتابعة."
+          data-en="Answers are pre-filled from referral data. You may change any answer before continuing.">
+          إجابات مبنية على بيانات الإحالة. يمكنك تعديل أي إجابة قبل المتابعة.
+        </p>
+        <button class="quickfill" id="quickFill" type="button"
+          data-ar="تعبئة سريعة بإجابات الحالة النموذجية" data-en="Quick-fill with the sample case answers">
+          تعبئة سريعة بإجابات الحالة النموذجية
+        </button>
+        <div id="questions"></div>
+      </section>
+
+      <!-- فحص السمع -->
+      <section class="card" id="cardH">
+        <h2 data-ar="فحص السمع الأولي" data-en="Initial hearing screen">فحص السمع الأولي</h2>
+        <p class="sub"
+          data-ar="فحص استرشادي سريع. النتيجة النهائية للسمع يعتمدها المختص عند الحاجة."
+          data-en="A quick indicative screen. The final hearing outcome is confirmed by the specialist when needed.">
+          فحص استرشادي سريع. النتيجة النهائية للسمع يعتمدها المختص عند الحاجة.
+        </p>
+        <div id="hearing"></div>
+        <div class="hearing-outcome" id="hearingOutcome"></div>
+      </section>
+
+      <section class="card">
+        <p class="notice"
+          data-ar="ملاحظة: هذه تجربة محاكاة لعرض سير النظام. التسجيل حقيقي، أمّا التحليل والنتيجة والأولوية فمُحاكاة ثابتة ولا تتغيّر بتغيّر الصوت."
+          data-en="Note: this is a simulation to demonstrate the system flow. The recording is real, but the analysis, result and priority are a fixed simulation that does not change with the audio.">
+          ملاحظة: هذه تجربة محاكاة لعرض سير النظام. التسجيل حقيقي، أمّا التحليل والنتيجة والأولوية فمُحاكاة ثابتة ولا تتغيّر بتغيّر الصوت.
+        </p>
+      </section>
+
+      <div class="footer">
+        <span class="status" id="status" data-ar="أكملي الاستبيان وفحص السمع للمتابعة." data-en="Complete the questionnaire and hearing screen to continue.">
+          أكملي الاستبيان وفحص السمع للمتابعة.
+        </span>
+        <button class="continue" id="continueBtn" type="button" disabled>
+          <span data-ar="حفظ والمتابعة إلى تسجيل العينة" data-en="Save and continue to recording">
+            حفظ والمتابعة إلى تسجيل العينة
+          </span>
+        </button>
+      </div>
+    </main>
+
+    <script>
+      "use strict";
+      const ASSESSMENT_ID =
+        (function () {
+          try { return localStorage.getItem("waslSimActiveCase") || "WS-ST-001"; } catch (e) { return "WS-ST-001"; }
+        })();
+      const $ = (s) => document.querySelector(s);
+      let lang = "ar";
+      let CASE = null; // بيانات الحالة النشطة من الكتالوج (تُحمّل عند الإقلاع)
+
+      // فعّل وضع المحاكاة من بداية الرحلة
+      if (window.WASL_SIM) WASL_SIM.enable();
+
+      function text(ar, en) { return lang === "ar" ? ar : en; }
+
+      /* ------- بيانات الاستبيان (مخصّصة لحالة سارة) ------- */
+      const QUESTIONS = [
+        {
+          id: "main_concern",
+          q: { ar: "ما الصعوبة الأبرز الملاحظة على سارة؟", en: "What is Sara's most noticeable difficulty?" },
+          opts: [
+            { v: "fluency", ar: "طلاقة الكلام (تلعثم)", en: "Speech fluency (stuttering)" },
+            { v: "articulation", ar: "نطق الأصوات", en: "Articulation" },
+            { v: "language", ar: "اللغة والتعبير", en: "Language" },
+          ],
+          def: "fluency",
+        },
+        {
+          id: "symptom_duration",
+          q: { ar: "منذ متى ظهرت الأعراض؟", en: "How long have the symptoms been present?" },
+          opts: [
+            { v: "lt_3m", ar: "أقل من ٣ أشهر", en: "Under 3 months" },
+            { v: "3_12m", ar: "من ٣ إلى ١٢ شهرًا", en: "3–12 months" },
+            { v: "12_months", ar: "قرابة سنة", en: "About a year" },
+          ],
+          def: "12_months",
+        },
+        {
+          id: "features",
+          q: { ar: "أي المظاهر التالية لوحظت؟", en: "Which features were observed?" },
+          opts: [
+            { v: "repetitions", ar: "تكرارات ومقاطع", en: "Repetitions" },
+            { v: "prolongation", ar: "إطالات", en: "Prolongations" },
+            { v: "blocks", ar: "توقفات/انسدادات", en: "Blocks" },
+            { v: "all", ar: "جميعها", en: "All of them" },
+          ],
+          def: "all",
+        },
+        {
+          id: "secondary_behaviors",
+          q: { ar: "هل يظهر توتر جسدي أو حركات مصاحبة أثناء الكلام؟", en: "Any physical tension or secondary movements while speaking?" },
+          opts: [
+            { v: "yes", ar: "نعم", en: "Yes" },
+            { v: "sometimes", ar: "أحيانًا", en: "Sometimes" },
+            { v: "no", ar: "لا", en: "No" },
+          ],
+          def: "sometimes",
+        },
+        {
+          id: "family_history",
+          q: { ar: "هل يوجد تاريخ عائلي لصعوبات الطلاقة؟", en: "Family history of fluency difficulty?" },
+          opts: [
+            { v: "yes", ar: "نعم", en: "Yes" },
+            { v: "no", ar: "لا", en: "No" },
+            { v: "unknown", ar: "غير معروف", en: "Unknown" },
+          ],
+          def: "unknown",
+        },
+      ];
+
+      const HEARING = [
+        {
+          id: "responds_to_name",
+          q: { ar: "هل تستجيب سارة لاسمها والأصوات المحيطة؟", en: "Does Sara respond to her name and surrounding sounds?" },
+          opts: [{ v: "yes", ar: "نعم", en: "Yes" }, { v: "no", ar: "لا", en: "No" }],
+          def: "yes", pass: "yes",
+        },
+        {
+          id: "hearing_difficulty",
+          q: { ar: "هل توجد صعوبة سمعية ملحوظة؟", en: "Any noticeable hearing difficulty?" },
+          opts: [{ v: "no", ar: "لا", en: "No" }, { v: "yes", ar: "نعم", en: "Yes" }],
+          def: "no", pass: "no",
+        },
+        {
+          id: "ear_infections",
+          q: { ar: "هل توجد التهابات أذن متكررة حديثًا؟", en: "Recent recurrent ear infections?" },
+          opts: [{ v: "no", ar: "لا", en: "No" }, { v: "yes", ar: "نعم", en: "Yes" }],
+          def: "no", pass: "no",
+        },
+        {
+          id: "prior_screen",
+          q: { ar: "نتيجة فحص السمع الأخير (إن وجد)؟", en: "Result of the last hearing screen (if any)?" },
+          opts: [
+            { v: "pass", ar: "سليم", en: "Pass" },
+            { v: "refer", ar: "بحاجة لإحالة", en: "Refer" },
+            { v: "none", ar: "لا يوجد فحص سابق", en: "None" },
+          ],
+          def: "pass", pass: "pass",
+        },
+      ];
+
+      const answers = {};
+      const hearingAnswers = {};
+
+      function renderQuestions() {
+        $("#questions").innerHTML = QUESTIONS.map((item) => {
+          return (
+            '<div class="q" data-qid="' + item.id + '"><b>' +
+            text(item.q.ar, item.q.en) +
+            '</b><div class="opts">' +
+            item.opts
+              .map(
+                (o) =>
+                  '<button class="opt" type="button" data-v="' +
+                  o.v +
+                  '">' +
+                  text(o.ar, o.en) +
+                  "</button>",
+              )
+              .join("") +
+            "</div></div>"
+          );
+        }).join("");
+        // اربط النقر
+        $("#questions").querySelectorAll(".q").forEach((row) => {
+          const qid = row.dataset.qid;
+          row.querySelectorAll(".opt").forEach((btn) => {
+            btn.classList.toggle("sel", answers[qid] === btn.dataset.v);
+            btn.onclick = () => {
+              answers[qid] = btn.dataset.v;
+              row.querySelectorAll(".opt").forEach((b) => b.classList.toggle("sel", b === btn));
+              refresh();
+            };
+          });
+        });
+      }
+
+      function renderHearing() {
+        $("#hearing").innerHTML = HEARING.map((item) => {
+          return (
+            '<div class="q" data-hid="' + item.id + '"><b>' +
+            text(item.q.ar, item.q.en) +
+            '</b><div class="opts">' +
+            item.opts
+              .map(
+                (o) =>
+                  '<button class="opt" type="button" data-v="' +
+                  o.v +
+                  '">' +
+                  text(o.ar, o.en) +
+                  "</button>",
+              )
+              .join("") +
+            "</div></div>"
+          );
+        }).join("");
+        $("#hearing").querySelectorAll(".q").forEach((row) => {
+          const hid = row.dataset.hid;
+          row.querySelectorAll(".opt").forEach((btn) => {
+            btn.classList.toggle("sel", hearingAnswers[hid] === btn.dataset.v);
+            btn.onclick = () => {
+              hearingAnswers[hid] = btn.dataset.v;
+              row.querySelectorAll(".opt").forEach((b) => b.classList.toggle("sel", b === btn));
+              refresh();
+            };
+          });
+        });
+      }
+
+      function qDone() {
+        return QUESTIONS.every((q) => answers[q.id] != null);
+      }
+      function hDone() {
+        return HEARING.every((h) => hearingAnswers[h.id] != null);
+      }
+      function hearingOutcome() {
+        // يعتبر الفحص «سليمًا» إذا طابقت كل الإجابات المسار الطبيعي
+        const refer = HEARING.some((h) => hearingAnswers[h.id] && hearingAnswers[h.id] !== h.pass && hearingAnswers[h.id] !== "none");
+        return refer ? "refer" : "pass";
+      }
+
+      function refresh() {
+        // شرائح المراحل
+        $("#chipQ").className = "chip " + (qDone() ? "done" : "active");
+        $("#chipH").className = "chip " + (hDone() ? "done" : qDone() ? "active" : "");
+
+        // نتيجة السمع
+        if (hDone()) {
+          const outcome = hearingOutcome();
+          const box = $("#hearingOutcome");
+          box.className = "hearing-outcome show " + (outcome === "pass" ? "pass" : "pass");
+          box.textContent =
+            outcome === "pass"
+              ? text(
+                  "لم تظهر مؤشرات سمعية واضحة في الفحص الأولي (سليم). يؤكد المختص عند الحاجة.",
+                  "No clear hearing indicators in the initial screen (pass). The specialist confirms when needed.",
+                )
+              : text(
+                  "أوصى الفحص الأولي بمراجعة سمعية إضافية — سيراجع المختص ذلك.",
+                  "The initial screen suggests further hearing review — the specialist will check this.",
+                );
+        }
+
+        const ready = qDone() && hDone();
+        $("#continueBtn").disabled = !ready;
+        $("#status").textContent = ready
+          ? text("جاهز للمتابعة إلى تسجيل عينة الكلام.", "Ready to continue to speech-sample recording.")
+          : text("أكملي الاستبيان وفحص السمع للمتابعة.", "Complete the questionnaire and hearing screen to continue.");
+      }
+
+      function applyDefaults() {
+        QUESTIONS.forEach((q) => (answers[q.id] = q.def));
+        HEARING.forEach((h) => (hearingAnswers[h.id] = h.def));
+        renderQuestions();
+        renderHearing();
+        refresh();
+      }
+
+      async function saveAndContinue() {
+        $("#continueBtn").disabled = true;
+        $("#status").textContent = text("جارٍ حفظ بيانات الحالة…", "Saving case data…");
+        const nowISO = new Date().toISOString();
+        const assessment = {
+          assessment_id: ASSESSMENT_ID,
+          created_at: Date.now(),
+          status: "intake_completed",
+          workflow_case: true,
+          simulated: true,
+          intake_completed: true,
+          case_profile: (CASE && CASE.profile) || {
+            patient_name_ar: "سارة عبدالله العتيبي",
+            patient_name_en: "Sara Abdullah Al-Otaibi",
+            age_ar: "5 سنوات و3 أشهر",
+            age_en: "5 years 3 months",
+            type_ar: "اشتباه باضطراب طلاقة الكلام",
+            type_en: "Suspected speech-fluency disorder",
+            referral_ar: "تكرار أصوات ومقاطع وإطالات وتوقفات أثناء الكلام.",
+            referral_en: "Sound and syllable repetitions, prolongations and speech blocks.",
+            duration_ar: "قرابة سنة",
+            duration_en: "Approximately one year",
+            features_ar: "تزداد عند الاستعجال مع توتر جسدي عارض وضرب القدم.",
+            features_en: "Reported to increase when rushed, with occasional tension and foot stomping.",
+            source_ar: "بيانات الإحالة والاستبيان الأولي.",
+            source_en: "Referral and preliminary questionnaire data.",
+          },
+          consent: { answers: true, audio: true, share: true, captured_in_workflow: true },
+          answers: {
+            main_concern: answers.main_concern,
+            symptom_duration: answers.symptom_duration,
+            features: answers.features,
+            sound_repetition: answers.features === "repetitions" || answers.features === "all",
+            prolongation: answers.features === "prolongation" || answers.features === "all",
+            speech_blocks: answers.features === "blocks" || answers.features === "all",
+            secondary_behaviors: answers.secondary_behaviors,
+            family_history: answers.family_history,
+            concerns: ["fluency"],
+          },
+          hearing: {
+            outcome: hearingOutcome(),
+            has_report: false,
+            screen_answers: Object.assign({}, hearingAnswers),
+          },
+          red_flags: { matched_rules: [], staff_reviewed: true },
+          task_plan: {
+            profile: "stuttering_fluency_case",
+            reason_ar: "عينة كلام متصل لتحليل مؤشرات الطلاقة.",
+            reason_en: "A connected-speech sample for fluency-indicator analysis.",
+            tasks: ["connected_speech"],
+            hearing_follow_up: false,
+          },
+          audit_log: [
+            {
+              event: "case_opened",
+              actor: "staff",
+              task: null,
+              details: { case_id: ASSESSMENT_ID, pathway: "speech_fluency", mode: "demo_flow" },
+              timestamp: nowISO,
+            },
+            {
+              event: "questionnaire_completed",
+              actor: "staff",
+              task: null,
+              details: { source: "case_intake" },
+              timestamp: nowISO,
+            },
+            {
+              event: "hearing_screen_completed",
+              actor: "staff",
+              task: null,
+              details: { outcome: hearingOutcome() },
+              timestamp: nowISO,
+            },
+          ],
+        };
+
+        try {
+          // احتفظ بأي تسجيل سابق للتقييم إن وجد، وحدّث بيانات الحالة فقط.
+          const existing = await WASL_STORE.getAssessment(ASSESSMENT_ID);
+          if (existing && existing.result) {
+            delete existing.result;
+          }
+          await WASL_STORE.putAssessment(assessment);
+          WASL_STORE.setResume({
+            assessment_id: ASSESSMENT_ID,
+            url: "case-assessment.html",
+            step: "recording",
+            label_ar: "تسجيل عينة كلام سارة",
+            label_en: "Record Sara's speech sample",
+          });
+          location.href = "case-assessment.html";
+        } catch (e) {
+          $("#continueBtn").disabled = false;
+          $("#status").textContent = text("تعذّر الحفظ، حاولي مرة أخرى.", "Saving failed, please try again.");
+        }
+      }
+
+      function setLanguage(next) {
+        lang = next;
+        document.documentElement.lang = next;
+        document.documentElement.dir = next === "ar" ? "rtl" : "ltr";
+        document.querySelectorAll("[data-ar][data-en]").forEach((el) => (el.textContent = el.dataset[next]));
+        $("#langBtn").textContent = next === "ar" ? "EN" : "ع";
+        document.title = text("استبيان وفحص السمع | وصل", "Questionnaire & hearing screen | WASL");
+        renderQuestions();
+        renderHearing();
+        refresh();
+      }
+
+      $("#quickFill").onclick = applyDefaults;
+      $("#continueBtn").onclick = saveAndContinue;
+      $("#langBtn").onclick = () => setLanguage(lang === "ar" ? "en" : "ar");
+      $("#backBtn").onclick = () => (location.href = "dashboard.html");
+
+      /* ------- تخصيص الصفحة حسب الحالة النشطة من الكتالوج ------- */
+      function replaceName(str, firstAr, firstEn) {
+        return String(str)
+          .replace(/سارة/g, firstAr)
+          .replace(/Sara/g, firstEn);
+      }
+
+      function applyCase(entry) {
+        if (!entry) return;
+        const p = entry.profile || {};
+        const firstAr = p.first_ar || "سارة";
+        const firstEn = p.first_en || "Sara";
+
+        // اسم الطفل داخل نصوص الأسئلة وفحص السمع
+        QUESTIONS.concat(HEARING).forEach((item) => {
+          if (item.q) {
+            item.q.ar = replaceName(item.q.ar, firstAr, firstEn);
+            item.q.en = replaceName(item.q.en, firstAr, firstEn);
+          }
+        });
+
+        // الإجابات المعبّأة مسبقًا
+        const d = entry.intake_defaults || {};
+        QUESTIONS.forEach((q) => {
+          if (d[q.id] != null) q.def = d[q.id];
+        });
+        if (d.hearing) {
+          HEARING.forEach((h) => {
+            if (d.hearing[h.id] != null) h.def = d.hearing[h.id];
+          });
+        }
+
+        // العنوان ورقم التقييم
+        const lastAr = (p.patient_name_ar || "").trim().split(/\s+/).pop() || "";
+        const titleAr = "بدء تقييم " + (firstAr + (lastAr ? " " + lastAr : "")).trim();
+        const titleEn = (firstEn ? firstEn + "'s" : "") + " assessment · start";
+        const h1 = document.querySelector("main h1") || document.querySelector("h1");
+        if (h1) {
+          h1.dataset.ar = titleAr;
+          h1.dataset.en = titleEn;
+        }
+        const eyebrow = document.querySelector(".eyebrow");
+        if (eyebrow) {
+          eyebrow.dataset.ar = "رقم التقييم · " + ASSESSMENT_ID;
+          eyebrow.dataset.en = "Assessment ID · " + ASSESSMENT_ID;
+        }
+      }
+
+      // إقلاع: حمّل بيانات الحالة ثم عبّئ الإجابات وطبّق اللغة
+      (async function initIntake() {
+        try {
+          if (window.WASL_SIM && WASL_SIM.getCase) {
+            CASE = await WASL_SIM.getCase(ASSESSMENT_ID);
+          }
+        } catch (e) {}
+        applyCase(CASE);
+        applyDefaults();
+        // حدّث النصوص المرتبطة باللغة (العنوان/رقم التقييم) بعد التخصيص
+        document
+          .querySelectorAll("[data-ar][data-en]")
+          .forEach((el) => (el.textContent = el.dataset[lang]));
+      })();
+    </script>
+  </body>
+</html>

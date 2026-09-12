@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content="تسليم جهاز تقييم وصل" />
+    <title>تسليم الجهاز | وصل</title>
+    <link rel="stylesheet" href="assets/wasl-fonts.css" />
+    <link rel="stylesheet" href="assets/wasl-enhance.css" />
+    <style>
+      :root {
+        --navy: #122b6c;
+        --violet: #5756e1;
+        --blue: #3594f0;
+        --turq: #5eece2;
+        --bg: #f4f7fc;
+        --ink: #17213b;
+        --muted: #69758b;
+        --line: #e2e8f2;
+        --green: #16784c;
+        --shadow: 0 20px 55px rgba(18, 43, 108, 0.1);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      body {
+        font-family: "Tajawal", system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--ink);
+      }
+      button {
+        font: inherit;
+      }
+      .app {
+        height: 100dvh;
+        display: grid;
+        grid-template-rows: 72px 1fr;
+        background: radial-gradient(circle at 10% 88%, rgba(94, 236, 226, 0.12), transparent 24%), var(--bg);
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 clamp(24px, 4vw, 64px);
+        background: #fff;
+        border-bottom: 1px solid var(--line);
+      }
+      .logo {
+        width: 132px;
+        height: 48px;
+        object-fit: contain;
+        object-position: right center;
+      }
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        direction: ltr;
+      }
+      .lang-btn {
+        height: 40px;
+        padding: 0 15px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: #fff;
+        color: var(--navy);
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .user {
+        direction: rtl;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .avatar {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        color: #fff;
+        font-weight: 800;
+        background: linear-gradient(145deg, var(--navy), var(--violet));
+        line-height: 1;
+      }
+      .user strong {
+        display: block;
+        font-size: 0.9rem;
+      }
+      .user span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.75rem;
+      }
+      main {
+        min-height: 0;
+        padding: 22px clamp(28px, 5vw, 78px) 28px;
+        display: grid;
+        grid-template-rows: 46px 1fr;
+        gap: 14px;
+      }
+      .back {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border: 0;
+        background: transparent;
+        color: var(--navy);
+        font-weight: 700;
+        cursor: pointer;
+        padding: 8px 0;
+      }
+      .back svg {
+        width: 18px;
+      }
+      .workspace {
+        min-height: 0;
+        max-width: 1240px;
+        width: 100%;
+        margin-inline: auto;
+        align-self: center;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+      .panel {
+        padding: 30px clamp(38px, 5vw, 72px);
+        display: flex;
+        flex-direction: column;
+      }
+      .timeline {
+        display: flex;
+        align-items: flex-start;
+        width: 100%;
+        margin: 0 0 17px;
+        padding: 0 4px;
+      }
+      .timeline-step {
+        width: 150px;
+        flex: none;
+        text-align: center;
+      }
+      .timeline-dot {
+        width: 34px;
+        height: 34px;
+        margin: 0 auto 7px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        border: 2px solid #d8e0ee;
+        background: #fff;
+        color: #8a96a9;
+        font-weight: 800;
+      }
+      .timeline-step.active .timeline-dot {
+        border-color: var(--violet);
+        background: var(--violet);
+        color: #fff;
+        box-shadow: 0 0 0 6px rgba(87, 86, 225, 0.1);
+      }
+      .timeline-step.done .timeline-dot {
+        border-color: var(--turq);
+        background: #e8fbfa;
+        color: var(--navy);
+      }
+      .timeline-step strong {
+        display: block;
+        color: #8691a4;
+        font-size: 0.82rem;
+      }
+      .timeline-step.active strong,
+      .timeline-step.done strong {
+        color: var(--navy);
+      }
+      .timeline-line {
+        height: 2px;
+        flex: 1;
+        min-width: 45px;
+        margin-top: 16px;
+        background: #dfe6f0;
+      }
+      .timeline-line.done {
+        background: linear-gradient(90deg, var(--turq), var(--violet));
+      }
+      .content {
+        flex: 1;
+        min-height: 0;
+        width: min(100%, 960px);
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+      }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        align-self: flex-start;
+        padding: 7px 11px;
+        border-radius: 999px;
+        background: #edecff;
+        color: var(--violet);
+        font-size: 0.78rem;
+        font-weight: 700;
+      }
+      .eyebrow i {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--violet);
+      }
+      h1 {
+        margin: 13px 0 4px;
+        color: var(--navy);
+        font-size: clamp(1.8rem, 2.7vw, 2.35rem);
+      }
+      .lead {
+        margin: 0 0 15px;
+        color: var(--muted);
+        font-size: 0.94rem;
+        line-height: 1.65;
+      }
+      .handoff-card {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        overflow: hidden;
+      }
+      .patient {
+        padding: 20px;
+        background: #fbfdff;
+        border-inline-end: 1px solid var(--line);
+      }
+      .patient-head {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+      }
+      .patient-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 15px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(145deg, #e9f2ff, #e6fbf8);
+        color: var(--navy);
+        font-size: 1.15rem;
+        font-weight: 800;
+      }
+      .patient strong {
+        display: block;
+        color: var(--navy);
+        font-size: 1rem;
+      }
+      .patient span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.8rem;
+        margin-top: 2px;
+      }
+      .verified {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 18px;
+        padding: 10px 12px;
+        border-radius: 12px;
+        background: #eaf9f3;
+        color: var(--green);
+        font-size: 0.8rem;
+        font-weight: 700;
+      }
+      .device {
+        padding: 20px;
+      }
+      .device-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+      }
+      .device-label {
+        color: var(--muted);
+        font-size: 0.76rem;
+        font-weight: 600;
+      }
+      .device h2 {
+        margin: 4px 0 0;
+        color: var(--navy);
+        font-size: 1.4rem;
+      }
+      .ready {
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: #eaf9f3;
+        color: var(--green);
+        font-size: 0.74rem;
+        font-weight: 700;
+      }
+      .specs {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-top: 16px;
+      }
+      .spec {
+        padding: 10px 12px;
+        border-radius: 11px;
+        background: #f5f7fb;
+      }
+      .spec span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.7rem;
+      }
+      .spec strong {
+        display: block;
+        margin-top: 3px;
+        color: var(--navy);
+        font-size: 0.85rem;
+      }
+      .instruction {
+        display: flex;
+        align-items: flex-start;
+        gap: 11px;
+        margin-top: 14px;
+        padding: 11px 14px;
+        border: 1px solid #d9e9ff;
+        border-radius: 13px;
+        background: #f5f9ff;
+        color: #52637d;
+        font-size: 0.8rem;
+        line-height: 1.55;
+      }
+      .instruction svg {
+        width: 20px;
+        flex: none;
+        color: var(--blue);
+      }
+      .instruction strong {
+        color: var(--navy);
+      }
+      .actions {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        margin-top: auto;
+        padding-top: 16px;
+      }
+      .primary {
+        height: 52px;
+        min-width: 295px;
+        padding: 0 24px;
+        border: 0;
+        border-radius: 13px;
+        color: #fff;
+        background: linear-gradient(105deg, var(--navy), var(--violet));
+        box-shadow: 0 10px 24px rgba(87, 86, 225, 0.2);
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .secondary {
+        height: 52px;
+        padding: 0 21px;
+        border: 1px solid var(--line);
+        border-radius: 13px;
+        color: var(--navy);
+        background: #fff;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 24px;
+        transform: translate(-50%, 20px);
+        opacity: 0;
+        padding: 12px 18px;
+        border-radius: 12px;
+        background: #17213b;
+        color: #fff;
+        font-size: 0.84rem;
+        transition: 0.2s;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+      @media (max-width: 850px) {
+        html,
+        body {
+          overflow: auto;
+        }
+        .app {
+          height: auto;
+          min-height: 100dvh;
+        }
+        .logo {
+          width: 106px;
+        }
+        .user div:last-child {
+          display: none;
+        }
+        main {
+          padding: 18px 16px 24px;
+        }
+        .workspace {
+          overflow: visible;
+        }
+        .panel {
+          padding: 25px 20px;
+        }
+        .handoff-card {
+          grid-template-columns: 1fr;
+        }
+        .patient {
+          border-inline-end: 0;
+          border-bottom: 1px solid var(--line);
+        }
+        .actions {
+          flex-direction: column;
+        }
+        .actions button {
+          width: 100%;
+        }
+        .timeline-step {
+          width: auto;
+          flex: 1;
+        }
+        .timeline-step strong {
+          font-size: 0.7rem;
+        }
+      }
+      .ini {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      .ini text {
+        fill: currentColor;
+        font-weight: 800;
+        font-size: 50px;
+        font-family: Tajawal, sans-serif;
+      }
+    </style>
+    <script defer src="assets/wasl-enhance.js"></script>
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <img class="logo" src="assets/wasl-logo-1.webp" alt="منصة وصل" />
+        <div class="header-actions">
+          <button class="lang-btn" id="langBtn">EN</button>
+          <div class="user">
+            <div class="avatar">
+              <svg class="ini" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+                <text x="50" y="50" text-anchor="middle" dominant-baseline="central" data-ar="س" data-en="S">س</text>
+              </svg>
+            </div>
+            <div>
+              <strong data-ar="سارة أحمد" data-en="Sarah Ahmed">سارة أحمد</strong
+              ><span data-ar="موظف الاستقبال" data-en="Front desk">موظف الاستقبال</span>
+            </div>
+          </div>
+        </div>
+      </header>
+      <main>
+        <button class="back" onclick="location.href = 'confirm.html'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6" /></svg
+          ><span data-ar="العودة إلى بيانات المريض" data-en="Back to patient details">العودة إلى بيانات المريض</span>
+        </button>
+        <section class="workspace">
+          <div class="panel">
+            <nav class="timeline">
+              <div class="timeline-step done">
+                <div class="timeline-dot">✓</div>
+                <strong data-ar="مراجعة الموعد" data-en="Review appointment">مراجعة الموعد</strong>
+              </div>
+              <div class="timeline-line done"></div>
+              <div class="timeline-step done">
+                <div class="timeline-dot">✓</div>
+                <strong data-ar="التحقق عبر نفاذ" data-en="Nafath verification">التحقق عبر نفاذ</strong>
+              </div>
+              <div class="timeline-line done"></div>
+              <div class="timeline-step active">
+                <div class="timeline-dot">3</div>
+                <strong data-ar="تسليم الجهاز" data-en="Hand over device">تسليم الجهاز</strong>
+              </div>
+            </nav>
+            <div class="content">
+              <span class="eyebrow"><i></i><span data-ar="الجهاز جاهز" data-en="Device ready">الجهاز جاهز</span></span>
+              <h1 data-ar="تسليم الجهاز لولي الأمر" data-en="Hand the device to the guardian">
+                تسليم الجهاز لولي الأمر
+              </h1>
+              <p
+                class="lead"
+                data-ar="تأكد من مطابقة اسم المريض ورقم الجهاز، ثم سلّم الجهاز لبدء التقييم."
+                data-en="Confirm the patient name and device number, then hand over the device to begin the assessment."
+              >
+                تأكد من مطابقة اسم المريض ورقم الجهاز، ثم سلّم الجهاز لبدء التقييم.
+              </p>
+              <div class="handoff-card">
+                <div class="patient">
+                  <div class="patient-head">
+                    <div class="patient-icon">
+                      <svg class="ini" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+                        <text x="50" y="50" text-anchor="middle" dominant-baseline="central" data-ar="س" data-en="S">
+                          س
+                        </text>
+                      </svg>
+                    </div>
+                    <div>
+                      <strong data-ar="سارة عبدالله العتيبي" data-en="Sara Abdullah Al-Otaibi"
+                        >سارة عبدالله العتيبي</strong
+                      ><span data-ar="6 سنوات · زيارة أولى" data-en="6 years · First visit">6 سنوات · زيارة أولى</span>
+                    </div>
+                  </div>
+                  <div class="verified">
+                    ✓
+                    <span data-ar="تم التحقق من الهوية عبر نفاذ" data-en="Identity verified through Nafath"
+                      >تم التحقق من الهوية عبر نفاذ</span
+                    >
+                  </div>
+                </div>
+                <div class="device">
+                  <div class="device-top">
+                    <div>
+                      <span class="device-label" data-ar="الجهاز المخصص" data-en="Assigned device">الجهاز المخصص</span>
+                      <h2>WSL-024</h2>
+                    </div>
+                    <span class="ready" data-ar="جاهز للاستخدام" data-en="Ready">جاهز للاستخدام</span>
+                  </div>
+                  <div class="specs">
+                    <div class="spec">
+                      <span data-ar="البطارية" data-en="Battery">البطارية</span><strong>94%</strong>
+                    </div>
+                    <div class="spec">
+                      <span data-ar="لغة التقييم" data-en="Assessment language">لغة التقييم</span
+                      ><strong data-ar="العربية" data-en="Arabic">العربية</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="instruction">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M12 11v5M12 8h.01" /></svg
+                ><span
+                  ><strong data-ar="قبل التسليم:" data-en="Before handover:">قبل التسليم:</strong>
+                  <span
+                    data-ar="وضّح لولي الأمر أن الإجابات خاصة وسرية، وأن الجهاز سيعرض التعليمات خطوة بخطوة."
+                    data-en="Explain that answers are private and confidential, and the device will guide them step by step."
+                    >وضّح لولي الأمر أن الإجابات خاصة وسرية، وأن الجهاز سيعرض التعليمات خطوة بخطوة.</span
+                  ></span
+                >
+              </div>
+              <div class="actions">
+                <button
+                  class="primary"
+                  id="startBtn"
+                  data-ar="تسليم الجهاز وبدء التقييم"
+                  data-en="Hand over and start assessment"
+                >
+                  تسليم الجهاز وبدء التقييم</button
+                ><button class="secondary" onclick="location.href = 'confirm.html'" data-ar="العودة" data-en="Back">
+                  العودة
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script>
+      let lang = "ar";
+      const $ = (s) => document.querySelector(s),
+        $$ = (s) => document.querySelectorAll(s);
+      function setLang(n) {
+        lang = n;
+        document.documentElement.lang = n;
+        document.documentElement.dir = n === "ar" ? "rtl" : "ltr";
+        $$("[data-ar][data-en]").forEach((e) => (e.textContent = e.dataset[n]));
+        $("#langBtn").textContent = n === "ar" ? "EN" : "ع";
+        document.title = n === "ar" ? "تسليم الجهاز | وصل" : "Device handover | WASL";
+      }
+      $("#langBtn").onclick = () => setLang(lang === "ar" ? "en" : "ar");
+      $("#startBtn").onclick = () => (location.href = "assessment.html");
+    </script>
+  </body>
+</html>
