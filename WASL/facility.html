@@ -1,0 +1,653 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>وصل - واجهة المنشأة</title>
+    <link rel="stylesheet" href="assets/wasl-fonts.css" />
+    <link rel="stylesheet" href="assets/wasl-tokens.css" />
+    <style>
+      :root {
+        --navy: #112d72;
+        --blue: #4f91ea;
+        --violet: #5852e8;
+        --cyan: #08d8d2;
+        --ink: #1c2d55;
+        --muted: #697386;
+        --line: #dbe3f1;
+        --page: #eef0f2;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 12% 12%, rgba(87, 84, 233, 0.07), transparent 28%),
+          radial-gradient(circle at 88% 88%, rgba(8, 216, 210, 0.07), transparent 28%),
+          #f4f7fc;
+        font-family: Tajawal, sans-serif;
+      }
+      button, input { font: inherit; }
+      button { cursor: pointer; }
+      .site-header {
+        min-height: 76px;
+        display: flex;
+        align-items: center;
+        background: #fff;
+        border-bottom: 1px solid var(--line);
+      }
+      .header-inner {
+        width: min(1180px, calc(100% - 32px));
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+      }
+      .page {
+        width: min(1180px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 34px 0 52px;
+      }
+      .logo {
+        width: 112px;
+        height: 44px;
+        object-fit: contain;
+      }
+      .surface {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 330px;
+        gap: 20px;
+        align-items: start;
+      }
+      .main-column, .side-column { display: grid; gap: 18px; }
+      .card {
+        overflow: hidden;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        box-shadow: 0 10px 28px rgba(20, 49, 104, 0.06);
+      }
+      .card-heading {
+        padding: 22px 26px 18px;
+        border-bottom: 1px solid #e8e8e8;
+      }
+      .card-heading h1, .card-heading h2 {
+        margin: 0;
+        color: var(--navy);
+        font-size: 1.36rem;
+        line-height: 1.35;
+      }
+      .card-heading p {
+        margin: 4px 0 0;
+        color: #adadad;
+        font-size: 0.85rem;
+      }
+      .card-body { padding: 24px 26px 27px; }
+      .field { margin-bottom: 18px; }
+      .field label, .label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--navy);
+        font-weight: 800;
+      }
+      .field input {
+        width: 100%;
+        min-height: 55px;
+        padding: 0 17px;
+        color: var(--navy);
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 13px;
+        outline: 0;
+      }
+      .field input:focus {
+        border-color: var(--blue);
+        box-shadow: 0 0 0 3px rgba(79, 145, 234, 0.12);
+      }
+      .verify-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        align-items: start;
+      }
+      .primary, .outline, .publish {
+        min-height: 55px;
+        border-radius: 13px;
+        font-weight: 800;
+      }
+      .primary {
+        color: #fff;
+        border: 0;
+        background: linear-gradient(105deg, var(--navy), var(--violet));
+        box-shadow: 0 10px 22px rgba(87, 84, 233, 0.18);
+      }
+      .primary.is-active { background: linear-gradient(105deg, var(--violet), var(--navy)); }
+      .outline {
+        width: 100%;
+        color: var(--blue);
+        background: #fff;
+        border: 2px solid var(--blue);
+      }
+      .status-line {
+        margin: 7px 2px 0;
+        color: var(--muted);
+        font-size: 0.86rem;
+      }
+      .pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 11px;
+      }
+      .pill {
+        min-height: 44px;
+        padding: 8px 17px;
+        color: var(--navy);
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        font-weight: 800;
+      }
+      .pill.active {
+        color: #fff;
+        background: linear-gradient(105deg, var(--navy), var(--violet));
+        border-color: var(--violet);
+      }
+      .location-button { margin-top: 8px; }
+      .helper {
+        margin: 9px 0 0;
+        color: var(--muted);
+        font-size: 0.86rem;
+      }
+      .nphies-copy {
+        margin: 0 0 20px;
+        padding: 17px 19px;
+        color: var(--muted);
+        border: 1px solid var(--line);
+        border-radius: 13px;
+        line-height: 1.8;
+      }
+      .connection-lines { margin-top: 11px; }
+      .connection-line {
+        display: grid;
+        grid-template-columns: 180px 1fr;
+        gap: 20px;
+        margin-top: 8px;
+      }
+      .connection-line strong, .connection-line span { color: var(--navy); }
+      .accreditation-copy, .specialist-note, .capacity-note, .insurance-note {
+        margin: 18px 0 0;
+        color: var(--muted);
+        line-height: 1.75;
+      }
+      .specialist {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 15px 0;
+        border-bottom: 1px solid #e8e8e8;
+      }
+      .specialist-main {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+      }
+      .avatar {
+        width: 49px;
+        height: 49px;
+        flex: 0 0 auto;
+        border-radius: 50%;
+        background:
+          radial-gradient(circle at 50% 38%, #fff 0 23%, transparent 24%),
+          radial-gradient(circle at 50% 105%, #fff 0 40%, transparent 41%),
+          linear-gradient(135deg, var(--cyan), var(--blue));
+      }
+      .specialist strong {
+        display: block;
+        color: var(--navy);
+        font-size: 1.02rem;
+      }
+      .specialist small { color: var(--muted); }
+      .verified {
+        flex: 0 0 auto;
+        padding: 6px 11px;
+        color: #2c704b;
+        background: #e4f1e9;
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 800;
+      }
+      .add-specialist { margin-top: 16px; }
+      .days {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        gap: 9px;
+      }
+      .day {
+        min-height: 48px;
+        color: var(--navy);
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        font-weight: 800;
+      }
+      .day.active {
+        color: #fff;
+        background: linear-gradient(105deg, var(--navy), var(--violet));
+        border-color: var(--violet);
+      }
+      .times {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-top: 20px;
+      }
+      .times input, .price-row input {
+        width: 140px;
+        min-height: 55px;
+        padding: 0 12px;
+        color: var(--navy);
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 13px;
+        text-align: center;
+        font-weight: 700;
+      }
+      .check-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 22px;
+        color: var(--navy);
+        font-weight: 800;
+      }
+      .check-row input {
+        width: 19px;
+        height: 19px;
+        accent-color: var(--blue);
+      }
+      .price-row {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+      .rating-box {
+        padding: 22px;
+        text-align: center;
+        background: #f4f4f4;
+        border: 1px dashed var(--line);
+        border-radius: 13px;
+      }
+      .rating-box strong {
+        display: block;
+        color: var(--muted);
+        font-size: 1.02rem;
+      }
+      .rating-box p {
+        margin: 10px 0 0;
+        color: var(--muted);
+        line-height: 1.75;
+      }
+      .side-card { padding: 0; }
+      .side-column {
+        position: sticky;
+        top: 20px;
+      }
+      .side-card .card-body { padding: 24px 22px; }
+      .why-list { display: grid; gap: 10px; }
+      .why-row {
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        gap: 12px;
+        align-items: start;
+      }
+      .why-row strong, .why-row span { color: var(--navy); }
+      .why-copy {
+        margin: 18px 0 0;
+        color: var(--muted);
+        line-height: 1.7;
+        font-size: 0.9rem;
+      }
+      .preview-card {
+        margin-top: 3px;
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+      }
+      .nearest {
+        display: inline-block;
+        margin-bottom: 9px;
+        padding: 5px 12px;
+        color: #fff;
+        background: linear-gradient(105deg, var(--navy), var(--violet));
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 800;
+      }
+      .preview-card h3 {
+        margin: 0;
+        color: var(--navy);
+        font-size: 1.08rem;
+      }
+      .preview-card p {
+        margin: 5px 0 13px;
+        color: var(--muted);
+      }
+      .preview-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .preview-meta span {
+        padding: 6px 9px;
+        color: var(--navy);
+        background: #eff5fc;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        font-weight: 800;
+      }
+      .preview-meta .wait {
+        color: #75561a;
+        background: #fff5d8;
+      }
+      .publish {
+        width: 100%;
+        min-height: 62px;
+        color: #fff;
+        border: 0;
+        background: linear-gradient(105deg, var(--navy), var(--violet));
+        box-shadow: 0 10px 22px rgba(87, 84, 233, 0.2);
+        font-size: 1.25rem;
+      }
+      @media (max-width: 1050px) {
+        .surface { grid-template-columns: 1fr; }
+        .side-column {
+          grid-row: 1;
+          grid-template-columns: 1fr 1fr;
+          position: static;
+        }
+      }
+      @media (max-width: 720px) {
+        .page {
+          width: calc(100% - 20px);
+          padding-top: 22px;
+        }
+        .header-inner {
+          width: calc(100% - 28px);
+        }
+        .logo {
+          width: 104px;
+        }
+        .side-column, .verify-layout { grid-template-columns: 1fr; }
+        .card-heading, .card-body {
+          padding-right: 18px;
+          padding-left: 18px;
+        }
+        .connection-line, .why-row {
+          grid-template-columns: 1fr;
+          gap: 2px;
+        }
+        .specialist {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+        .days { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        .times, .price-row { justify-content: space-between; }
+        .times input, .price-row input {
+          min-width: 0;
+          width: 44%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <img class="logo" src="assets/wasl-logo-1.webp" alt="وصل" />
+      </div>
+    </header>
+    <main class="page">
+      <div class="surface">
+        <form class="main-column" id="facilityForm">
+          <section class="card">
+            <header class="card-heading">
+              <h1>١ · هوية المنشأة</h1>
+              <p>متحقق منها عبر ترخيص وزارة الصحة</p>
+            </header>
+            <div class="card-body">
+              <div class="field">
+                <label for="nameEn">اسم المنشأة (إنجليزي)</label>
+                <input id="nameEn" dir="ltr" value="Jeddah Pediatric Speech Center" />
+              </div>
+              <div class="field">
+                <label for="nameAr">اسم المنشأة (عربي)</label>
+                <input id="nameAr" value="مركز جدة لنطق الأطفال" />
+              </div>
+              <div class="field">
+                <label for="mohLicense">رقم ترخيص وزارة الصحة</label>
+                <div class="verify-layout">
+                  <div>
+                    <input id="mohLicense" dir="ltr" value="MOH-PHE-118827" />
+                    <p class="status-line">لم يتحقق بعد</p>
+                  </div>
+                  <button class="primary" id="verifyMoh" type="button">تحقق عبر وزارة الصحة</button>
+                </div>
+              </div>
+              <span class="label">نوع المنشأة</span>
+              <div class="pills one-choice">
+                <button class="pill active" type="button">عيادة متخصصة</button>
+                <button class="pill" type="button">مجمع عيادات</button>
+                <button class="pill" type="button">قسم نطق بمستشفى</button>
+                <button class="pill" type="button">مركز تأهيل</button>
+              </div>
+              <span class="label" style="margin-top: 20px">الموقع</span>
+              <button class="outline location-button" type="button">حدد على الخريطة</button>
+              <p class="helper">حي الروضة، جدة · يعبئ المنطقة والمدينة والإدارة تلقائياً</p>
+            </div>
+          </section>
+
+          <section class="card">
+            <header class="card-heading">
+              <h2>٢ · التأمين والبيانات الصحية (نفيس)</h2>
+              <p>إلزامي لكل مقدم خدمة مرخص</p>
+            </header>
+            <div class="card-body">
+              <p class="nphies-copy">اتصال واحد يؤدي وظيفتين: التحقق من الأهلية التأمينية والتحويل المسبق والمطالبات من جهة، وتبادل السجل الصحي السريري مع السجل الوطني من جهة أخرى. لا يوجد نظام منفصل لكل منهما، إنه نفس اتصال نفيس.</p>
+              <div class="field">
+                <label for="nphiesId">رمز المنشأة في نفيس</label>
+                <div class="verify-layout">
+                  <div>
+                    <input id="nphiesId" dir="ltr" value="NPH-EST-55291" />
+                    <p class="status-line">لم يتصل بعد</p>
+                  </div>
+                  <button class="primary" id="connectNphies" type="button">الاتصال بنفيس</button>
+                </div>
+              </div>
+              <div class="connection-lines">
+                <div class="connection-line"><strong>الأهلية والمطالبات</strong><span>بانتظار الاتصال</span></div>
+                <div class="connection-line"><strong>تبادل السجل الصحي</strong><span>بانتظار الاتصال</span></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="card">
+            <header class="card-heading">
+              <h2>٣ · الاعتماد</h2>
+              <p>اختياري، غير مطلوب للتشغيل</p>
+            </header>
+            <div class="card-body">
+              <span class="label">حالة اعتماد CBAHI</span>
+              <div class="pills one-choice">
+                <button class="pill active" type="button">معتمدة</button>
+                <button class="pill" type="button">قيد الإجراء</button>
+                <button class="pill" type="button">غير معتمدة</button>
+              </div>
+              <p class="accreditation-copy">علامة جودة معترف بها، مشابهة لـ JCI. تعزز ثقة المريض لكنها ليست شرطاً للظهور في نتائج الفرز.</p>
+            </div>
+          </section>
+
+          <section class="card">
+            <header class="card-heading">
+              <h2>٤ · تراخيص الأخصائيين</h2>
+              <p>كل منهم متحقق منه عبر ممارس بلس</p>
+            </header>
+            <div class="card-body">
+              <div class="specialist">
+                <div class="specialist-main">
+                  <span class="avatar"></span>
+                  <div>
+                    <strong dir="ltr">Dr. Layla Al-Ghamdi</strong>
+                    <small>استشارية · نطق أطفال · عربي، إنجليزي</small>
+                  </div>
+                </div>
+                <span class="verified">✓ موثق SCFHS</span>
+              </div>
+              <div class="specialist">
+                <div class="specialist-main">
+                  <span class="avatar"></span>
+                  <div>
+                    <strong dir="ltr">Mr. Faisal Al-Otaibi</strong>
+                    <small>أخصائي · تدخل مبكر · عربي</small>
+                  </div>
+                </div>
+                <span class="verified">✓ موثق SCFHS</span>
+              </div>
+              <button class="outline add-specialist" type="button">+ إضافة أخصائي</button>
+              <p class="specialist-note">لا يمكن إضافة أخصائي دون رقم SCFHS موثق. هذا ما يتيح لنظام الفرز عرض مؤهلات حقيقية لأولياء الأمور كما يفعل النموذج الأولي مع د. الغامدي.</p>
+            </div>
+          </section>
+
+          <section class="card">
+            <header class="card-heading">
+              <h2>٥ · السعة والتوفر</h2>
+              <p>نظام الجدولة الخاص بك، وليس منصة حكومية</p>
+            </header>
+            <div class="card-body">
+              <span class="label">ساعات العمل</span>
+              <div class="days">
+                <button class="day active" type="button">أحد</button>
+                <button class="day active" type="button">إثنين</button>
+                <button class="day active" type="button">ثلاثاء</button>
+                <button class="day active" type="button">أربعاء</button>
+                <button class="day active" type="button">خميس</button>
+                <button class="day" type="button">جمعة</button>
+                <button class="day" type="button">سبت</button>
+              </div>
+              <span class="label" style="margin-top: 20px">ساعات اليوم</span>
+              <div class="times">
+                <input type="time" value="09:00" />
+                <span>—</span>
+                <input type="time" value="17:00" />
+              </div>
+              <label class="check-row">
+                <input type="checkbox" checked />
+                <span>مزامنة تقويم المواعيد الحي مع نظام الفرز</span>
+              </label>
+              <p class="capacity-note">بدون هذا، يمكن للنظام تقدير وقت الانتظار فقط من ساعاتك المعلنة. لا عرض مواعيد حقيقية متاحة.</p>
+            </div>
+          </section>
+
+          <section class="card">
+            <header class="card-heading"><h2>٦ · التسعير والتغطية</h2></header>
+            <div class="card-body">
+              <span class="label">سعر الجلسة للدفع الذاتي (ريال)</span>
+              <div class="price-row">
+                <input type="number" value="350" />
+                <span>—</span>
+                <input type="number" value="500" />
+              </div>
+              <span class="label" style="margin-top: 20px">شبكات التأمين المتعاقدة</span>
+              <div class="pills many-choice">
+                <button class="pill active" type="button">بوبا العربية</button>
+                <button class="pill active" type="button">التعاونية</button>
+                <button class="pill" type="button">ميدغلف</button>
+                <button class="pill" type="button">مغطى حكومياً</button>
+              </div>
+              <p class="insurance-note">الشبكات التي تعاقدت معها. عمليات التحقق الحية من التغطية لمريض معيّن تمر عبر اتصال نفيس أعلاه.</p>
+            </div>
+          </section>
+
+          <section class="card">
+            <header class="card-heading"><h2>٧ · تقييم المرضى</h2></header>
+            <div class="card-body">
+              <div class="rating-box">
+                <strong>✕ غير قابل للتعديل</strong>
+                <p>يُحسب تلقائياً من نتائج فعلية بعد أول حالاتك المكتملة. لا يمكن الإبلاغ عن التقييم ذاتياً، ليبقى شارة ”الأعلى تقييماً“ التي يراها المرضى ذات معنى.</p>
+              </div>
+            </div>
+          </section>
+
+          <button class="publish" type="submit">نشر في دليل الفرز</button>
+        </form>
+
+        <aside class="side-column">
+          <section class="card side-card">
+            <header class="card-heading"><h2>لماذا توجد هذه الشاشة</h2></header>
+            <div class="card-body">
+              <div class="why-list">
+                <div class="why-row"><strong>ترخيص المنشأة</strong><span>يتحقق عبر خدمة تراخيص وزارة الصحة</span></div>
+                <div class="why-row"><strong>التأمين والبيانات الصحية</strong><span>اتصال نفيس واحد للوظيفتين</span></div>
+                <div class="why-row"><strong>فئة الأخصائي</strong><span>يتحقق عبر ممارس بلس التابع لـ SCFHS</span></div>
+                <div class="why-row"><strong>السعة</strong><span>نظام الجدولة الخاص بك، مُزامن</span></div>
+                <div class="why-row"><strong>التقييم</strong><span>يُحسب آلياً، لا تُبلغ عنه ذاتياً</span></div>
+              </div>
+              <p class="why-copy">لا يوجد ”نفاذ واحد للعيادات“: إنها ثلاثة أنظمة سعودية حكومية منفصلة: ترخيص وزارة الصحة للمنشأة، ونفيس للأهلية التأمينية والمطالبات وتبادل السجل الصحي، و SCFHS لكل أخصائي. نظام الجدولة الخاص بك، وليست منصة حكومية.</p>
+            </div>
+          </section>
+
+          <section class="card side-card">
+            <header class="card-heading">
+              <h2>معاينة: كيف سيراك المرضى</h2>
+              <p>هذا هو تصميم البطاقة الفعلي من شاشة المراكز المطابقة</p>
+            </header>
+            <div class="card-body">
+              <div class="preview-card">
+                <span class="nearest">الأقرب إليك</span>
+                <h3 id="previewName">مركز جدة لنطق الأطفال</h3>
+                <p>الروضة، جدة</p>
+                <div class="preview-meta">
+                  <span>📍 3.2 km</span>
+                  <span>4.2 ⭐⭐⭐⭐</span>
+                  <span class="wait">أقرب: بعد ٩ أيام</span>
+                </div>
+              </div>
+            </div>
+          </section>
+        </aside>
+      </div>
+    </main>
+
+    <script>
+      const selectOne = (container, button) => {
+        container.querySelectorAll('button').forEach((item) => item.classList.toggle('active', item === button));
+      };
+
+      document.querySelectorAll('.one-choice').forEach((container) => {
+        container.querySelectorAll('button').forEach((button) => {
+          button.addEventListener('click', () => selectOne(container, button));
+        });
+      });
+
+      document.querySelectorAll('.many-choice button, .day').forEach((button) => {
+        button.addEventListener('click', () => button.classList.toggle('active'));
+      });
+
+      document.querySelector('#nameAr').addEventListener('input', (event) => {
+        document.querySelector('#previewName').textContent = event.target.value;
+      });
+
+      document.querySelector('#verifyMoh').addEventListener('click', (event) => {
+        event.currentTarget.classList.toggle('is-active');
+      });
+
+      document.querySelector('#connectNphies').addEventListener('click', (event) => {
+        event.currentTarget.classList.toggle('is-active');
+      });
+
+      document.querySelector('#facilityForm').addEventListener('submit', (event) => {
+        event.preventDefault();
+      });
+    </script>
+  </body>
+</html>
