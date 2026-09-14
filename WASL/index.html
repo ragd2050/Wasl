@@ -225,6 +225,30 @@
         text-align: center;
         font-size: 0.85rem;
       }
+      .portal-links {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 14px;
+      }
+      .portal-link {
+        min-height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--navy);
+        background: #f7f9fd;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        text-decoration: none;
+        font-size: 0.86rem;
+        font-weight: 800;
+      }
+      .portal-link:hover,
+      .portal-link:focus-visible {
+        color: var(--violet);
+        border-color: var(--violet);
+      }
       .spinner {
         display: none;
         width: 20px;
@@ -399,6 +423,14 @@
             >
               للمساعدة، تواصلي مع مسؤول النظام في منشأتك.
             </div>
+            <nav class="portal-links" aria-label="بوابات وصل">
+              <a class="portal-link" href="specialist-login.html" data-ar="بوابة المختصين" data-en="Specialist portal">
+                بوابة المختصين
+              </a>
+              <a class="portal-link" href="facility.html" data-ar="بوابة المنشآت" data-en="Facility portal">
+                بوابة المنشآت
+              </a>
+            </nav>
           </form>
         </section>
       </main>
