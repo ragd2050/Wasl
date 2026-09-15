@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>مراجعة المختص السريرية | وصل</title>
+    <title>مراجعة الأخصائي | وصل</title>
     <link rel="stylesheet" href="assets/wasl-fonts.css" />
     <link rel="stylesheet" href="assets/wasl-enhance.css" />
     <style>
@@ -651,9 +651,9 @@
         <div class="brand">
           <img class="logo" src="assets/wasl-logo-1.webp" alt="وصل" /><span
             class="role"
-            data-ar="لوحة المختص"
+            data-ar="لوحة الأخصائي"
             data-en="Specialist dashboard"
-            >لوحة المختص</span
+            >لوحة الأخصائي</span
           >
         </div>
         <div class="tools">
@@ -693,9 +693,9 @@
               <path d="M12 8v5M12 16h.01" />
             </svg>
             <span
-              data-ar="هذه النتيجة أداة مساندة للقرار ولا تُعد تشخيصًا نهائيًا. القرار السريري النهائي مسؤولية المختص."
+              data-ar="هذه النتيجة أداة مساندة ولا تُعد تشخيصًا نهائيًا. التوصية النهائية مسؤولية الأخصائي."
               data-en="This result supports clinical decision-making and is not a final diagnosis. The qualified specialist remains responsible for the final clinical decision."
-              >هذه النتيجة أداة مساندة للقرار ولا تُعد تشخيصًا نهائيًا. القرار السريري النهائي مسؤولية المختص.</span
+              >هذه النتيجة أداة مساندة ولا تُعد تشخيصًا نهائيًا. التوصية النهائية مسؤولية الأخصائي.</span
             >
           </div>
 
@@ -704,10 +704,7 @@
               <circle cx="12" cy="12" r="9" /><path d="M12 8v5M12 16h.01" />
             </svg>
             <span
-              data-ar="فرز أولي مولّد لأغراض عرض سير النظام. النتيجة والأولوية والمؤشرات محاكاة ثابتة ولا تعتمد على تحليل فعلي للصوت."
-              data-en="Preliminary screening generated to demonstrate the system flow. The result, priority and indicators are a fixed simulation and are not based on real audio analysis."
-              >فرز أولي مولّد لأغراض عرض سير النظام. النتيجة والأولوية والمؤشرات محاكاة ثابتة ولا تعتمد على تحليل فعلي للصوت.</span
-            >
+              
           </div>
 
           <div class="col" id="left"><!-- evidence sections --></div>
@@ -794,9 +791,9 @@
         timestamped_audio_note_added: { ar: "إضافة ملاحظة زمنية", en: "Timestamped note added" },
         analysis_started: { ar: "بدء تحليل العينات", en: "Sample analysis started" },
         analysis_completed: { ar: "اكتمال تحليل العينات", en: "Sample analysis completed" },
-        specialist_retake_requested: { ar: "طلب المختص إعادة عينة", en: "Specialist requested a retake" },
+        specialist_retake_requested: { ar: "طلب الأخصائي إعادة عينة", en: "Specialist requested a retake" },
         in_person_assessment_requested: { ar: "طلب تقييم حضوري", en: "In-person assessment requested" },
-        clinical_decision_approved: { ar: "اعتماد القرار السريري", en: "Clinical decision approved" },
+        clinical_decision_approved: { ar: "اعتماد التوصية النهائية", en: "Clinical decision approved" },
         guardian_report_viewed: { ar: "عرض تقرير ولي الأمر", en: "Guardian report viewed" },
       };
 
@@ -858,7 +855,7 @@
         renderLeft();
         renderDecision();
         document.querySelectorAll("[data-ar][data-en]").forEach((e) => (e.textContent = e.dataset[lang]));
-        document.title = text("مراجعة المختص السريرية | وصل", "Specialist clinical review | WASL");
+        document.title = text("مراجعة الأخصائي | وصل", "Specialist review | WASL");
         if (window.waslWireSpeakers) window.waslWireSpeakers();
       }
 
@@ -945,7 +942,7 @@
               ${safetyRules
                 .map(
                   (item) =>
-                    `<div class="a"><b>${text(item.label_ar, item.label_en)}</b><span class="pill bad">${text("تنبيه سريري", "Clinical alert")}</span></div>`,
+                    `<div class="a"><b>${text(item.label_ar, item.label_en)}</b><span class="pill bad">${text("تنبيه مهم", "Clinical alert")}</span></div>`,
                 )
                 .join("")}
             </div>`
@@ -1215,7 +1212,7 @@
           : `<p style="color:var(--muted)">${text("لا توجد خطة مقترحة.", "No suggested plan.")}</p>`;
         const proposedPlanSection = sec(
           "x",
-          "الخطة المقترحة للمختص",
+          "الخطة المقترحة للأخصائي",
           "Suggested specialist plan",
           proposedPlanBody,
         );
@@ -1233,7 +1230,7 @@
                   <span class="q-chip ${extractionWarning ? "bad" : "ok"}">
                     ${
                       extractionWarning
-                        ? text("خصائص الصوت السريري تحتاج مراجعة", "Clinical voice features require review")
+                        ? text("خصائص الصوت تحتاج مراجعة", "Clinical voice features require review")
                         : text("استخراج 115 خاصية مكتمل", "115-feature extraction complete")
                     }
                   </span>
@@ -1287,7 +1284,7 @@
         const f = (RESULT.evidence && RESULT.evidence.speech_features) || {};
         const features = Object.keys(f).length ? sec(
           "6",
-          "الخصائص الصوتية (للمختص فقط)",
+          "الخصائص الصوتية (للأخصائي فقط)",
           "Acoustic features (specialist-only)",
           `<div class="feat">
       <div class="f"><b data-ar="مؤشر وضوح الكلام" data-en="Speech clarity index">مؤشر وضوح الكلام</b><span>${f.speech_clarity_index ?? "-"}</span></div>
@@ -1340,7 +1337,7 @@
           `<dl class="kv">
       <dt data-ar="إصدار النموذج" data-en="Model version">إصدار النموذج</dt><dd>${RESULT.model_version}</dd>
       <dt data-ar="وقت التحليل" data-en="Analyzed at">وقت التحليل</dt><dd>${new Date(RESULT.analyzed_at).toLocaleString(lang === "ar" ? "ar-SA" : "en-GB")}</dd>
-      <dt data-ar="يستلزم مراجعة مختص" data-en="Requires clinician review">يستلزم مراجعة مختص</dt><dd><span class="pill info" data-ar="نعم" data-en="Yes">نعم</span></dd>
+      <dt data-ar="يستلزم مراجعة أخصائي" data-en="Requires clinician review">يستلزم مراجعة أخصائي</dt><dd><span class="pill info" data-ar="نعم" data-en="Yes">نعم</span></dd>
     </dl>${auditList}`,
         );
         $("#left").innerHTML =
@@ -1430,10 +1427,10 @@
           ["high", text("عالية", "High")],
         ];
         const confidenceBlock = Number.isFinite(RESULT.confidence)
-          ? `<div class="conf-line"><span data-ar="ثقة النموذج (للمختص)" data-en="Model confidence (specialist)">ثقة النموذج (للمختص)</span><b>${Math.round(RESULT.confidence * 100)}%</b></div>
+          ? `<div class="conf-line"><span data-ar="ثقة النموذج (للأخصائي)" data-en="Model confidence (specialist)">ثقة النموذج (للأخصائي)</span><b>${Math.round(RESULT.confidence * 100)}%</b></div>
              <div class="conf-bar" style="margin-bottom:14px"><i style="width:${Math.round(RESULT.confidence * 100)}%"></i></div>`
           : `<div class="limits" style="margin-bottom:14px">${text(
-              "لا يعيد الـ API درجة ثقة موحّدة. اختر المسار والأولوية بعد مراجعة التسجيلات والمخرجات المستقلة.",
+              "لا يعيد الـ API درجة ثقة موحّدة. يرجى تحديد المسار والأولوية بعد مراجعة التسجيلات والمخرجات المستقلة.",
               "The API does not return one overall confidence score. Select priority and pathway after reviewing the recordings and independent outputs.",
             )}</div>`;
         const retakeOptions = RECS.filter((recording) => recording.task !== "hearing_report")
@@ -1443,7 +1440,7 @@
           })
           .join("");
         $("#decision").innerHTML =
-          `<h2><span data-ar="القرار السريري" data-en="Clinical decision">القرار السريري</span></h2>
+          `<h2><span data-ar="التوصية النهائية" data-en="Clinical decision">التوصية النهائية</span></h2>
      ${confidenceBlock}
      <div class="field"><label data-ar="مستوى الأولوية" data-en="Priority level">مستوى الأولوية</label>
        <select id="priSel">
@@ -1452,7 +1449,7 @@
            ${!pri.some((p) => p[0] === decision.priority) ? "selected" : ""}
            disabled
          >
-           ${text("اختر مستوى الأولوية", "Select priority")}
+           ${text("تحديد مستوى الأولوية", "Select priority")}
          </option>
          ${pri
            .map(
@@ -1473,7 +1470,7 @@
            ${!svc.some((s) => s[0] === decision.service) ? "selected" : ""}
            disabled
          >
-           ${text("اختر المسار السريري", "Select clinical pathway")}
+           ${text("تحديد مسار التوجيه", "Select clinical pathway")}
          </option>
          ${svc
            .map(
@@ -1487,7 +1484,7 @@
            .join("")}
        </select>
      </div>
-     <div class="field"><label data-ar="ملاحظات سريرية" data-en="Clinical notes">ملاحظات سريرية</label><textarea id="notes" placeholder="${text("أضف ملاحظاتك…", "Add your notes…")}">${decision.notes}</textarea></div>
+     <div class="field"><label data-ar="ملاحظات الأخصائي" data-en="Clinical notes">ملاحظات الأخصائي</label><textarea id="notes" placeholder="${text("إضافة الملاحظات…", "Add your notes…")}">${decision.notes}</textarea></div>
      <div class="field">
        <label data-ar="الخطة العلاجية المبدئية" data-en="Initial care plan">
          ${text("الخطة العلاجية المبدئية", "Initial care plan")}
@@ -1505,7 +1502,7 @@
        <button class="retake" id="retakeBtn"><span data-ar="طلب إعادة تسجيل عيّنة" data-en="Request sample retake">طلب إعادة تسجيل عيّنة</span></button>
        <button id="inpersonBtn"><span data-ar="طلب تقييم مباشر (حضوري)" data-en="Request in-person assessment">طلب تقييم مباشر (حضوري)</span></button>
        <button id="printSummaryBtn"><span data-ar="طباعة / حفظ ملخص أولي (PDF)" data-en="Print / save preliminary summary (PDF)">طباعة / حفظ ملخص أولي (PDF)</span></button>
-       <button class="primary" id="approveBtn"><span data-ar="اعتماد القرار السريري النهائي" data-en="Submit final clinical decision">اعتماد القرار السريري النهائي</span></button>
+       <button class="primary" id="approveBtn"><span data-ar="اعتماد التوصية النهائية" data-en="Submit final clinical decision">اعتماد التوصية النهائية</span></button>
      </div>
      <div class="decided" id="decided"></div>`;
         $("#priSel").onchange = (e) => (decision.priority = e.target.value);
@@ -1625,12 +1622,12 @@
           return;
         }
         if (!decision.priority || !decision.service) {
-          toast(text("اختر مستوى الأولوية والمسار السريري", "Select a priority and clinical pathway"));
+          toast(text("يرجى تحديد مستوى الأولوية ومسار التوجيه", "Select a priority and clinical pathway"));
           return;
         }
         if (!(decision.notes && decision.notes.trim())) {
           toast(
-            text("أدخل ملاحظة سريرية توضح أساس القرار", "Add a clinical note explaining the decision"),
+            text("يرجى إضافة ملاحظة مهنية توضح أساس التوصية", "Add a clinical note explaining the decision"),
           );
           return;
         }

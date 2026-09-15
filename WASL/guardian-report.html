@@ -42,7 +42,7 @@
 
       const SERVICE = {
         SPEECH_LANGUAGE_ASSESSMENT: { ar: "تقييم متخصص في النطق واللغة", en: "Specialist speech-language assessment" },
-        SPEECH_FLUENCY_ASSESSMENT: { ar: "تقييم طلاقة الكلام لدى مختص", en: "Specialist speech-fluency assessment" },
+        SPEECH_FLUENCY_ASSESSMENT: { ar: "تقييم طلاقة الكلام لدى أخصائي", en: "Specialist speech-fluency assessment" },
         ROUTINE_MONITORING: { ar: "متابعة روتينية وإعادة فرز عند اللزوم", en: "Routine monitoring, re-screen if needed" },
         SLP_ASSESSMENT: { ar: "تقييم متخصص في النطق واللغة", en: "Specialist speech-language assessment" },
         AUDIOLOGY_ASSESSMENT: { ar: "تقييم سمعي متخصص", en: "Specialist audiology assessment" },
@@ -72,7 +72,7 @@
         const label = SERVICE[code];
         if (label) return label[lang];
         return lang === "ar"
-          ? result?.recommended_service?.label_ar || "تقييم لدى مختص"
+          ? result?.recommended_service?.label_ar || "تقييم لدى أخصائي"
           : result?.recommended_service?.label_en || "Specialist assessment";
       }
 
@@ -82,7 +82,7 @@
           $("#reportContent").innerHTML = `
             <h1 class="v29-title">${text("التقرير غير متاح بعد", "Report not available yet")}</h1>
             <p class="v29-lead">${text(
-              "يظهر التقرير بعد اكتمال مراجعة المختص واعتماد الخطوة التالية.",
+              "يظهر التقرير بعد اكتمال مراجعة الأخصائي واعتماد الخطوة التالية.",
               "The report appears after a specialist completes the review and approves the next step.",
             )}</p>`;
           return;
@@ -110,7 +110,7 @@
         // رسالة ولي الأمر حسب الحالة (تُقرأ من النتيجة إن وُجدت)
         const guardianMessage = text(
           result.guardian_message_ar ||
-            "يلخص هذا التقرير مسار الفرز والخطوة التي اعتمدها المختص. لا يمثل تشخيصًا طبيًا نهائيًا.",
+            "يلخص هذا التقرير مسار الفرز والخطوة التي اعتمدها الأخصائي. لا يمثل تشخيصًا طبيًا نهائيًا.",
           result.guardian_message_en ||
             "This report summarizes the triage pathway and the next step approved by the specialist. It is not a final medical diagnosis.",
         );
@@ -146,8 +146,8 @@
                   <li>${text("إجابات ولي الأمر وتاريخ الحالة", "Guardian answers and case history")}</li>
                   <li>${text("فحص السمع الأولي والتقرير المرفق إن وجد", "Initial hearing screen and any attached report")}</li>
                   <li>${text("عينات النطق واللغة وجودة التسجيل", "Speech-language samples and recording quality")}</li>
-                  <li>${text("مراجعة المختص والقرار السريري", "Specialist review and clinical decision")}</li>
-                  ${safetyReviewed ? `<li>${text("التنبيه السريري الذي راجعه الموظف", "The clinical alert reviewed by staff")}</li>` : ""}
+                  <li>${text("مراجعة الأخصائي والتوصية النهائية", "Specialist review and final recommendation")}</li>
+                  ${safetyReviewed ? `<li>${text("التنبيه الذي راجعه الموظف", "The alert reviewed by staff")}</li>` : ""}
                 </ul>
               </article>
               <article class="v29-summary">

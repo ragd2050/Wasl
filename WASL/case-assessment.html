@@ -398,10 +398,10 @@
           <div class="fact">
             <b data-ar="السمع" data-en="Hearing">السمع</b>
             <span
-              data-ar="لم تظهر في الفحص الأولي مؤشرات سمعية واضحة، ويؤكد المختص النتيجة عند الحاجة."
+              data-ar="لم تظهر في الفحص الأولي مؤشرات سمعية واضحة، ويؤكد الأخصائي النتيجة عند الحاجة."
               data-en="No clear concern was observed in the preliminary hearing screen; the specialist confirms when needed."
             >
-              لم تظهر في الفحص الأولي مؤشرات سمعية واضحة، ويؤكد المختص النتيجة عند الحاجة.
+              لم تظهر في الفحص الأولي مؤشرات سمعية واضحة، ويؤكد الأخصائي النتيجة عند الحاجة.
             </span>
           </div>
         </div>
@@ -617,13 +617,13 @@
           updateQualityView();
           $("#analyzeBtn").disabled = false;
           setStatus(
-            "العينة جاهزة. ستظهر النتيجة التفصيلية في لوحة المختص.",
+            "العينة جاهزة. ستظهر النتيجة التفصيلية في لوحة الأخصائي.",
             "The sample is ready. Detailed output will appear in the specialist view.",
           );
         } catch (error) {
           selectedBlob = null;
           setStatus(
-            "تعذّرت قراءة الملف الصوتي. جرّب ملف WAV أو سجّل عينة جديدة.",
+            "تعذّرت قراءة الملف الصوتي. يُرجى تجربة ملف WAV أو تسجيل عينة جديدة.",
             "The audio file could not be decoded. Try a WAV file or record a new sample.",
             true,
           );
@@ -638,7 +638,7 @@
 
         if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
           setStatus(
-            "التسجيل غير مدعوم في هذا المتصفح. استخدم خيار رفع ملف صوتي.",
+            "التسجيل غير مدعوم في هذا المتصفح. يُرجى استخدام خيار رفع ملف صوتي.",
             "Recording is not supported in this browser. Use audio upload instead.",
             true,
           );
@@ -667,12 +667,12 @@
           $("#recordBtn").classList.add("recording");
           updateRecordButton();
           setStatus(
-            "التسجيل جارٍ… اقرأ الجملة ثم أوقف التسجيل.",
+            "التسجيل جارٍ… يُرجى قراءة الجملة ثم إيقاف التسجيل.",
             "Recording… Read the sentence, then stop recording.",
           );
         } catch (error) {
           setStatus(
-            "تعذّر الوصول إلى الميكروفون. اسمح بالإذن أو ارفع ملفًا صوتيًا.",
+            "تعذّر الوصول إلى الميكروفون. يُرجى السماح بالوصول أو رفع ملف صوتي.",
             "Microphone access failed. Allow permission or upload an audio file.",
             true,
           );

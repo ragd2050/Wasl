@@ -808,7 +808,7 @@
           </button>
         </div>
         <div class="practice-result" id="practiceResult" role="status"></div>
-        <button class="practice-start" id="practiceStart" type="button" disabled data-ar="ابدأ المهام" data-en="Start tasks">ابدأ المهام</button>
+        <button class="practice-start" id="practiceStart" type="button" disabled data-ar="بدء المهام" data-en="Start tasks">بدء المهام</button>
       </section>
     </div>
     <div class="toast" id="toast"></div>
@@ -1074,12 +1074,12 @@
           const x = trials[trial];
           return `<span class="instruction">${text(`المحاولة ${trial + 1} من 3`, `Trial ${trial + 1} of 3`)}</span>
       <h2 class="prompt">${x.ask[lang]}</h2>
-      <p class="hint">${text("اطلب من الطفل الإشارة إلى الصورة الصحيحة.", "Ask the child to point to the correct picture.")}</p>
+      <p class="hint">${text("يُطلب من الطفل الإشارة إلى الصورة الصحيحة.", "Ask the child to point to the correct picture.")}</p>
       <div class="visual-grid">${x.items.map((v, i) => `<button class="picture" data-choice="${i}" aria-label="${text(x.alts[i][0], x.alts[i][1])}">${photo(v, x.alts[i][0], x.alts[i][1])}</button>`).join("")}</div>`;
         }
         if (t.type === "name")
           return `<span class="instruction">${text("مهمة نطق", "Speaking task")}</span>
-      <h2 class="prompt">${text("سمِّ الصور التالية بالترتيب.", "Name the following pictures in order.")}</h2>
+      <h2 class="prompt">${text("تسمية الصور التالية بالترتيب.", "Name the following pictures in order.")}</h2>
       <p class="hint">${text("اترك للطفل وقتًا كافيًا لتسمية كل صورة.", "Give the child enough time to name each picture.")}</p>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
         <div class="single-picture">${photo("bicycle", "دراجة", "a bicycle")}</div>
@@ -1098,7 +1098,7 @@
       <h2 class="prompt">${text("حدّثنا عن لعبتك المفضلة وماذا تحب أن تفعل بها.", "Tell us about your favorite toy and what you like to do with it.")}</h2>
       <p class="hint">${text("اترك للطفل وقتًا كافيًا، ولا تصحح كلامه أثناء التسجيل.", "Give the child enough time and do not correct their speech during recording.")}</p>`;
         return `<span class="instruction">${text("مهمة قراءة", "Reading task")}</span>
-      <h2 class="prompt">${text("اقرأ النص التالي بصوت واضح.", "Read the following text clearly.")}</h2>
+      <h2 class="prompt">${text("قراءة النص التالي بصوت واضح.", "Read the following text clearly.")}</h2>
       <p class="passage">${text(
         "ذهبت سارة مع أسرتها إلى الحديقة في صباحٍ جميل. شاهدت الطيور وهي تطير، ثم لعبت بالكرة مع أختها وعادت إلى المنزل سعيدة.",
         "Sara went to the park with her family on a beautiful morning. She watched the birds fly, then played ball with her sister and returned home happy.",
@@ -1107,22 +1107,22 @@
 
       /* ---------- recorder panel per state ---------- */
       const STATE_LABEL = {
-        idle: { ar: "اضغط لبدء التسجيل", en: "Tap to start recording", cls: "" },
+        idle: { ar: "الضغط لبدء التسجيل", en: "Tap to start recording", cls: "" },
         permission: { ar: "يلزم إذن الميكروفون", en: "Microphone permission required", cls: "busy" },
-        recording: { ar: "جارٍ التسجيل… اضغط للإيقاف", en: "Recording… tap to stop", cls: "busy" },
+        recording: { ar: "جارٍ التسجيل… الضغط للإيقاف", en: "Recording… tap to stop", cls: "busy" },
         processing: { ar: "جارٍ معالجة التسجيل", en: "Processing recording", cls: "busy" },
         checking: { ar: "جارٍ فحص جودة الصوت", en: "Checking audio quality", cls: "busy" },
         saved: { ar: "تم حفظ التسجيل", en: "Recording saved", cls: "good" },
         short: { ar: "التسجيل قصير جدًا — أعد المحاولة", en: "Recording too short — retry", cls: "bad" },
         low: { ar: "مستوى الصوت منخفض — اقترب وأعد المحاولة", en: "Low volume detected — retry closer", cls: "warn" },
-        noise: { ar: "ضوضاء خلفية عالية — سجّل في مكان أهدأ", en: "Excessive background noise — retry", cls: "warn" },
+        noise: { ar: "ضوضاء خلفية عالية — يُرجى التسجيل في مكان أهدأ", en: "Excessive background noise — retry", cls: "warn" },
         clipped: { ar: "الصوت مرتفع جدًا — أبعد الجهاز قليلًا", en: "Audio is clipping — move the device slightly away", cls: "warn" },
         nomic: { ar: "يلزم السماح باستخدام الميكروفون", en: "Microphone permission required", cls: "bad" },
         uploadfail: { ar: "تعذّر رفع التسجيل — أعد المحاولة", en: "Upload failed — retry", cls: "bad" },
       };
       function recorderHTML(t) {
         if (t.type === "point") {
-          return `<div class="selection-status"><strong>${text("مهمة إشارة", "Pointing task")}</strong>${text("اطلب من الطفل الإشارة إلى الصورة المطلوبة في كل محاولة.", "Ask the child to point to the requested picture in each trial.")}</div>`;
+          return `<div class="selection-status"><strong>${text("مهمة إشارة", "Pointing task")}</strong>${text("يُطلب من الطفل الإشارة إلى الصورة المطلوبة في كل محاولة.", "Ask the child to point to the requested picture in each trial.")}</div>`;
         }
         const st = (state[index] && state[index].status) || "idle";
         const done = st === "saved";
@@ -1163,7 +1163,7 @@
         ? `<div class="mic-help" id="micHelp">
             <p>
               ${text(
-                "لم يُسمح باستخدام الميكروفون. افتح إعدادات الإذن في المتصفح واسمح بالوصول، ثم أعد المحاولة.",
+                "لم يُسمح باستخدام الميكروفون. يُرجى فتح إعدادات الإذن في المتصفح والسماح بالوصول، ثم إعادة المحاولة.",
                 "Microphone access was blocked. Allow access in your browser permission settings, then try again.",
               )}
             </p>
@@ -1205,11 +1205,11 @@
             "This sample is shorter than required. Give the child more time to respond.",
           ),
           low: text(
-            "قرّب الجهاز من الطفل وتأكد من عدم تغطية الميكروفون.",
+            "يُرجى وضع الجهاز قريبًا من الطفل مع التأكد من عدم تغطية الميكروفون.",
             "Move the device closer and make sure the microphone is not covered.",
           ),
           noise: text(
-            "انتقل إلى مكان أهدأ وأوقف مصادر الصوت القريبة.",
+            "يُرجى الانتقال إلى مكان أهدأ وإيقاف مصادر الصوت القريبة.",
             "Move to a quieter place and reduce nearby sounds.",
           ),
           clipped: text(
@@ -1479,7 +1479,7 @@
         if (!WASL_STORE.isPersistent()) {
           toast(
             text(
-              "تعذّر الحفظ الدائم على هذا المتصفح. أبقي الصفحة مفتوحة أو شغّل الموقع عبر خادم محلي.",
+              "تعذّر الحفظ الدائم على هذا المتصفح. يُرجى إبقاء الصفحة مفتوحة أو تشغيل الموقع عبر خادم محلي.",
               "Persistent saving is unavailable in this browser. Keep the page open or serve the site locally.",
             ),
           );
@@ -1554,8 +1554,8 @@
             candidate.style.borderColor = candidate === button ? "var(--violet)" : "var(--line)";
           });
           $("#practiceResult").textContent = correct
-            ? text("أحسنت! أصبحت جاهزًا للبدء.", "Great! You are ready to start.")
-            : text("جرّب مرة أخرى واختر الكرة.", "Try again and choose the ball.");
+            ? text("أحسنت! تم اجتياز التدريب والاستعداد للبدء.", "Great! You are ready to start.")
+            : text("إعادة المحاولة واختيار الكرة.", "Try again and choose the ball.");
           $("#practiceStart").disabled = !correct;
         };
       });

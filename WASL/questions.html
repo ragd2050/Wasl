@@ -499,7 +499,7 @@
           s: "history",
           q: { ar: "ما الصف الدراسي الذي تدرس فيه سارة؟", en: "What grade is Sara currently in?" },
           h: {
-            ar: "إذا لم تلتحق بالمدرسة بعد، اختر «لا ينطبق».",
+            ar: "إذا لم يلتحق الطفل بالمدرسة بعد، يمكن اختيار «لا ينطبق».",
             en: "Choose “Not applicable” if she has not started school.",
           },
           type: "single",
@@ -538,7 +538,7 @@
           id: "family_history",
           s: "history",
           q: {
-            ar: "هل عانى أحد أفراد الأسرة من مشكلات في اللغة أو النطق؟",
+            ar: "هل سبق أن واجه أحد أفراد الأسرة مشكلات في اللغة أو النطق؟",
             en: "Has anyone in the family had speech or language difficulties?",
           },
           type: "single",
@@ -559,7 +559,7 @@
             en: "Does Sara have a chronic condition, developmental disorder, or previous surgery?",
           },
           h: {
-            ar: "مثل عمليات اللوز أو اللحمية، الشفة أو الحنك، أو الحبال الصوتية.",
+            ar: "مثل عمليات اللوز أو اللحمية، الشفة الأرنبية أو شق الحنك، أو الحبال الصوتية.",
             en: "For example tonsils, adenoids, cleft lip or palate, or vocal cords.",
           },
           type: "single",
@@ -569,7 +569,7 @@
           id: "health_details",
           s: "history",
           q: {
-            ar: "اكتب الحالة الصحية أو العملية وتاريخها إن أمكن.",
+            ar: "يرجى ذكر الحالة الصحية أو العملية وتاريخها إن أمكن.",
             en: "Describe the condition or surgery and its date, if known.",
           },
           type: "textarea",
@@ -629,7 +629,7 @@
           id: "regression",
           s: "history",
           q: {
-            ar: "هل فقدت سارة مؤخرًا كلمات أو مهارات تواصل كانت تستخدمها من قبل؟",
+            ar: "هل توقفت سارة مؤخرًا عن استخدام كلمات أو مهارات تواصل كانت تستخدمها من قبل؟",
             en: "Has Sara recently lost words or communication skills she previously used?",
           },
           h: {
@@ -669,7 +669,7 @@
         {
           id: "ear_infections",
           s: "hearing",
-          q: { ar: "هل تعاني سارة من التهابات متكررة في الأذن؟", en: "Does Sara have recurrent ear infections?" },
+          q: { ar: "هل لدى سارة التهابات متكررة في الأذن؟", en: "Does Sara have recurrent ear infections?" },
           type: "single",
           o: yn,
           when: (a) => has(a, "hearing"),
@@ -809,7 +809,7 @@
           id: "commands",
           s: "language",
           q: {
-            ar: "هل تستطيع سارة اتباع أوامر بسيطة مثل «أعطيني» أو «خذي» أو «أشِر»؟",
+            ar: "هل تستطيع سارة اتباع تعليمات بسيطة، مثل إعطاء شيء أو أخذه أو الإشارة إليه؟",
             en: "Can Sara follow simple instructions such as “give me,” “take,” or “point”?",
           },
           type: "single",
@@ -1150,8 +1150,8 @@
         } else {
           box.innerHTML =
             q.type === "textarea"
-              ? `<textarea class="field" id="field" placeholder="${lang === "ar" ? "اكتب التفاصيل هنا" : "Enter details here"}">${val(q) || ""}</textarea>`
-              : `<input class="field" id="field" value="${val(q) || ""}" placeholder="${lang === "ar" ? "اكتب الإجابة هنا" : "Enter your answer"}">`;
+              ? `<textarea class="field" id="field" placeholder="${lang === "ar" ? "التفاصيل هنا" : "Enter details here"}">${val(q) || ""}</textarea>`
+              : `<input class="field" id="field" value="${val(q) || ""}" placeholder="${lang === "ar" ? "الإجابة هنا" : "Enter your answer"}">`;
           $("#field").oninput = (e) => (answers[q.id] = e.target.value);
         }
         document.title = (lang === "ar" ? "استبيان الحالة" : "Case questionnaire") + " | WASL";

@@ -1449,7 +1449,7 @@ function homePage() {
     <section class="activity-card">
       <h2>نشاطك اليومي</h2>
       <div class="activity-message"><p>لم يتم الربط حتى الآن</p><p>السماح بالوصول إلى تطبيق Health الخاص بك لمتابعة نشاطك الصحي</p></div>
-      <button class="green-button" data-action="health">اضغط للسماح</button>
+      <button class="green-button" data-action="health">السماح بالوصول</button>
     </section>
     <section class="health-banner" aria-label="خدمات الرعاية الصحية">
       <img src=\"assets/sehhaty-health-banner.png\" alt="" aria-hidden="true">
@@ -1514,7 +1514,7 @@ function renderFacilities() {
 function doctorPage() {
   const doctor = SEHHATY_DATA.doctor;
   return `<section class="doctor-view">
-    ${appHeader("facilities")}${progress(3, "اختر طبيب:")}
+    ${appHeader("facilities")}${progress(3, "اختيار الطبيب:")}
     <label class="search-box doctor-search">${icon("search")}<input type="search" id="doctor-search" placeholder="البحث عن طبيب" aria-label="البحث عن طبيب"></label>
     <section class="doctor-list"><h2>قائمة الأطباء:</h2>
       <div id="doctor-results"><label class="doctor-card">
@@ -1529,7 +1529,7 @@ function doctorPage() {
 }
 
 function datePage() {
-  return `${appHeader("doctor")}${progress(4, "اختر التاريخ والوقت:")}
+  return `${appHeader("doctor")}${progress(4, "اختيار التاريخ والوقت:")}
     <div class="calendar-toggle" aria-label="نوع التقويم">
       <button data-calendar="gregory" class="${state.calendar === "gregory" ? "active" : ""}" aria-pressed="${state.calendar === "gregory"}">ميلادي</button>
       <button data-calendar="islamic-umalqura" class="${state.calendar !== "gregory" ? "active" : ""}" aria-pressed="${state.calendar !== "gregory"}">هجري</button>
@@ -1717,7 +1717,7 @@ document.addEventListener("click", event => {
     state.time = "";
     state.confirmed = false;
     renderCalendar();
-    document.getElementById("live").textContent = "تم اختيار التاريخ. اختر الوقت المناسب.";
+    document.getElementById("live").textContent = "تم اختيار التاريخ. يرجى تحديد الوقت المناسب.";
   }
   if (button.dataset.time) {
     state.time = button.dataset.time;
@@ -1742,9 +1742,9 @@ document.addEventListener("click", event => {
     message("إلغاء الحجز", '<p>هل تريد الرجوع إلى الرئيسية؟</p><button class="plain-button" type="button" data-go="home">العودة للرئيسية</button>');
   }
   if (action === "health") message("ربط النشاط الصحي", "يمكنك إدارة صلاحية الوصول إلى بيانات نشاطك الصحي من إعدادات الجهاز.");
-  if (action === "support") message("المساعدة", "ابدأ من «احجز الآن»، ثم اختر المنشأة والطبيب والتاريخ والوقت.");
+  if (action === "support") message("المساعدة", "تبدأ الخطوات من «احجز الآن»، ثم اختيار المنشأة والطبيب والتاريخ والوقت.");
   if (action === "notifications") message("الإشعارات", state.booking ? "لديك موعد محفوظ في قائمة المواعيد." : "لا توجد إشعارات جديدة.");
-  if (action === "wellness") message("جودة الحياة", "تابعي خدمات جودة الحياة ونشاطك الصحي من هنا.");
+  if (action === "wellness") message("جودة الحياة", "يمكن متابعة خدمات جودة الحياة والنشاط الصحي من هنا.");
   if (action === "profile") message("ملفي", `<p>${SEHHATY_DATA.patient}</p>`);
   if (action === "menu") message("القائمة", '<div class="dialog-menu"><a href="#home">الرئيسية</a><a href="#facilities">قائمة المنشآت</a><a href="#appointments">المواعيد</a></div>');
   if (action === "confirm") {

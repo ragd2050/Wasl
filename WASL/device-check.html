@@ -25,7 +25,7 @@
         </h1>
         <p
           class="v29-lead"
-          data-ar="سنفحص المتصفح والحفظ والميكروفون والبيئة المحيطة. لن يُحفظ الصوت المستخدم في هذا الفحص."
+          data-ar="سيتم فحص المتصفح والميكروفون والتأكد من عدم وجود ضوضاء في البيئة المحيطة. لن يُحفظ الصوت المستخدم في هذا الفحص."
           data-en="We will check the browser, storage, microphone, and surrounding environment. Audio from this check is not saved."
         >
           سنفحص المتصفح والحفظ والميكروفون والبيئة المحيطة. لن يُحفظ الصوت المستخدم في هذا الفحص.
@@ -58,8 +58,8 @@
             <span class="v29-check-icon" aria-hidden="true">3</span>
             <div>
               <h2 data-ar="الميكروفون" data-en="Microphone">الميكروفون</h2>
-              <p id="micInstruction" data-ar="اضغط «بدء الفحص» ثم اتبع التعليمات." data-en="Select “Start check”, then follow the instructions.">
-                اضغط «بدء الفحص» ثم اتبع التعليمات.
+              <p id="micInstruction" data-ar="يرجى اختيار «بدء الفحص» واتباع التعليمات." data-en="Select “Start check”, then follow the instructions.">
+                يرجى اختيار «بدء الفحص» واتباع التعليمات.
               </p>
               <div class="v29-meter" aria-hidden="true"><span id="soundMeter"></span></div>
             </div>
@@ -70,8 +70,8 @@
             <span class="v29-check-icon" aria-hidden="true">4</span>
             <div>
               <h2 data-ar="اتصال الشبكة" data-en="Network connection">اتصال الشبكة</h2>
-              <p data-ar="يمكن حفظ التقدم محليًا إذا انقطع الاتصال." data-en="Progress can be saved locally if the connection drops.">
-                يمكن حفظ التقدم محليًا إذا انقطع الاتصال.
+              <p data-ar="يمكن حفظ التقدم إذا انقطع الاتصال." data-en="Progress can be saved if the connection drops.">
+                يمكن حفظ التقدم إذا انقطع الاتصال.
               </p>
             </div>
             <span class="v29-status" id="networkStatus"></span>
@@ -79,8 +79,8 @@
         </div>
 
         <div class="v29-notice" id="resultNotice" role="status">
-          <span data-ar="ابدأ الفحص في مكان هادئ، وضع الجهاز قريبًا من الطفل." data-en="Run the check in a quiet place and keep the device near the child.">
-            ابدأ الفحص في مكان هادئ، وضع الجهاز قريبًا من الطفل.
+          <span data-ar="يرجى إجراء الفحص في مكان هادئ ووضع الجهاز قريبًا من الطفل." data-en="Run the check in a quiet place and keep the device near the child.">
+            يرجى إجراء الفحص في مكان هادئ ووضع الجهاز قريبًا من الطفل.
           </span>
         </div>
 
@@ -199,7 +199,7 @@
             "قل بصوت طبيعي: مرحبًا، أنا مستعد.",
             "Say naturally: Hello, I am ready.",
           );
-          setStatus($("#micStatus"), "", "استمع لصوتك", "Listening");
+          setStatus($("#micStatus"), "", "الاستماع إلى الصوت", "Listening");
           const voiceValues = await collect(analyser, samples, 2600, paint);
 
           const average = (values) => values.reduce((sum, value) => sum + value, 0) / Math.max(1, values.length);
@@ -246,7 +246,9 @@
           } else {
             setStatus($("#micStatus"), "warn", "أعد الفحص", "Check again");
             $("#micInstruction").textContent = text(
-              voiceOk ? "خفّض الضوضاء المحيطة ثم أعد الفحص." : "قرّب الجهاز وتحدث بصوت طبيعي ثم أعد الفحص.",
+              voiceOk
+                ? "يُرجى خفض الضوضاء المحيطة ثم إعادة الفحص."
+                : "يُرجى وضع الجهاز قريبًا والتحدث بصوت طبيعي ثم إعادة الفحص.",
               voiceOk ? "Reduce surrounding noise, then run the check again." : "Move the device closer, speak naturally, then run the check again.",
             );
             $("#resultNotice").className = "v29-notice danger";
@@ -259,7 +261,7 @@
           if (stream) stream.getTracks().forEach((track) => track.stop());
           setStatus($("#micStatus"), "bad", "تعذّر الوصول", "Access blocked");
           $("#micInstruction").textContent = text(
-            "اسمح باستخدام الميكروفون من إعدادات المتصفح ثم أعد الفحص.",
+            "يرجى السماح باستخدام الميكروفون من إعدادات المتصفح ثم إعادة الفحص.",
             "Allow microphone access in browser settings, then run the check again.",
           );
           $("#resultNotice").className = "v29-notice danger";
@@ -310,7 +312,7 @@
         if (!browserReady || !storageReady) {
           $("#resultNotice").className = "v29-notice danger";
           $("#resultNotice").textContent = text(
-            "استخدم متصفحًا حديثًا وافتح الموقع من خلال رابط ويب حتى يمكن حفظ التقدم.",
+            "يرجى استخدام متصفح حديث وفتح الموقع من خلال رابط ويب حتى يمكن حفظ التقدم.",
             "Use a modern browser and open the site from a web link so progress can be saved.",
           );
         }

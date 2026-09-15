@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>دخول المختص | وصل</title>
+    <title>دخول الأخصائي | وصل</title>
     <link rel="stylesheet" href="assets/wasl-fonts.css" />
     <link rel="stylesheet" href="assets/wasl-tokens.css" />
     <link rel="stylesheet" href="assets/wasl-enhance.css" />
@@ -161,14 +161,14 @@
           <button class="lang" id="langBtn">EN</button>
         </div>
 
-        <span class="role" data-ar="بوابة المختصين" data-en="Specialist portal">بوابة المختصين</span>
-        <h1 data-ar="دخول المختص" data-en="Specialist sign in">دخول المختص</h1>
+        <span class="role" data-ar="بوابة الأخصائيين" data-en="Specialist portal">بوابة الأخصائيين</span>
+        <h1 data-ar="دخول الأخصائي" data-en="Specialist sign in">دخول الأخصائي</h1>
         <p
           class="sub"
-          data-ar="واجهة مهنية منفصلة عن رحلة المريض. تُستخدم لمراجعة الحالات واعتماد القرار السريري."
+          data-ar="واجهة مهنية منفصلة عن رحلة المريض. تُستخدم لمراجعة الحالات واعتماد التوصية النهائية."
           data-en="A professional interface separate from the patient journey, used to review cases and approve the clinical decision."
         >
-          واجهة مهنية منفصلة عن رحلة المريض. تُستخدم لمراجعة الحالات واعتماد القرار السريري.
+          واجهة مهنية منفصلة عن رحلة المريض. تُستخدم لمراجعة الحالات واعتماد التوصية النهائية.
         </p>
 
         <div class="field">
@@ -183,8 +183,8 @@
 
         <button class="primary" id="signInBtn" data-ar="تسجيل الدخول" data-en="Sign in">تسجيل الدخول</button>
 
-        <div class="note" id="loginNote" data-ar="أدخل بيانات الحساب المهني للانتقال إلى قائمة الحالات." data-en="Enter your professional account details to open the case list.">
-          أدخل بيانات الحساب المهني للانتقال إلى قائمة الحالات.
+        <div class="note" id="loginNote" data-ar="يرجى إدخال بيانات الحساب المهني للانتقال إلى قائمة الحالات." data-en="Enter your professional account details to open the case list.">
+          يرجى إدخال بيانات الحساب المهني للانتقال إلى قائمة الحالات.
         </div>
 
         <div class="foot">
@@ -204,7 +204,7 @@
       function goToCases() {
         if (!$("#pid").value.trim() || !$("#pwd").value) {
           const note = $("#loginNote");
-          note.textContent = text("أدخل المعرّف المهني وكلمة المرور.", "Enter the professional ID and password.");
+          note.textContent = text("يرجى إدخال المعرّف المهني وكلمة المرور.", "Enter the professional ID and password.");
           note.style.color = "#b42318";
           $("#pid").focus();
           return;
@@ -225,7 +225,7 @@
           e.textContent = e.dataset[n];
         });
         $("#langBtn").textContent = n === "ar" ? "EN" : "ع";
-        document.title = text("دخول المختص | وصل", "Specialist sign in | WASL");
+        document.title = text("دخول الأخصائي | وصل", "Specialist sign in | WASL");
       };
 
       $("#langBtn").onclick = () => setLang(lang === "ar" ? "en" : "ar");

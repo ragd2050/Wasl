@@ -312,10 +312,10 @@
           <h1 data-ar="جاري تحليل التقييم" data-en="Assessment analysis in progress">جاري تحليل التقييم</h1>
           <p
             class="lead"
-            data-ar="يجري الآن تحليل إجابات وتسجيلات الطفل لإعداد توصية أولية. لا تمثل هذه النتيجة تشخيصًا طبيًا، وسيقوم مختص مؤهل بمراجعتها."
+            data-ar="يجري الآن تحليل إجابات وتسجيلات الطفل لإعداد توصية أولية. لا تمثل هذه النتيجة تشخيصًا طبيًا، وسيقوم أخصائي مؤهل بمراجعتها."
             data-en="The child’s answers and recordings are being analyzed to prepare an initial recommendation. This result is not a medical diagnosis and will be reviewed by a qualified specialist."
           >
-            يجري الآن تحليل إجابات وتسجيلات الطفل لإعداد توصية أولية. لا تمثل هذه النتيجة تشخيصًا طبيًا، وسيقوم مختص
+            يجري الآن تحليل إجابات وتسجيلات الطفل لإعداد توصية أولية. لا تمثل هذه النتيجة تشخيصًا طبيًا، وسيقوم أخصائي
             مؤهل بمراجعتها.
           </p>
           <p class="engine">WASL AI Speech-Language Triage Engine · <span id="engineVer"></span></p>
@@ -481,18 +481,18 @@
           assessment_id: ASSESS_ID,
           url: "clinical-review.html",
           step: "clinical_review",
-          label_ar: "بانتظار مراجعة المختص",
+          label_ar: "بانتظار مراجعة الأخصائي",
           label_en: "Awaiting specialist review",
         });
         const box = $("#resultBox");
         box.className = "result-box show";
         $("#stateMsg").className = "state-msg ok";
         $("#stateMsg").textContent = text(
-          "تم إعداد التوصية الأولية بنجاح. النتيجة النهائية تخضع لمراجعة المختص.",
+          "تم إعداد التوصية الأولية بنجاح. النتيجة النهائية تخضع لمراجعة الأخصائي.",
           "The initial recommendation is ready. The final result is subject to specialist review.",
         );
         $("#btnRow").innerHTML =
-          `<button class="primary" id="goBtn">${text("الانتقال إلى مراجعة المختص", "Continue to specialist review")}</button>`;
+          `<button class="primary" id="goBtn">${text("الانتقال إلى مراجعة الأخصائي", "Continue to specialist review")}</button>`;
         $("#goBtn").onclick = () => (location.href = "specialist-login.html");
       }
       window.setLang = function (n) {

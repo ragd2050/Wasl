@@ -160,9 +160,9 @@
           بدء تقييم سارة العتيبي
         </h1>
         <p class="lead"
-          data-ar="أكملي الاستبيان الأولي وفحص السمع، ثم سجّلي عينة الكلام. هذه محاكاة لعرض سير النظام."
+          data-ar="يرجى استكمال الاستبيان الأولي وفحص السمع، ثم تسجيل عينة الكلام. هذه محاكاة لعرض سير النظام."
           data-en="Complete the initial questionnaire and hearing screen, then record the speech sample. This is a simulation of the system flow.">
-          أكملي الاستبيان الأولي وفحص السمع، ثم سجّلي عينة الكلام. هذه محاكاة لعرض سير النظام.
+          يرجى استكمال الاستبيان الأولي وفحص السمع، ثم تسجيل عينة الكلام. هذه محاكاة لعرض سير النظام.
         </p>
         <div class="steps">
           <span class="chip active" id="chipQ"><span class="n">1</span><span data-ar="الاستبيان" data-en="Questionnaire">الاستبيان</span></span>
@@ -190,9 +190,9 @@
       <section class="card" id="cardH">
         <h2 data-ar="فحص السمع الأولي" data-en="Initial hearing screen">فحص السمع الأولي</h2>
         <p class="sub"
-          data-ar="فحص استرشادي سريع. النتيجة النهائية للسمع يعتمدها المختص عند الحاجة."
+          data-ar="فحص استرشادي سريع. يعتمد الأخصائي النتيجة النهائية للسمع عند الحاجة."
           data-en="A quick indicative screen. The final hearing outcome is confirmed by the specialist when needed.">
-          فحص استرشادي سريع. النتيجة النهائية للسمع يعتمدها المختص عند الحاجة.
+          فحص استرشادي سريع. يعتمد الأخصائي النتيجة النهائية للسمع عند الحاجة.
         </p>
         <div id="hearing"></div>
         <div class="hearing-outcome" id="hearingOutcome"></div>
@@ -207,8 +207,8 @@
       </section>
 
       <div class="footer">
-        <span class="status" id="status" data-ar="أكملي الاستبيان وفحص السمع للمتابعة." data-en="Complete the questionnaire and hearing screen to continue.">
-          أكملي الاستبيان وفحص السمع للمتابعة.
+        <span class="status" id="status" data-ar="يرجى استكمال الاستبيان وفحص السمع للمتابعة." data-en="Complete the questionnaire and hearing screen to continue.">
+          يرجى استكمال الاستبيان وفحص السمع للمتابعة.
         </span>
         <button class="continue" id="continueBtn" type="button" disabled>
           <span data-ar="حفظ والمتابعة إلى تسجيل العينة" data-en="Save and continue to recording">
@@ -412,11 +412,11 @@
           box.textContent =
             outcome === "pass"
               ? text(
-                  "لم تظهر مؤشرات سمعية واضحة في الفحص الأولي (سليم). يؤكد المختص عند الحاجة.",
+                  "لم تظهر مؤشرات سمعية واضحة في الفحص الأولي (سليم). يؤكد الأخصائي عند الحاجة.",
                   "No clear hearing indicators in the initial screen (pass). The specialist confirms when needed.",
                 )
               : text(
-                  "أوصى الفحص الأولي بمراجعة سمعية إضافية — سيراجع المختص ذلك.",
+                  "أوصى الفحص الأولي بمراجعة سمعية إضافية — سيراجع الأخصائي ذلك.",
                   "The initial screen suggests further hearing review — the specialist will check this.",
                 );
         }
@@ -425,7 +425,7 @@
         $("#continueBtn").disabled = !ready;
         $("#status").textContent = ready
           ? text("جاهز للمتابعة إلى تسجيل عينة الكلام.", "Ready to continue to speech-sample recording.")
-          : text("أكملي الاستبيان وفحص السمع للمتابعة.", "Complete the questionnaire and hearing screen to continue.");
+          : text("يرجى استكمال الاستبيان وفحص السمع للمتابعة.", "Complete the questionnaire and hearing screen to continue.");
       }
 
       function applyDefaults() {

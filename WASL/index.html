@@ -361,10 +361,10 @@
             <h2 data-ar="مرحبًا بعودتك" data-en="Welcome back">مرحبًا بعودتك</h2>
             <p
               class="intro"
-              data-ar="سجّل الدخول للوصول إلى مواعيد اليوم."
+              data-ar="يرجى تسجيل الدخول للوصول إلى مواعيد اليوم."
               data-en="Sign in to access today's appointments."
             >
-              سجّل الدخول للوصول إلى مواعيد اليوم.
+              يرجى تسجيل الدخول للوصول إلى مواعيد اليوم.
             </p>
             <div class="field">
               <label for="email" data-ar="البريد الإلكتروني" data-en="Email address">البريد الإلكتروني</label>
@@ -418,14 +418,14 @@
             >
             <div
               class="support"
-              data-ar="للمساعدة، تواصلي مع مسؤول النظام في منشأتك."
+              data-ar="للمساعدة، يمكن التواصل مع مسؤول النظام في المنشأة."
               data-en="For help, contact your facility system administrator."
             >
-              للمساعدة، تواصلي مع مسؤول النظام في منشأتك.
+              للمساعدة، يمكن التواصل مع مسؤول النظام في المنشأة.
             </div>
             <nav class="portal-links" aria-label="بوابات وصل">
-              <a class="portal-link" href="specialist-login.html" data-ar="بوابة المختصين" data-en="Specialist portal">
-                بوابة المختصين
+              <a class="portal-link" href="specialist-login.html" data-ar="بوابة الأخصائيين" data-en="Specialist portal">
+                بوابة الأخصائيين
               </a>
               <a class="portal-link" href="facility.html" data-ar="بوابة المنشآت" data-en="Facility portal">
                 بوابة المنشآت
@@ -472,7 +472,7 @@
           password = $("#password").value;
         if (!/^\S+@\S+\.\S+$/.test(email) || password.length < 4) {
           $("#error").textContent =
-            lang === "ar" ? "أدخل بريدًا إلكترونيًا وكلمة مرور صحيحة." : "Enter a valid email address and password.";
+            lang === "ar" ? "يرجى إدخال بريد إلكتروني وكلمة مرور صحيحين." : "Enter a valid email address and password.";
           return;
         }
         $("#error").textContent = "";

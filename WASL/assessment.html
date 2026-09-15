@@ -352,10 +352,10 @@
           <h1 data-ar="مرحبًا، لنبدأ التقييم" data-en="Welcome, let's begin">مرحبًا، لنبدأ التقييم</h1>
           <p
             class="lead"
-            data-ar="سنطرح عليك أسئلة قصيرة عن تواصل سارة وسلوكها اليومي. اختر الإجابة الأقرب لما تلاحظه عادةً؛ فلا توجد إجابات صحيحة أو خاطئة."
+            data-ar="ستُعرض أسئلة قصيرة عن تواصل سارة وسلوكها اليومي. يرجى اختيار الإجابة الأقرب لما يُلاحظ عادةً؛ فلا توجد إجابات صحيحة أو خاطئة."
             data-en="We will ask short questions about Sara's communication and daily behavior. Choose what best matches your usual observations; there are no right or wrong answers."
           >
-            سنطرح عليك أسئلة قصيرة عن تواصل سارة وسلوكها اليومي. اختر الإجابة الأقرب لما تلاحظه عادةً؛ فلا توجد إجابات
+            ستُعرض أسئلة قصيرة عن تواصل سارة وسلوكها اليومي. يرجى اختيار الإجابة الأقرب لما يُلاحظ عادةً؛ فلا توجد إجابات
             صحيحة أو خاطئة.
           </p>
           <div class="features">
@@ -424,9 +424,9 @@
               <rect x="5" y="10" width="14" height="10" rx="2" />
               <path d="M8 10V7a4 4 0 0 1 8 0v3" /></svg
             ><span
-              data-ar="إجاباتك خاصة ولا يطّلع عليها إلا الفريق المختص"
+              data-ar="إجاباتك خاصة ولا يطّلع عليها إلا فريق الأخصائيين"
               data-en="Your answers are private and visible only to the care team"
-              >إجاباتك خاصة ولا يطّلع عليها إلا الفريق المختص</span
+              >إجاباتك خاصة ولا يطّلع عليها إلا فريق الأخصائيين</span
             >
           </div>
           <div class="actions">
@@ -445,14 +445,14 @@
             </label>
             <label class="consent-choice">
               <input type="checkbox" id="consentAudio" />
-              <span data-ar="أوافق على تسجيل صوت الطفل ومعالجته لدعم قرار المختص." data-en="I agree to recording and processing the child’s voice to support the specialist’s decision.">
-                أوافق على تسجيل صوت الطفل ومعالجته لدعم قرار المختص.
+              <span data-ar="أوافق على تسجيل صوت الطفل ومعالجته لدعم قرار الأخصائي." data-en="I agree to recording and processing the child’s voice to support the specialist’s decision.">
+                أوافق على تسجيل صوت الطفل ومعالجته لدعم قرار الأخصائي.
               </span>
             </label>
             <label class="consent-choice">
               <input type="checkbox" id="consentShare" />
-              <span data-ar="أوافق على مشاركة ملخص الفرز مع المنشأة المختارة بعد اعتماد المختص." data-en="I agree to sharing the triage summary with the selected facility after specialist approval.">
-                أوافق على مشاركة ملخص الفرز مع المنشأة المختارة بعد اعتماد المختص.
+              <span data-ar="أوافق على مشاركة ملخص الفرز مع المنشأة المختارة بعد اعتماد الأخصائي." data-en="I agree to sharing the triage summary with the selected facility after specialist approval.">
+                أوافق على مشاركة ملخص الفرز مع المنشأة المختارة بعد اعتماد الأخصائي.
               </span>
             </label>
             <div class="consent-error" id="consentError" role="alert"></div>
@@ -516,7 +516,7 @@
         item.onchange = () => ($("#consentError").textContent = "");
       });
       $("#helpBtn").onclick = () =>
-        toast("اطلب المساعدة من موظف الاستقبال", "Please ask the front desk for assistance");
+        toast("يمكن طلب المساعدة من موظف الاستقبال", "Please ask the front desk for assistance");
     </script>
   </body>
 </html>

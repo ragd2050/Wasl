@@ -642,10 +642,10 @@
               <h1 data-ar="التحقق من هوية المريض" data-en="Verify patient identity">التحقق من هوية المريض</h1>
               <p
                 class="lead"
-                data-ar="أدخل رقم هوية سارة لإرسال طلب تأكيد إلى ولي الأمر عبر تطبيق نفاذ."
+                data-ar="يرجى إدخال رقم هوية سارة لإرسال طلب تأكيد إلى ولي الأمر عبر تطبيق نفاذ."
                 data-en="Enter Sara's ID number to send a confirmation request to the guardian through Nafath."
               >
-                أدخل رقم هوية سارة لإرسال طلب تأكيد إلى ولي الأمر عبر تطبيق نفاذ.
+                يرجى إدخال رقم هوية سارة لإرسال طلب تأكيد إلى ولي الأمر عبر تطبيق نفاذ.
               </p>
               <div class="patient-strip">
                 <div class="patient-avatar">
@@ -743,10 +743,10 @@
                 </h2>
                 <p
                   id="waitingText"
-                  data-ar="أُرسل طلب التحقق إلى تطبيق نفاذ. اطلب من ولي الأمر اختيار الرقم 47 والموافقة على الطلب."
+                  data-ar="أُرسل طلب التحقق إلى تطبيق نفاذ. يُرجى من ولي الأمر اختيار الرقم 47 والموافقة على الطلب."
                   data-en="A verification request was sent to Nafath. Ask the guardian to select number 47 and approve the request."
                 >
-                  أُرسل طلب التحقق إلى تطبيق نفاذ. اطلب من ولي الأمر اختيار الرقم 47 والموافقة على الطلب.
+                  أُرسل طلب التحقق إلى تطبيق نفاذ. يُرجى من ولي الأمر اختيار الرقم 47 والموافقة على الطلب.
                 </p>
                 <div id="resendRow" style="margin-top: 14px; font-size: 0.86rem; color: #5a6b82">
                   <span data-ar="لم يصلك الطلب؟" data-en="Didn't receive the request?">لم يصلك الطلب؟</span>
@@ -871,7 +871,7 @@
         $("#statusBadge").classList.add("approved");
         title.dataset.ar = "تمت الموافقة عبر نفاذ";
         title.dataset.en = "Approved through Nafath";
-        copy.dataset.ar = "تم التحقق من هوية المريض وولي الأمر بنجاح. راجع البيانات الرسمية قبل المتابعة.";
+        copy.dataset.ar = "تم التحقق من هوية المريض وولي الأمر بنجاح. يرجى مراجعة البيانات الرسمية قبل المتابعة.";
         copy.dataset.en =
           "The patient and guardian identities were verified successfully. Review the official details before continuing.";
         status.dataset.ar = "تم التحقق بنجاح";
@@ -885,7 +885,7 @@
       $("#sendBtn").addEventListener("click", () => {
         if (!/^\d{10}$/.test(input.value)) {
           input.classList.add("invalid");
-          error.textContent = lang === "ar" ? "أدخل رقم هوية صحيحًا" : "Enter a valid ID number";
+          error.textContent = lang === "ar" ? "يرجى إدخال رقم هوية صحيح" : "Enter a valid ID number";
           input.focus();
           return;
         }
