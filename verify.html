@@ -1,0 +1,924 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content="التحقق من هوية المريض عبر نفاذ" />
+    <title>التحقق من الهوية | وصل</title>
+    <link rel="stylesheet" href="assets/wasl-fonts.css" />
+    <link rel="stylesheet" href="assets/wasl-enhance.css" />
+    <style>
+      :root {
+        --navy: #122b6c;
+        --violet: #5756e1;
+        --blue: #3594f0;
+        --turq: #5eece2;
+        --bg: #f4f7fc;
+        --panel: #fff;
+        --ink: #17213b;
+        --muted: #69758b;
+        --line: #e2e8f2;
+        --soft: #edf3ff;
+        --green: #16784c;
+        --red: #bc3545;
+        --shadow: 0 20px 55px rgba(18, 43, 108, 0.1);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+      body {
+        font-family: "Tajawal", system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--ink);
+      }
+      button,
+      input {
+        font: inherit;
+      }
+      .app {
+        height: 100dvh;
+        display: grid;
+        grid-template-rows: 72px 1fr;
+        background: radial-gradient(circle at 11% 86%, rgba(94, 236, 226, 0.12), transparent 24%), var(--bg);
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 clamp(24px, 4vw, 64px);
+        background: #fff;
+        border-bottom: 1px solid var(--line);
+      }
+      .logo {
+        width: 132px;
+        height: 48px;
+        object-fit: contain;
+        object-position: right center;
+      }
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        direction: ltr;
+      }
+      .lang-btn {
+        height: 40px;
+        padding: 0 15px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: #fff;
+        color: var(--navy);
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .user {
+        direction: rtl;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .avatar {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        color: #fff;
+        font-weight: 800;
+        background: linear-gradient(145deg, var(--navy), var(--violet));
+        line-height: 1;
+      }
+      .user strong {
+        display: block;
+        font-size: 0.9rem;
+      }
+      .user span {
+        display: block;
+        color: var(--muted);
+        font-size: 0.75rem;
+        margin-top: 1px;
+      }
+      main {
+        min-height: 0;
+        padding: 22px clamp(28px, 5vw, 78px) 28px;
+        display: grid;
+        grid-template-rows: 46px 1fr;
+        gap: 14px;
+      }
+      .topline {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .back {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border: 0;
+        background: transparent;
+        color: var(--navy);
+        font-weight: 700;
+        cursor: pointer;
+        padding: 8px 0;
+      }
+      .back svg {
+        width: 18px;
+      }
+      .step-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--muted);
+        font-size: 0.86rem;
+        font-weight: 600;
+      }
+      .step-label b {
+        color: var(--blue);
+      }
+      .workspace {
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 1.18fr) minmax(300px, 0.72fr);
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+      .main-panel {
+        min-width: 0;
+        padding: clamp(32px, 4.8vh, 54px) clamp(40px, 5vw, 76px);
+        display: flex;
+        flex-direction: column;
+      }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        align-self: flex-start;
+        padding: 7px 11px;
+        border-radius: 999px;
+        background: #edecff;
+        color: var(--violet);
+        font-size: 0.78rem;
+        font-weight: 700;
+      }
+      .eyebrow i {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--violet);
+      }
+      h1 {
+        margin: 18px 0 8px;
+        color: var(--navy);
+        font-size: clamp(1.9rem, 2.7vw, 2.5rem);
+        line-height: 1.15;
+      }
+      .lead {
+        margin: 0 0 22px;
+        color: var(--muted);
+        font-size: 0.98rem;
+        line-height: 1.7;
+        max-width: 690px;
+      }
+      #formState {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      .patient-strip {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 14px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: #fbfdff;
+      }
+      .patient-avatar {
+        width: 39px;
+        height: 39px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(145deg, #edf3ff, #e3faf7);
+        color: var(--navy);
+        font-weight: 800;
+        line-height: 1;
+      }
+      .patient-strip strong {
+        display: block;
+        font-size: 0.91rem;
+      }
+      .patient-strip span {
+        display: block;
+        margin-top: 2px;
+        color: var(--muted);
+        font-size: 0.76rem;
+      }
+      .confirmed {
+        margin-inline-start: auto;
+        color: var(--green) !important;
+        font-weight: 700;
+      }
+      form {
+        margin-top: 19px;
+      }
+      .label {
+        display: block;
+        margin-bottom: 7px;
+        color: var(--ink);
+        font-size: 0.9rem;
+        font-weight: 700;
+      }
+      .input-wrap {
+        position: relative;
+      }
+      .input-wrap svg {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        width: 20px;
+        transform: translateY(-50%);
+        color: #8591a6;
+      }
+      .input {
+        width: 100%;
+        height: 55px;
+        padding: 0 48px 0 15px;
+        border: 1px solid #cfd9e8;
+        border-radius: 13px;
+        background: #fff;
+        color: var(--ink);
+        font-size: 1rem;
+        direction: ltr;
+        text-align: left;
+        outline: none;
+        transition: 0.15s;
+      }
+      .input:focus {
+        border-color: var(--blue);
+        box-shadow: 0 0 0 4px rgba(53, 148, 240, 0.11);
+      }
+      .input.invalid {
+        border-color: var(--red);
+        box-shadow: 0 0 0 4px rgba(188, 53, 69, 0.08);
+      }
+      .helper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 7px;
+        color: var(--muted);
+        font-size: 0.76rem;
+      }
+      .error {
+        color: var(--red);
+        font-weight: 600;
+      }
+      .notice {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin-top: 16px;
+        padding: 13px 15px;
+        border-radius: 14px;
+        background: var(--soft);
+      }
+      .notice-icon {
+        width: 34px;
+        height: 34px;
+        flex: none;
+        border-radius: 10px;
+        display: grid;
+        place-items: center;
+        background: #fff;
+        color: var(--blue);
+      }
+      .notice-icon svg {
+        width: 18px;
+      }
+      .notice strong {
+        display: block;
+        color: var(--navy);
+        font-size: 0.86rem;
+      }
+      .notice p {
+        margin: 3px 0 0;
+        color: #58667e;
+        font-size: 0.78rem;
+        line-height: 1.5;
+      }
+      .actions {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        margin-top: auto;
+        padding-top: 20px;
+      }
+      .primary {
+        height: 52px;
+        min-width: 270px;
+        padding: 0 25px;
+        border: 0;
+        border-radius: 13px;
+        color: #fff;
+        background: linear-gradient(105deg, var(--navy), var(--violet));
+        box-shadow: 0 10px 24px rgba(87, 86, 225, 0.2);
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .primary:disabled {
+        opacity: 0.7;
+        cursor: wait;
+      }
+      .secondary {
+        height: 52px;
+        padding: 0 22px;
+        border: 1px solid var(--line);
+        border-radius: 13px;
+        color: var(--navy);
+        background: #fff;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .waiting {
+        display: none;
+        flex: 1;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+      .waiting.show {
+        display: flex;
+      }
+      .waiting-card {
+        max-width: 520px;
+      }
+      .nafath-code {
+        width: 98px;
+        height: 98px;
+        margin: 0 auto 20px;
+        border-radius: 27px;
+        display: grid;
+        place-items: center;
+        color: #fff;
+        background: linear-gradient(145deg, var(--navy), var(--violet));
+        font-size: 2.35rem;
+        font-weight: 800;
+        box-shadow: 0 14px 35px rgba(87, 86, 225, 0.24);
+      }
+      .nafath-code.approved {
+        background: linear-gradient(145deg, #108d69, #38c7a0);
+      }
+      .waiting h2 {
+        margin: 0;
+        color: var(--navy);
+        font-size: 1.65rem;
+      }
+      .waiting p {
+        margin: 9px auto 17px;
+        max-width: 470px;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+      .pulse {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 12px;
+        border-radius: 999px;
+        background: #fff5de;
+        color: #956108;
+        font-size: 0.8rem;
+        font-weight: 700;
+      }
+      .pulse i {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #e5a31a;
+        animation: pulse 1.4s infinite;
+      }
+      .pulse.approved {
+        background: #eaf9f3;
+        color: var(--green);
+      }
+      .pulse.approved i {
+        background: var(--green);
+        animation: none;
+      }
+      .waiting-actions {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 22px;
+      }
+      .approved-action {
+        display: none;
+        margin: 22px auto 0;
+      }
+      .text-btn {
+        border: 0;
+        background: transparent;
+        color: var(--blue);
+        font-weight: 700;
+        cursor: pointer;
+      }
+      @keyframes pulse {
+        50% {
+          opacity: 0.35;
+        }
+      }
+      .side-panel {
+        display: none;
+      }
+      .workspace {
+        display: block;
+        max-width: 1240px;
+        width: 100%;
+        margin-inline: auto;
+        align-self: center;
+      }
+      .main-panel {
+        padding: 30px clamp(38px, 5vw, 72px);
+      }
+      .step-label {
+        display: none;
+      }
+      .timeline {
+        display: flex;
+        align-items: flex-start;
+        width: 100%;
+        margin: 0 0 20px;
+        padding: 0 4px;
+      }
+      .timeline-step {
+        width: 150px;
+        flex: none;
+        text-align: center;
+      }
+      .timeline-dot {
+        width: 34px;
+        height: 34px;
+        margin: 0 auto 7px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        border: 2px solid #d8e0ee;
+        background: #fff;
+        color: #8a96a9;
+        font-weight: 800;
+      }
+      .timeline-step.active .timeline-dot {
+        border-color: var(--violet);
+        background: var(--violet);
+        color: #fff;
+        box-shadow: 0 0 0 6px rgba(87, 86, 225, 0.1);
+      }
+      .timeline-step.done .timeline-dot {
+        border-color: var(--turq);
+        background: #e8fbfa;
+        color: var(--navy);
+      }
+      .timeline-step strong {
+        display: block;
+        color: #8691a4;
+        font-size: 0.82rem;
+      }
+      .timeline-step.active strong,
+      .timeline-step.done strong {
+        color: var(--navy);
+      }
+      .timeline-line {
+        height: 2px;
+        flex: 1;
+        min-width: 45px;
+        margin-top: 16px;
+        background: #dfe6f0;
+      }
+      .timeline-line.done {
+        background: linear-gradient(90deg, var(--turq), var(--violet));
+      }
+      @media (max-width: 850px) {
+        html,
+        body {
+          overflow: auto;
+        }
+        .app {
+          height: auto;
+          min-height: 100dvh;
+        }
+        .workspace {
+          grid-template-columns: 1fr;
+        }
+        .side-panel {
+          display: none;
+        }
+        main {
+          padding: 18px 16px 24px;
+        }
+        .main-panel {
+          padding: 28px 22px;
+          min-height: 650px;
+        }
+        .user div:last-child {
+          display: none;
+        }
+        .actions,
+        .waiting-actions {
+          flex-direction: column;
+        }
+        .actions button,
+        .waiting-actions button {
+          width: 100%;
+        }
+        .logo {
+          width: 106px;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .timeline {
+          padding: 0;
+        }
+        .timeline-step {
+          width: auto;
+          flex: 1;
+          min-width: 0;
+        }
+        .timeline-step strong {
+          font-size: 0.68rem;
+          line-height: 1.35;
+        }
+        .timeline-line {
+          min-width: 12px;
+          margin-inline: 3px;
+        }
+        .user .avatar {
+          font-size: 0;
+        }
+        .user .avatar:after {
+          content: "S";
+          font-size: 1rem;
+        }
+      }
+      .ini {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+      .ini text {
+        fill: currentColor;
+        font-weight: 800;
+        font-size: 50px;
+        font-family: Tajawal, sans-serif;
+      }
+    </style>
+    <script defer src="assets/wasl-enhance.js"></script>
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <img class="logo" src="assets/wasl-logo-1.webp" alt="منصة وصل" />
+        <div class="header-actions">
+          <button class="lang-btn" id="langBtn" type="button">EN</button>
+          <div class="user">
+            <div class="avatar">
+              <svg class="ini" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+                <text x="50" y="50" text-anchor="middle" dominant-baseline="central" data-ar="س" data-en="S">س</text>
+              </svg>
+            </div>
+            <div>
+              <strong data-ar="سارة أحمد" data-en="Sarah Ahmed">سارة أحمد</strong
+              ><span data-ar="موظف الاستقبال" data-en="Front desk">موظف الاستقبال</span>
+            </div>
+          </div>
+        </div>
+      </header>
+      <main>
+        <div class="topline">
+          <button class="back" type="button" onclick="location.href = 'start.html'">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6" /></svg
+            ><span data-ar="العودة إلى تفاصيل الموعد" data-en="Back to appointment details"
+              >العودة إلى تفاصيل الموعد</span
+            >
+          </button>
+          <div class="step-label">
+            <span data-ar="إعداد التقييم" data-en="Assessment setup">إعداد التقييم</span
+            ><b data-ar="الخطوة 2 من 3" data-en="Step 2 of 3">الخطوة 2 من 3</b>
+          </div>
+        </div>
+        <section class="workspace">
+          <div class="main-panel">
+            <nav class="timeline" aria-label="مسار بدء التقييم">
+              <div class="timeline-step done">
+                <div class="timeline-dot">✓</div>
+                <strong data-ar="مراجعة الموعد" data-en="Review appointment">مراجعة الموعد</strong>
+              </div>
+              <div class="timeline-line done"></div>
+              <div class="timeline-step active">
+                <div class="timeline-dot">2</div>
+                <strong data-ar="التحقق عبر نفاذ" data-en="Nafath verification">التحقق عبر نفاذ</strong>
+              </div>
+              <div class="timeline-line"></div>
+              <div class="timeline-step">
+                <div class="timeline-dot">3</div>
+                <strong data-ar="تسليم الجهاز" data-en="Hand over device">تسليم الجهاز</strong>
+              </div>
+            </nav>
+            <div id="formState">
+              <span class="eyebrow"
+                ><i></i><span data-ar="التحقق عبر نفاذ" data-en="Nafath verification">التحقق عبر نفاذ</span></span
+              >
+              <h1 data-ar="التحقق من هوية المريض" data-en="Verify patient identity">التحقق من هوية المريض</h1>
+              <p
+                class="lead"
+                data-ar="يرجى إدخال رقم هوية سارة لإرسال طلب تأكيد إلى ولي الأمر عبر تطبيق نفاذ."
+                data-en="Enter Sara's ID number to send a confirmation request to the guardian through Nafath."
+              >
+                يرجى إدخال رقم هوية سارة لإرسال طلب تأكيد إلى ولي الأمر عبر تطبيق نفاذ.
+              </p>
+              <div class="patient-strip">
+                <div class="patient-avatar">
+                  <svg class="ini" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+                    <text x="50" y="50" text-anchor="middle" dominant-baseline="central" data-ar="س" data-en="S">
+                      س
+                    </text>
+                  </svg>
+                </div>
+                <div>
+                  <strong data-ar="سارة عبدالله العتيبي" data-en="Sara Abdullah Al-Otaibi">سارة عبدالله العتيبي</strong
+                  ><span data-ar="6 سنوات · زيارة أولى" data-en="6 years · First visit">6 سنوات · زيارة أولى</span>
+                </div>
+                <span class="confirmed" data-ar="الموعد مؤكد" data-en="Confirmed">الموعد مؤكد</span>
+              </div>
+              <form id="verifyForm" novalidate>
+                <label
+                  class="label"
+                  for="nationalId"
+                  data-ar="رقم الهوية أو الإقامة"
+                  data-en="National ID or Iqama number"
+                  >رقم الهوية أو الإقامة</label
+                >
+                <div class="input-wrap">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <rect x="3" y="5" width="18" height="14" rx="2" />
+                    <circle cx="8" cy="11" r="2" />
+                    <path d="M13 10h5M13 14h4M6 16h4" /></svg
+                  ><input
+                    class="input"
+                    id="nationalId"
+                    type="text"
+                    inputmode="numeric"
+                    maxlength="10"
+                    autocomplete="off"
+                    placeholder="XXXXXXXXXX"
+                    aria-describedby="idHelp idError"
+                  />
+                </div>
+                <div class="helper">
+                  <span
+                    id="idHelp"
+                    data-ar="يتكون رقم الهوية أو الإقامة من 10 أرقام"
+                    data-en="The ID or Iqama number contains 10 digits"
+                    >يتكون رقم الهوية أو الإقامة من 10 أرقام</span
+                  ><span class="error" id="idError" aria-live="polite"></span>
+                </div>
+              </form>
+              <div class="notice">
+                <div class="notice-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">
+                    <path d="M12 3 4 7v5c0 5 3.5 8 8 9 4.5-1 8-4 8-9V7l-8-4Z" />
+                    <path d="m9 12 2 2 4-4" />
+                  </svg>
+                </div>
+                <div>
+                  <strong
+                    data-ar="لن يتم عرض بيانات المريض قبل الموافقة"
+                    data-en="Patient data stays hidden until approval"
+                    >لن يتم عرض بيانات المريض قبل الموافقة</strong
+                  >
+                  <p
+                    data-ar="سيظهر الطلب في تطبيق نفاذ لدى ولي الأمر، ولن يستكمل النظام إلا بعد تأكيده."
+                    data-en="The request will appear in the guardian's Nafath app, and the system will continue only after confirmation."
+                  >
+                    سيظهر الطلب في تطبيق نفاذ لدى ولي الأمر، ولن يستكمل النظام إلا بعد تأكيده.
+                  </p>
+                </div>
+              </div>
+              <div class="actions">
+                <button
+                  class="primary"
+                  id="sendBtn"
+                  type="button"
+                  data-ar="إرسال طلب التحقق"
+                  data-en="Send verification request"
+                >
+                  إرسال طلب التحقق</button
+                ><button
+                  class="secondary"
+                  type="button"
+                  onclick="location.href = 'start.html'"
+                  data-ar="إلغاء"
+                  data-en="Cancel"
+                >
+                  إلغاء
+                </button>
+              </div>
+            </div>
+            <div class="waiting" id="waitingState">
+              <div class="waiting-card">
+                <div class="nafath-code" id="nafathCode">47</div>
+                <h2 id="waitingTitle" data-ar="بانتظار موافقة ولي الأمر" data-en="Waiting for guardian approval">
+                  بانتظار موافقة ولي الأمر
+                </h2>
+                <p
+                  id="waitingText"
+                  data-ar="أُرسل طلب التحقق إلى تطبيق نفاذ. يُرجى من ولي الأمر اختيار الرقم 47 والموافقة على الطلب."
+                  data-en="A verification request was sent to Nafath. Ask the guardian to select number 47 and approve the request."
+                >
+                  أُرسل طلب التحقق إلى تطبيق نفاذ. يُرجى من ولي الأمر اختيار الرقم 47 والموافقة على الطلب.
+                </p>
+                <div id="resendRow" style="margin-top: 14px; font-size: 0.86rem; color: #5a6b82">
+                  <span data-ar="لم يصلك الطلب؟" data-en="Didn't receive the request?">لم يصلك الطلب؟</span>
+                  <a
+                    href="#"
+                    id="resendLink"
+                    style="color: #1f6feb; font-weight: 800; text-decoration: none"
+                    data-ar="إعادة الإرسال"
+                    data-en="Resend"
+                    >إعادة الإرسال</a
+                  ><span
+                    id="resendMsg"
+                    style="display: none; color: #12855f; font-weight: 700; margin-inline-start: 8px"
+                  ></span>
+                </div>
+                <span class="pulse" id="statusBadge"
+                  ><i></i
+                  ><span id="statusText" data-ar="بانتظار التأكيد" data-en="Awaiting confirmation"
+                    >بانتظار التأكيد</span
+                  ></span
+                >
+                <div class="waiting-actions" id="waitingActions">
+                  <button
+                    class="secondary"
+                    id="editId"
+                    type="button"
+                    data-ar="تعديل رقم الهوية"
+                    data-en="Edit ID number"
+                  >
+                    تعديل رقم الهوية</button
+                  ><button
+                    class="text-btn"
+                    id="resend"
+                    type="button"
+                    data-ar="إعادة إرسال الطلب"
+                    data-en="Resend request"
+                  >
+                    إعادة إرسال الطلب
+                  </button>
+                </div>
+                <button
+                  class="primary approved-action"
+                  id="reviewData"
+                  type="button"
+                  data-ar="مراجعة بيانات المريض"
+                  data-en="Review patient details"
+                >
+                  مراجعة بيانات المريض
+                </button>
+              </div>
+            </div>
+          </div>
+          <aside class="side-panel">
+            <div class="side-content">
+              <img class="mark" src="assets/wasl-logo-2.webp" alt="وصل" />
+              <h2 data-ar="مسار بدء التقييم" data-en="Assessment setup">مسار بدء التقييم</h2>
+              <p
+                data-ar="نحن الآن نتحقق من هوية المريض بشكل آمن."
+                data-en="We are now securely verifying the patient's identity."
+              >
+                نحن الآن نتحقق من هوية المريض بشكل آمن.
+              </p>
+              <div class="steps">
+                <div class="step done">
+                  <div class="num">✓</div>
+                  <div>
+                    <strong data-ar="مراجعة الموعد" data-en="Review appointment">مراجعة الموعد</strong
+                    ><span data-ar="تم التأكد من المريض والزيارة" data-en="Patient and visit confirmed"
+                      >تم التأكد من المريض والزيارة</span
+                    >
+                  </div>
+                </div>
+                <div class="step active">
+                  <div class="num">2</div>
+                  <div>
+                    <strong data-ar="التحقق عبر نفاذ" data-en="Verify through Nafath">التحقق عبر نفاذ</strong
+                    ><span data-ar="تأكيد هوية المريض وولي الأمر" data-en="Confirm patient and guardian identity"
+                      >تأكيد هوية المريض وولي الأمر</span
+                    >
+                  </div>
+                </div>
+                <div class="step">
+                  <div class="num">3</div>
+                  <div>
+                    <strong data-ar="تسليم الجهاز" data-en="Hand over the device">تسليم الجهاز</strong
+                    ><span data-ar="بدء أسئلة التقييم" data-en="Begin assessment questions">بدء أسئلة التقييم</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </section>
+      </main>
+    </div>
+    <script>
+      let lang = "ar";
+      const $ = (s) => document.querySelector(s),
+        $$ = (s) => document.querySelectorAll(s);
+      function setLang(next) {
+        lang = next;
+        document.documentElement.lang = next;
+        document.documentElement.dir = next === "ar" ? "rtl" : "ltr";
+        $$("[data-ar][data-en]").forEach((el) => (el.textContent = el.dataset[next]));
+        $("#langBtn").textContent = next === "ar" ? "EN" : "ع";
+        document.title = next === "ar" ? "التحقق من الهوية | وصل" : "Identity verification | WASL";
+      }
+      $("#langBtn").addEventListener("click", () => setLang(lang === "ar" ? "en" : "ar"));
+      const input = $("#nationalId"),
+        error = $("#idError");
+      let approvalTimer;
+      input.addEventListener("input", () => {
+        input.value = input.value.replace(/\D/g, "").slice(0, 10);
+        input.classList.remove("invalid");
+        error.textContent = "";
+      });
+      function approve() {
+        const title = $("#waitingTitle"),
+          copy = $("#waitingText"),
+          status = $("#statusText");
+        $("#nafathCode").textContent = "✓";
+        $("#nafathCode").classList.add("approved");
+        $("#statusBadge").classList.add("approved");
+        title.dataset.ar = "تمت الموافقة عبر نفاذ";
+        title.dataset.en = "Approved through Nafath";
+        copy.dataset.ar = "تم التحقق من هوية المريض وولي الأمر بنجاح. يرجى مراجعة البيانات الرسمية قبل المتابعة.";
+        copy.dataset.en =
+          "The patient and guardian identities were verified successfully. Review the official details before continuing.";
+        status.dataset.ar = "تم التحقق بنجاح";
+        status.dataset.en = "Verification successful";
+        title.textContent = title.dataset[lang];
+        copy.textContent = copy.dataset[lang];
+        status.textContent = status.dataset[lang];
+        $("#waitingActions").style.display = "none";
+        $("#reviewData").style.display = "block";
+      }
+      $("#sendBtn").addEventListener("click", () => {
+        if (!/^\d{10}$/.test(input.value)) {
+          input.classList.add("invalid");
+          error.textContent = lang === "ar" ? "يرجى إدخال رقم هوية صحيح" : "Enter a valid ID number";
+          input.focus();
+          return;
+        }
+        $("#formState").style.display = "none";
+        $("#waitingState").classList.add("show");
+        approvalTimer = setTimeout(approve, 2600);
+      });
+      $("#editId").addEventListener("click", () => {
+        clearTimeout(approvalTimer);
+        $("#waitingState").classList.remove("show");
+        $("#formState").style.display = "flex";
+        input.focus();
+      });
+      $("#resend").addEventListener("click", () => {
+        $("#resend").textContent = lang === "ar" ? "تمت إعادة الإرسال" : "Request resent";
+        setTimeout(() => ($("#resend").textContent = lang === "ar" ? "إعادة إرسال الطلب" : "Resend request"), 1800);
+      });
+      $("#reviewData").addEventListener("click", () => (location.href = "confirm.html"));
+
+      (function () {
+        var l = document.getElementById("resendLink"),
+          m = document.getElementById("resendMsg");
+        if (l)
+          l.onclick = function (e) {
+            e.preventDefault();
+            var ar = document.documentElement.dir !== "ltr";
+            m.textContent = ar ? "تم إرسال طلب جديد إلى تطبيق نفاذ." : "A new request was sent to the Nafath app.";
+            m.style.display = "inline";
+            setTimeout(function () {
+              m.style.display = "none";
+            }, 3000);
+          };
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>مراجعة أولوية الحالة | وصل</title>
+    <link rel="stylesheet" href="assets/wasl-fonts.css" />
+    <link rel="stylesheet" href="assets/wasl-tokens.css" />
+    <link rel="stylesheet" href="assets/wasl-enhance.css" />
+    <link rel="stylesheet" href="assets/wasl-v29.css" />
+    <style>
+      .safety-panel {
+        max-width: 820px;
+        margin-inline: auto;
+      }
+
+      .safety-symbol {
+        width: 66px;
+        height: 66px;
+        display: grid;
+        place-items: center;
+        margin-bottom: 20px;
+        border-radius: 20px;
+        background: #ffeaed;
+        color: #b92f43;
+        font-size: 2rem;
+        font-weight: 900;
+      }
+
+      .safety-items {
+        display: grid;
+        gap: 10px;
+        margin: 24px 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .safety-items li {
+        padding: 14px 16px;
+        border: 1px solid #f3cbd2;
+        border-radius: 14px;
+        background: #fff8f9;
+        color: #632635;
+        font-weight: 700;
+      }
+
+      .staff-confirm {
+        display: flex;
+        align-items: start;
+        gap: 12px;
+        margin-top: 22px;
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        line-height: 1.65;
+        cursor: pointer;
+      }
+
+      .staff-confirm input {
+        width: 22px;
+        height: 22px;
+        flex: 0 0 auto;
+        margin-top: 2px;
+        accent-color: var(--green);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="v29-header">
+      <img class="v29-logo" src="assets/wasl-logo-1.webp" alt="وصل" />
+      <div class="v29-header-actions">
+        <button class="v29-lang" id="langBtn" type="button">EN</button>
+      </div>
+    </header>
+
+    <main class="v29-shell">
+      <section class="v29-card safety-panel" aria-labelledby="pageTitle">
+        <div class="safety-symbol" aria-hidden="true">!</div>
+        <span class="v29-eyebrow" data-ar="مراجعة بشرية مطلوبة" data-en="Human review required">مراجعة بشرية مطلوبة</span>
+        <h1 class="v29-title" id="pageTitle" data-ar="يرجى إعادة الجهاز إلى الموظف" data-en="Please return the device to a staff member">
+          يرجى إعادة الجهاز إلى الموظف
+        </h1>
+        <p
+          class="v29-lead"
+          data-ar="توجد إجابة تحتاج إلى مراجعة قبل متابعة التقييم. هذا التنبيه لا يعني وجود تشخيص."
+          data-en="One or more answers need review before the assessment continues. This alert is not a diagnosis."
+        >
+          توجد إجابة تحتاج إلى مراجعة قبل متابعة التقييم. هذا التنبيه لا يعني وجود تشخيص.
+        </p>
+
+        <ul class="safety-items" id="safetyItems"></ul>
+
+        <div class="v29-notice danger">
+          <span
+            data-ar="إذا كان الطفل يعاني الآن من صعوبة في التنفس أو اختناق مستمر، يجب التواصل فورًا مع خدمات الطوارئ وعدم متابعة الاختبار."
+            data-en="If the child is currently struggling to breathe or choking continuously, contact emergency services immediately and do not continue the assessment."
+          >
+            إذا كان الطفل يعاني الآن من صعوبة في التنفس أو اختناق مستمر، يجب التواصل فورًا مع خدمات الطوارئ وعدم متابعة الاختبار.
+          </span>
+        </div>
+
+        <label class="staff-confirm">
+          <input id="staffConfirmed" type="checkbox" />
+          <span
+            data-ar="راجعتُ التنبيه مع ولي الأمر وحددتُ الإجراء المناسب قبل متابعة التقييم."
+            data-en="I reviewed the alert with the guardian and determined the appropriate action before continuing."
+          >
+            راجعتُ التنبيه مع ولي الأمر وحددتُ الإجراء المناسب قبل متابعة التقييم.
+          </span>
+        </label>
+
+        <div class="v29-actions">
+          <button class="v29-button" id="continueBtn" type="button" disabled data-ar="متابعة بعد مراجعة الموظف" data-en="Continue after staff review">
+            متابعة بعد مراجعة الموظف
+          </button>
+          <a class="v29-button secondary" href="dashboard.html" data-ar="العودة إلى لوحة المواعيد" data-en="Return to appointments">
+            العودة إلى لوحة المواعيد
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <script src="assets/wasl-store.js"></script>
+    <script>
+      const $ = (selector) => document.querySelector(selector);
+      let lang = "ar";
+      let assessment = null;
+      const assessmentId = WASL_STORE.ensureAssessmentId("safety_review");
+
+      function text(ar, en) {
+        return lang === "ar" ? ar : en;
+      }
+
+      function renderItems() {
+        const rules = assessment?.red_flags?.matched_rules || [];
+        $("#safetyItems").innerHTML = rules
+          .map((item) => `<li>${text(item.label_ar, item.label_en)}</li>`)
+          .join("");
+      }
+
+      function setLang(next) {
+        lang = next;
+        document.documentElement.lang = next;
+        document.documentElement.dir = next === "ar" ? "rtl" : "ltr";
+        document.querySelectorAll("[data-ar][data-en]").forEach((element) => {
+          element.textContent = element.dataset[next];
+        });
+        $("#langBtn").textContent = next === "ar" ? "EN" : "ع";
+        document.title = text("مراجعة أولوية الحالة | وصل", "Priority safety review | WASL");
+        renderItems();
+      }
+
+      window.setLang = setLang;
+      $("#langBtn").onclick = () => setLang(lang === "ar" ? "en" : "ar");
+      $("#staffConfirmed").onchange = (event) => {
+        $("#continueBtn").disabled = !event.target.checked;
+      };
+      $("#continueBtn").onclick = async () => {
+        const redFlags = Object.assign({}, assessment?.red_flags || {}, {
+          staff_reviewed: true,
+          staff_reviewed_at: new Date().toISOString(),
+          requires_in_person: true,
+        });
+        await WASL_STORE.patchAssessment(assessmentId, {
+          red_flags: redFlags,
+          last_step: "safety_review_complete",
+        });
+        await WASL_STORE.appendAudit(assessmentId, {
+          event: "safety_review_acknowledged",
+          actor: "front_desk",
+          details: {
+            level: redFlags.level,
+            codes: (redFlags.matched_rules || []).map((item) => item.code),
+          },
+        });
+        WASL_STORE.setResume({
+          assessment_id: assessmentId,
+          url: "hearing.html",
+          step: "hearing",
+          label_ar: "فحص السمع الأولي",
+          label_en: "Hearing screening",
+        });
+        location.href = "hearing.html";
+      };
+
+      (async function initialize() {
+        assessment = await WASL_STORE.getAssessment(assessmentId);
+        if (!assessment?.red_flags?.requires_staff_review) {
+          location.href = "hearing.html";
+          return;
+        }
+        renderItems();
+      })();
+    </script>
+    <script src="assets/wasl-enhance.js"></script>
+  </body>
+</html>

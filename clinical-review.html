@@ -1,0 +1,1698 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>مراجعة الأخصائي | وصل</title>
+    <link rel="stylesheet" href="assets/wasl-fonts.css" />
+    <link rel="stylesheet" href="assets/wasl-enhance.css" />
+    <style>
+      :root {
+        --navy: #112d72;
+        --violet: #5754e9;
+        --blue: #1597ed;
+        --cyan: #08d8d2;
+        --bg: #eef2f8;
+        --muted: #6f7b90;
+        --line: #dfe6f1;
+        --soft: #f7f9fd;
+        --green: #16865b;
+        --red: #df4c60;
+        --amber: #a55b12;
+        --shadow: 0 20px 55px rgba(17, 45, 114, 0.1);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        font-family: "Tajawal", sans-serif;
+        color: #17213b;
+        background: var(--bg);
+      }
+      .app {
+        min-height: 100dvh;
+        display: grid;
+        grid-template-rows: 64px 1fr;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 clamp(18px, 4vw, 42px);
+        background: #fff;
+        border-bottom: 1px solid var(--line);
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .logo {
+        width: 112px;
+        height: 44px;
+        object-fit: contain;
+      }
+      .role {
+        font-size: 0.74rem;
+        font-weight: 800;
+        color: #fff;
+        background: linear-gradient(105deg, var(--navy), var(--violet));
+        padding: 5px 12px;
+        border-radius: 999px;
+      }
+      .tools {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .back-cases {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 36px;
+        padding: 0 14px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: #fff;
+        color: var(--navy);
+        font:
+          800 0.8rem "Tajawal",
+          sans-serif;
+        text-decoration: none;
+      }
+      .back-cases svg {
+        width: 16px;
+        height: 16px;
+      }
+      html[dir="ltr"] .back-cases svg {
+        transform: scaleX(-1);
+      }
+      .lang {
+        height: 37px;
+        padding: 0 15px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: #fff;
+        color: var(--navy);
+        font-weight: 800;
+        cursor: pointer;
+      }
+      .demo-flag {
+        text-align: center;
+        background: #132a63;
+        color: #dfe7ff;
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 4px;
+        letter-spacing: 0.3px;
+      }
+      main {
+        padding: 18px clamp(14px, 3.5vw, 40px);
+      }
+      .wrap {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: minmax(0, 1.55fr) minmax(320px, 0.95fr);
+        gap: 18px;
+        align-items: start;
+      }
+      .wrap.is-empty {
+        min-height: calc(100dvh - 100px);
+        grid-template-columns: minmax(0, 680px);
+        place-content: center;
+      }
+      .legal {
+        grid-column: 1/-1;
+        display: flex;
+        gap: 11px;
+        align-items: flex-start;
+        padding: 12px 16px;
+        border-radius: 14px;
+        background: #fff7ea;
+        border: 1px solid #ffe3ad;
+        color: var(--amber);
+        font-size: 0.84rem;
+        line-height: 1.7;
+        font-weight: 700;
+      }
+      .legal svg {
+        flex: none;
+        width: 20px;
+        height: 20px;
+        margin-top: 1px;
+      }
+      .col {
+        display: grid;
+        gap: 16px;
+        min-width: 0;
+      }
+      .card {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        box-shadow: var(--shadow);
+        padding: 18px 20px;
+      }
+      .card h2 {
+        margin: 0 0 12px;
+        color: var(--navy);
+        font-size: 1.05rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .card h2 .n {
+        font-size: 0.68rem;
+        font-weight: 800;
+        color: #fff;
+        background: var(--violet);
+        border-radius: 7px;
+        padding: 2px 8px;
+      }
+      .kv {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 6px 16px;
+        font-size: 0.88rem;
+      }
+      .kv dt {
+        color: var(--muted);
+        font-weight: 700;
+      }
+      .kv dd {
+        margin: 0;
+        color: #26314d;
+        font-weight: 600;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 11px;
+        border-radius: 999px;
+        font-size: 0.76rem;
+        font-weight: 800;
+      }
+      .pill.ok {
+        background: #e8f7ef;
+        color: #136c4c;
+      }
+      .pill.warn {
+        background: #fff2e6;
+        color: #a55b12;
+      }
+      .pill.bad {
+        background: #fdeef0;
+        color: #b23046;
+      }
+      .pill.info {
+        background: #e9edff;
+        color: #4b46c7;
+      }
+      .answers {
+        display: grid;
+        gap: 8px;
+      }
+      .answers .a {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 9px 12px;
+        background: var(--soft);
+        border: 1px solid var(--line);
+        border-radius: 11px;
+        font-size: 0.85rem;
+      }
+      .answers .a b {
+        color: var(--muted);
+        font-weight: 700;
+      }
+      .rec {
+        display: grid;
+        gap: 11px;
+      }
+      .rec .r {
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 13px;
+        background: var(--soft);
+      }
+      .rec .r .rh {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 8px;
+        flex-wrap: wrap;
+      }
+      .rec .r .rh b {
+        color: var(--navy);
+      }
+      .rec audio {
+        width: 100%;
+        height: 38px;
+      }
+      .wave-tools {
+        margin-top: 10px;
+        padding: 10px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #fff;
+      }
+      .wave-canvas {
+        display: block;
+        width: 100%;
+        height: 92px;
+        border-radius: 9px;
+        background: #f7f9fd;
+        cursor: pointer;
+      }
+      .wave-controls,
+      .wave-note-form {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        margin-top: 8px;
+        flex-wrap: wrap;
+      }
+      .wave-controls button,
+      .wave-note,
+      .wave-add {
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        background: #fff;
+        color: var(--navy);
+        font: 700 0.72rem "Tajawal";
+        cursor: pointer;
+      }
+      .wave-controls button {
+        min-width: 42px;
+        height: 31px;
+      }
+      .wave-controls button.active {
+        color: #fff;
+        border-color: var(--violet);
+        background: var(--violet);
+      }
+      .wave-current {
+        margin-inline-start: auto;
+        color: var(--muted);
+        direction: ltr;
+        unicode-bidi: isolate;
+      }
+      .wave-note-form input {
+        min-width: 170px;
+        flex: 1;
+        height: 38px;
+        padding: 0 11px;
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        font: 600 0.76rem "Tajawal";
+      }
+      .wave-add {
+        min-height: 38px;
+        padding: 0 13px;
+        background: #eef1ff;
+      }
+      .wave-notes {
+        display: grid;
+        gap: 6px;
+        margin-top: 8px;
+      }
+      .wave-note {
+        width: 100%;
+        padding: 7px 9px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        text-align: start;
+      }
+      .wave-note b {
+        color: var(--violet);
+        direction: ltr;
+      }
+      .wave-empty {
+        margin: 6px 0 0;
+        color: var(--muted);
+        font-size: 0.72rem;
+      }
+      .q-chips {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-top: 8px;
+      }
+      .q-chip {
+        font-size: 0.7rem;
+        font-weight: 700;
+        padding: 3px 9px;
+        border-radius: 8px;
+        background: #eef1f7;
+        color: #5a6b82;
+      }
+      .q-chip.bad {
+        background: #fdeef0;
+        color: #b23046;
+      }
+      .q-chip.ok {
+        background: #e8f7ef;
+        color: #136c4c;
+      }
+      .ind {
+        display: grid;
+        gap: 9px;
+      }
+      .ind .i {
+        padding: 11px 13px;
+        border: 1px solid #e4d8ff;
+        border-radius: 12px;
+        background: #f6f2ff;
+      }
+      .ind .i b {
+        color: #4b3aa8;
+      }
+      .ind .i .src {
+        margin-top: 5px;
+        font-size: 0.72rem;
+        color: #8a7fce;
+      }
+      .feat {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        font-size: 0.82rem;
+      }
+      .feat .f {
+        padding: 9px 11px;
+        background: var(--soft);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+      }
+      .feat .f b {
+        display: block;
+        color: var(--muted);
+        font-weight: 700;
+        font-size: 0.72rem;
+      }
+      .feat .f span {
+        color: var(--navy);
+        font-weight: 800;
+        font-size: 1rem;
+      }
+      .fac {
+        display: grid;
+        gap: 9px;
+      }
+      .fac .fc {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 11px 13px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        font-size: 0.85rem;
+      }
+      .fac .fc.top {
+        border-color: #bfe6d2;
+        background: #f2fbf6;
+      }
+      .fac .fc small {
+        color: var(--muted);
+      }
+      /* decision panel */
+      .decision {
+        position: sticky;
+        top: 16px;
+      }
+      .field {
+        margin-bottom: 14px;
+      }
+      .field label {
+        display: block;
+        font-size: 0.8rem;
+        font-weight: 800;
+        color: var(--navy);
+        margin-bottom: 6px;
+      }
+      .field select,
+      .field textarea {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 11px;
+        padding: 10px 12px;
+        font: 600 0.88rem "Tajawal";
+        color: #26314d;
+        background: #fff;
+      }
+      .field textarea {
+        min-height: 78px;
+        resize: vertical;
+      }
+      .conf-line {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.84rem;
+        margin-bottom: 6px;
+      }
+      .conf-bar {
+        height: 8px;
+        border-radius: 99px;
+        background: #edf1f7;
+        overflow: hidden;
+      }
+      .conf-bar i {
+        display: block;
+        height: 100%;
+        background: linear-gradient(90deg, var(--cyan), var(--violet));
+      }
+      .model-samples {
+        display: grid;
+        gap: 12px;
+      }
+      .model-sample {
+        border: 1px solid var(--line);
+        border-radius: 13px;
+        padding: 13px;
+        background: #fbfdff;
+      }
+      .model-sample h3 {
+        margin: 0 0 10px;
+        color: var(--navy);
+        font-size: 0.95rem;
+      }
+      .model-output {
+        display: grid;
+        grid-template-columns: minmax(150px, 1fr) auto auto;
+        align-items: center;
+        gap: 9px;
+        padding: 9px 0;
+        border-top: 1px solid #e9eef6;
+        font-size: 0.82rem;
+      }
+      .model-output:first-of-type {
+        border-top: 0;
+      }
+      .model-number {
+        direction: ltr;
+        unicode-bidi: isolate;
+        color: #42516f;
+        white-space: nowrap;
+      }
+      .limits {
+        padding: 12px 14px;
+        border-radius: 12px;
+        background: #fff8e8;
+        border: 1px solid #f5db9c;
+        color: #6f5316;
+        line-height: 1.75;
+        font-size: 0.84rem;
+      }
+      .plan-list {
+        margin: 0 0 12px;
+        padding-inline-start: 24px;
+        color: #34415d;
+        line-height: 1.85;
+        font-size: 0.88rem;
+      }
+      .plan-list li + li {
+        margin-top: 5px;
+      }
+      .btns {
+        display: grid;
+        gap: 9px;
+        margin-top: 6px;
+      }
+      .btns button {
+        height: 46px;
+        border-radius: 12px;
+        font: 800 0.88rem "Tajawal";
+        cursor: pointer;
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--navy);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+      }
+      .btns button.primary {
+        border: 0;
+        color: #fff;
+        background: linear-gradient(105deg, var(--navy), var(--violet));
+      }
+      .btns button.retake {
+        color: #a55b12;
+        border-color: #ffd9a8;
+        background: #fff7ea;
+      }
+      .decided {
+        margin-top: 10px;
+        padding: 11px;
+        border-radius: 11px;
+        background: #e8f7ef;
+        border: 1px solid #bfe6d2;
+        color: #136c4c;
+        font-size: 0.83rem;
+        font-weight: 700;
+        display: none;
+      }
+      .decided.show {
+        display: block;
+      }
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 18px;
+        transform: translate(-50%, 20px);
+        opacity: 0;
+        padding: 11px 17px;
+        border-radius: 11px;
+        background: #17213b;
+        color: #fff;
+        font-size: 0.8rem;
+        transition: 0.2s;
+        z-index: 40;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+      @media (max-width: 940px) {
+        .wrap {
+          grid-template-columns: 1fr;
+        }
+        .decision {
+          position: static;
+        }
+        .feat {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (max-width: 480px) {
+        .back-cases span {
+          display: none;
+        }
+        .back-cases {
+          padding: 0 10px;
+        }
+        .rh b {
+          overflow-wrap: anywhere;
+        }
+        .q-chips {
+          flex-wrap: wrap;
+        }
+        .model-output {
+          grid-template-columns: 1fr auto;
+        }
+        .model-number {
+          grid-column: 1 / -1;
+        }
+      }
+    
+    @media (max-width: 480px) {
+      header {
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 8px 12px;
+      }
+      .wrap {
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+      .card {
+        padding: 14px;
+      }
+      .back-cases span {
+        display: none;
+      }
+      .kv {
+        grid-template-columns: 1fr;
+      }
+      .q-chips {
+        flex-wrap: wrap;
+      }
+    }
+</style>
+    <script src="assets/wasl-store.js"></script>
+    <script src="assets/wasl-api.js"></script>
+    <script src="assets/wasl-sim.js"></script>
+    <script src="assets/wasl-patient.js"></script>
+    <script src="assets/wasl-waveform.js"></script>
+    <script defer src="assets/wasl-enhance.js"></script>
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <div class="brand">
+          <img class="logo" src="assets/wasl-logo-1.webp" alt="وصل" /><span
+            class="role"
+            data-ar="لوحة الأخصائي"
+            data-en="Specialist dashboard"
+            >لوحة الأخصائي</span
+          >
+        </div>
+        <div class="tools">
+          <a
+            class="back-cases"
+            href="visit-history.html?view=specialist"
+            data-ar="سجل المتابعة"
+            data-en="Follow-up history"
+            ><span data-ar="سجل المتابعة" data-en="Follow-up history">سجل المتابعة</span></a
+          >
+          <a class="back-cases" href="specialist-cases.html" data-ar="قائمة الحالات" data-en="Case list"
+            ><svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.9"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M15 18l-6-6 6-6" /></svg
+            ><span data-ar="قائمة الحالات" data-en="Case list">قائمة الحالات</span></a
+          ><button class="lang" id="langBtn">EN</button>
+        </div>
+      </header>
+      <main>
+        <div class="wrap">
+          <div class="legal">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.9"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M12 3 3 7v6c0 5 3.5 8 9 9 5.5-1 9-4 9-9V7l-9-4Z" />
+              <path d="M12 8v5M12 16h.01" />
+            </svg>
+            <span
+              data-ar="هذه النتيجة أداة مساندة ولا تُعد تشخيصًا نهائيًا. التوصية النهائية مسؤولية الأخصائي."
+              data-en="This result supports clinical decision-making and is not a final diagnosis. The qualified specialist remains responsible for the final clinical decision."
+              >هذه النتيجة أداة مساندة ولا تُعد تشخيصًا نهائيًا. التوصية النهائية مسؤولية الأخصائي.</span
+            >
+          </div>
+
+          <div class="legal" id="simBanner" style="display:none;background:#0f2350;border-color:#26407e;color:#dfe7ff">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9" /><path d="M12 8v5M12 16h.01" />
+            </svg>
+            <span
+              
+          </div>
+
+          <div class="col" id="left"><!-- evidence sections --></div>
+
+          <div class="col">
+            <div class="card decision" id="decision"><!-- decision panel --></div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <div class="toast" id="toast"></div>
+    <script>
+      const $ = (s) => document.querySelector(s),
+        $$ = (s) => document.querySelectorAll(s);
+      let lang = "ar",
+        RESULT = null,
+        ASSESS = null,
+        RECS = [],
+        urls = [];
+      const decision = { priority: null, service: null, notes: "", care_plan: "", in_person: false };
+      function text(ar, en) {
+        return lang === "ar" ? ar : en;
+      }
+      function maskId(v) {
+        return "XXXXXXXXXX";
+      }
+      const TASK_LABEL = {
+        pointing: { ar: "مهمة الإشارة", en: "Pointing" },
+        picture_naming: { ar: "تسمية الصور", en: "Picture naming" },
+        picture_description: { ar: "وصف صورة", en: "Picture description" },
+        story_narration: { ar: "سرد قصة", en: "Story narration" },
+        reading: { ar: "قراءة نص", en: "Reading" },
+        connected_speech: { ar: "عينة كلام تلقائي", en: "Spontaneous speech" },
+      };
+      const CONDITION_LABEL = {
+        dysarthria: { ar: "مؤشرات عسر التلفظ", en: "Dysarthria indicators" },
+        stuttering: { ar: "مؤشرات التأتأة", en: "Stuttering indicators" },
+        voice_disorder: { ar: "مؤشرات اضطراب الصوت", en: "Voice-disorder indicators" },
+      };
+      const QUESTION_LABEL = {
+        grade: { ar: "الصف الدراسي", en: "School grade" },
+        respondent: { ar: "صلة مُجيب الاستبيان", en: "Respondent relationship" },
+        home_lang: { ar: "لغة المنزل", en: "Home language" },
+        family_history: { ar: "تاريخ عائلي لصعوبات النطق أو اللغة", en: "Family history of speech/language difficulty" },
+        health_history: { ar: "تاريخ صحي أو نمائي", en: "Health or developmental history" },
+        therapy: { ar: "علاج سابق", en: "Previous therapy" },
+        concerns: { ar: "الصعوبات الملحوظة", en: "Observed concerns" },
+        regression: { ar: "فقدان كلمات أو مهارات سابقة", en: "Loss of previous words or skills" },
+        hearing_problem: { ar: "صعوبة سمعية ملحوظة", en: "Observed hearing difficulty" },
+        sudden_hearing: { ar: "تغيّر مفاجئ في السمع", en: "Sudden hearing change" },
+        sound_response: { ar: "الاستجابة للاسم والأصوات", en: "Response to name and sounds" },
+        communication: { ar: "طريقة التواصل", en: "Communication method" },
+        sentence_words: { ar: "طول الجملة", en: "Sentence length" },
+        understands: { ar: "فهم الكلام", en: "Understanding speech" },
+      };
+      const ANSWER_LABEL = {
+        yes: { ar: "نعم", en: "Yes" },
+        no: { ar: "لا", en: "No" },
+        sometimes: { ar: "أحيانًا", en: "Sometimes" },
+        often: { ar: "بشكل متكرر", en: "Often" },
+        support: { ar: "بمساعدة جهاز أو أنبوب", en: "With device or tube support" },
+        ar: { ar: "العربية", en: "Arabic" },
+        en: { ar: "الإنجليزية", en: "English" },
+        both: { ar: "العربية والإنجليزية", en: "Arabic and English" },
+        mother: { ar: "الأم", en: "Mother" },
+        father: { ar: "الأب", en: "Father" },
+        kg: { ar: "روضة أو تمهيدي", en: "Kindergarten" },
+        g1: { ar: "الصف الأول", en: "Grade 1" },
+        na: { ar: "لا ينطبق", en: "Not applicable" },
+      };
+      const EVENT_LABEL = {
+        case_opened: { ar: "فتح حالة تقييم الطلاقة", en: "Fluency case opened" },
+        practice_completed: { ar: "إكمال المهمة التدريبية", en: "Practice task completed" },
+        guardian_consent_recorded: { ar: "توثيق موافقة ولي الأمر", en: "Guardian consent recorded" },
+        device_readiness_passed: { ar: "اجتياز فحص جاهزية الجهاز", en: "Device readiness passed" },
+        safety_screen_clear: { ar: "اكتمال فحص علامات الخطر", en: "Safety screen completed" },
+        safety_review_required: { ar: "ظهور تنبيه يحتاج مراجعة", en: "Safety review flagged" },
+        safety_review_acknowledged: { ar: "توثيق مراجعة التنبيه", en: "Safety alert reviewed" },
+        adaptive_task_plan_created: { ar: "إنشاء خطة المهام التكيفية", en: "Adaptive task plan created" },
+        pointing_task_completed: { ar: "اكتمال مهمة الإشارة", en: "Pointing task completed" },
+        recording_quality_accepted: { ar: "قبول جودة التسجيل", en: "Recording quality accepted" },
+        recording_quality_rejected: { ar: "رفض التسجيل بسبب الجودة", en: "Recording rejected for quality" },
+        recording_deleted_for_retake: { ar: "حذف تسجيل لإعادته", en: "Recording deleted for retake" },
+        timestamped_audio_note_added: { ar: "إضافة ملاحظة زمنية", en: "Timestamped note added" },
+        analysis_started: { ar: "بدء تحليل العينات", en: "Sample analysis started" },
+        analysis_completed: { ar: "اكتمال تحليل العينات", en: "Sample analysis completed" },
+        specialist_retake_requested: { ar: "طلب الأخصائي إعادة عينة", en: "Specialist requested a retake" },
+        in_person_assessment_requested: { ar: "طلب تقييم حضوري", en: "In-person assessment requested" },
+        clinical_decision_approved: { ar: "اعتماد التوصية النهائية", en: "Clinical decision approved" },
+        guardian_report_viewed: { ar: "عرض تقرير ولي الأمر", en: "Guardian report viewed" },
+      };
+
+      function readableAnswer(value) {
+        if (Array.isArray(value)) return value.map(readableAnswer).join("، ");
+        const label = ANSWER_LABEL[value];
+        return label ? label[lang] : String(value);
+      }
+
+      async function load() {
+        let ptr = WASL_STORE.getResume();
+        let id = (ptr && ptr.assessment_id) || null;
+        try {
+          if (id) {
+            ASSESS = await WASL_STORE.getAssessment(id);
+            RESULT = await WASL_API.getResult(id);
+          }
+        } catch (e) {}
+        if (!RESULT) {
+          document.querySelector(".wrap").classList.add("is-empty");
+          document.querySelector(".wrap").innerHTML = `
+            <section class="card" style="grid-column:1/-1;text-align:center;padding:36px">
+              <h2>${text("لا توجد نتيجة جاهزة للمراجعة", "No result is ready for review")}</h2>
+              <p style="color:var(--muted);line-height:1.8">
+                ${text(
+                  "أكمل التقييم والتحليل أولًا، ثم ارجع إلى قائمة الحالات.",
+                  "Complete the assessment and analysis first, then return to the case list.",
+                )}
+              </p>
+              <a class="approve" href="specialist-cases.html" style="display:inline-flex;text-decoration:none">
+                ${text("العودة إلى قائمة الحالات", "Return to case list")}
+              </a>
+            </section>`;
+          return;
+        }
+        ASSESS = ASSESS || { assessment_id: RESULT.assessment_id };
+        try {
+          RECS = await WASL_STORE.listRecordingsMeta(RESULT.assessment_id);
+        } catch (e) {
+          RECS = [];
+        }
+        decision.priority = RESULT.priority.level;
+        decision.service = RESULT.recommended_service.code;
+        if (ASSESS.red_flags && ASSESS.red_flags.level === "urgent") {
+          decision.priority = "high";
+          decision.in_person = true;
+        }
+        render();
+        await mountAudio();
+      }
+
+      function render() {
+        const _sb = document.getElementById("simBanner");
+        if (_sb)
+          _sb.style.display =
+            (RESULT && RESULT.simulated) || (window.WASL_SIM && WASL_SIM.isActive())
+              ? "flex"
+              : "none";
+        renderLeft();
+        renderDecision();
+        document.querySelectorAll("[data-ar][data-en]").forEach((e) => (e.textContent = e.dataset[lang]));
+        document.title = text("مراجعة الأخصائي | وصل", "Specialist review | WASL");
+        if (window.waslWireSpeakers) window.waslWireSpeakers();
+      }
+
+      let _secN = 0;
+      function sec(n, titleAr, titleEn, body) {
+        _secN++;
+        return `<div class="card"><h2><span class="n">${_secN}</span><span data-ar="${titleAr}" data-en="${titleEn}">${text(titleAr, titleEn)}</span></h2>${body}</div>`;
+      }
+
+      function renderLeft() {
+        _secN = 0;
+        const a = ASSESS || {};
+        const consent = a.consent || {};
+        const aq = RESULT.audio_quality || {};
+        const P = WASL_PATIENT.get();
+        // consent state: complete / incomplete / unavailable
+        let consentState, consentPill;
+        if (!a.consent) {
+          consentState = "unavailable";
+          consentPill = `<span class="pill warn" data-ar="غير متوفرة" data-en="Unavailable">غير متوفرة</span>`;
+        } else if (consent.answers && consent.audio && consent.share) {
+          consentState = "complete";
+          consentPill = `<span class="pill ok" data-ar="مكتملة (٣/٣)" data-en="Complete (3/3)">مكتملة (٣/٣)</span>`;
+        } else {
+          consentState = "incomplete";
+          consentPill = `<span class="pill bad" data-ar="غير مكتملة" data-en="Incomplete">غير مكتملة</span>`;
+        }
+        window._consentState = consentState;
+        // patient + appointment + nafath + consent
+        const caseProfile = a.case_profile || {};
+        const displayedName = a.workflow_case
+          ? text(caseProfile.patient_name_ar, caseProfile.patient_name_en)
+          : WASL_PATIENT.name(lang);
+        const displayedAge = a.workflow_case
+          ? text(caseProfile.age_ar, caseProfile.age_en)
+          : WASL_PATIENT.ageText(lang);
+        const patient = sec(
+          "1",
+          "معلومات المريض والموعد",
+          "Patient & appointment",
+          `<dl class="kv">
+      <dt data-ar="الطفل" data-en="Child">الطفل</dt><dd>${displayedName} (${displayedAge})</dd>
+      <dt data-ar="رقم الهوية" data-en="National ID">رقم الهوية</dt><dd>${WASL_PATIENT.maskedId()}</dd>
+      <dt data-ar="رقم التقييم" data-en="Assessment ID">رقم التقييم</dt><dd>${RESULT.assessment_id}</dd>
+      <dt data-ar="توثيق الهوية" data-en="Identity verification">توثيق الهوية</dt><dd><span class="pill ok" data-ar="مكتمل" data-en="Complete">مكتمل</span></dd>
+      <dt data-ar="موافقة ولي الأمر" data-en="Guardian consent">موافقة ولي الأمر</dt><dd>${consentPill}</dd>
+    </dl>`,
+        );
+        const hasCaseProfile = Boolean(a.case_profile);
+        const caseProfileSection = hasCaseProfile
+          ? sec(
+              "x",
+              "ملخص الحالة والإحالة",
+              "Case and referral summary",
+              `<div class="answers">
+                <div class="a">
+                  <b>${text("نوع الحالة", "Case type")}</b>
+                  <span>${text(caseProfile.type_ar, caseProfile.type_en)}</span>
+                </div>
+                <div class="a">
+                  <b>${text("سبب الإحالة", "Referral concern")}</b>
+                  <span>${text(caseProfile.referral_ar, caseProfile.referral_en)}</span>
+                </div>
+                <div class="a">
+                  <b>${text("مدة الأعراض", "Symptom duration")}</b>
+                  <span>${text(caseProfile.duration_ar, caseProfile.duration_en)}</span>
+                </div>
+                <div class="a">
+                  <b>${text("الأعراض المبلغ عنها", "Reported features")}</b>
+                  <span>${text(caseProfile.features_ar, caseProfile.features_en)}</span>
+                </div>
+                <div class="a">
+                  <b>${text("مصدر الحالة", "Case source")}</b>
+                  <span>${text(caseProfile.source_ar, caseProfile.source_en)}</span>
+                </div>
+              </div>`,
+            )
+          : "";
+        const redFlags = a.red_flags || {};
+        const safetyRules = redFlags.matched_rules || [];
+        const safetyBody = safetyRules.length
+          ? `<div class="answers">
+              <div class="a"><b>${text("حالة المراجعة", "Review status")}</b><span class="pill ${redFlags.staff_reviewed ? "ok" : "bad"}">${redFlags.staff_reviewed ? text("راجعها الموظف", "Reviewed by staff") : text("تحتاج مراجعة", "Review required")}</span></div>
+              ${safetyRules
+                .map(
+                  (item) =>
+                    `<div class="a"><b>${text(item.label_ar, item.label_en)}</b><span class="pill bad">${text("تنبيه مهم", "Clinical alert")}</span></div>`,
+                )
+                .join("")}
+            </div>`
+          : `<p style="color:var(--muted)">${text("لم تظهر إجابات تستدعي مسار مراجعة عاجلة.", "No answers triggered an urgent-review pathway.")}</p>`;
+        const safetySection = sec("x", "علامات الخطر ومسار السلامة", "Safety flags and routing", safetyBody);
+        // questionnaire answers
+        const ans = a.answers || {};
+        const keys = Object.keys(ans);
+        const answersBody = keys.length
+          ? `<div class="answers">${keys
+              .slice(0, 12)
+              .map(
+                (k) =>
+                  `<div class="a"><b>${QUESTION_LABEL[k] ? QUESTION_LABEL[k][lang] : k.replaceAll("_", " ")}</b><span>${readableAnswer(ans[k])}</span></div>`,
+              )
+              .join("")}</div>`
+          : `<p
+              style="color:var(--muted);font-size:.85rem"
+              data-ar="سيظهر ملخص إجابات الاستبيان هنا بعد إكمال الرحلة."
+              data-en="Questionnaire answers will appear here after the journey is completed."
+            >
+              ${text(
+                "سيظهر ملخص إجابات الاستبيان هنا بعد إكمال الرحلة.",
+                "Questionnaire answers will appear here after the journey is completed.",
+              )}
+            </p>`;
+        const questionnaire = sec("2", "إجابات الاستبيان", "Questionnaire answers", answersBody);
+        const plan = a.task_plan || {};
+        const taskPlanBody = plan.tasks
+          ? `<div class="answers">
+              <div class="a"><b>${text("نوع الخطة", "Plan profile")}</b><span>${text(plan.reason_ar || plan.profile, plan.reason_en || plan.profile)}</span></div>
+              <div class="a"><b>${text("المهام المختارة", "Selected tasks")}</b><span>${plan.tasks.map((task) => text((TASK_LABEL[task] || {}).ar || task, (TASK_LABEL[task] || {}).en || task)).join("، ")}</span></div>
+              <div class="a"><b>${text("متابعة السمع", "Hearing follow-up")}</b><span>${plan.hearing_follow_up ? text("مطلوبة", "Required") : text("غير مطلوبة حاليًا", "Not currently required")}</span></div>
+            </div>`
+          : `<p style="color:var(--muted)">${text("لم تُنشأ خطة مهام بعد.", "No task plan has been created yet.")}</p>`;
+        const taskPlanSection = sec("x", "خطة التقييم التكيفية", "Adaptive assessment plan", taskPlanBody);
+        // hearing screen
+        const h = a.hearing || { outcome: "pass" };
+        const hearing = sec(
+          "3",
+          "نتيجة فحص السمع الأولي",
+          "Hearing screening result",
+          `<p
+            style="margin:0 0 8px;color:var(--muted);font-size:.82rem"
+            data-ar="فحص أولي للاسترشاد، وليس تشخيصًا سمعيًا نهائيًا."
+            data-en="Preliminary screen for guidance, not a final audiological diagnosis."
+          >
+            ${text(
+              "فحص أولي للاسترشاد، وليس تشخيصًا سمعيًا نهائيًا.",
+              "Preliminary screen for guidance, not a final audiological diagnosis.",
+            )}
+          </p>
+          <span
+            class="pill ${h.outcome === "refer" ? "warn" : "ok"}"
+            data-ar="${
+              h.outcome === "refer"
+                ? "ظهرت مؤشرات تستدعي فحصًا متخصصًا"
+                : "لم تظهر مؤشرات سمعية واضحة"
+            }"
+            data-en="${
+              h.outcome === "refer"
+                ? "Indicators suggest a specialist hearing assessment"
+                : "No clear hearing indicators observed"
+            }"
+          >
+            ${
+              h.outcome === "refer"
+                ? text(
+                    "ظهرت مؤشرات تستدعي فحصًا متخصصًا",
+                    "Indicators suggest a specialist hearing assessment",
+                  )
+                : text(
+                    "لم تظهر مؤشرات سمعية واضحة",
+                    "No clear hearing indicators observed",
+                  )
+            }
+          </span>`,
+        );
+        // attached prior hearing report (separate from audio samples)
+        const reportRec = RECS.find((r) => r.task === "hearing_report");
+        const h2 = a.hearing || {};
+        const reportName = (h2.report && h2.report.filename) || text("تقرير سمع سابق", "Prior hearing report");
+        const reportMime = (h2.report && h2.report.mime) || (reportRec && reportRec.mime) || "-";
+        const reportBody =
+          h2.has_report || reportRec
+            ? `<div class="rec">
+                <div class="r">
+                  <div class="rh">
+                    <b>${reportName}</b>
+                    <span class="pill ok" data-ar="مرفق" data-en="Attached">مرفق</span>
+                  </div>
+                  <div class="q-chips">
+                    <span class="q-chip">${text("النوع", "Type")}: ${reportMime}</span>
+                    <button class="q-chip" id="viewReportBtn" style="cursor:pointer;border:1px solid var(--line)">
+                      ${text("فتح التقرير", "Open report")}
+                    </button>
+                  </div>
+                </div>
+              </div>`
+            : `<p style="color:var(--muted);font-size:.85rem" data-ar="لم يُرفق تقرير سمع سابق." data-en="No prior hearing report attached.">لم يُرفق تقرير سمع سابق.</p>`;
+        const report = sec("x", "التقرير السمعي المرفق", "Attached hearing report", reportBody);
+        // pointing trials
+        const pts = a.pointing_trials || [];
+        const ptsBody = pts.length
+          ? `<div class="answers">${pts
+              .map(
+                (t, i) => `<div class="a">
+                  <b>
+                    ${text("محاولة", "Trial")} ${i + 1}:
+                    ${text(t.prompt_ar || t.prompt, t.prompt)}
+                  </b>
+                  <span>
+                    ${
+                      t.correct
+                        ? text("صحيحة", "correct")
+                        : text("غير صحيحة", "incorrect")
+                    }
+                    · ${t.response_ms}ms
+                  </span>
+                </div>`,
+              )
+              .join("")}</div>`
+          : `<p style="color:var(--muted);font-size:.85rem" data-ar="لا توجد بيانات محاولات إشارة." data-en="No pointing-trial data.">لا توجد بيانات محاولات إشارة.</p>`;
+        const pointing = sec("x", "محاولات الإشارة", "Pointing trials", ptsBody);
+        // recordings + quality + players (audio only, excluding the report)
+        const audioRecs = RECS.filter((r) => r.task !== "hearing_report");
+        const recBody = audioRecs.length
+          ? `<div class="rec" id="recList">${audioRecs
+              .map((r) => {
+                const q = r.quality || {};
+                const bad = q.status && q.status !== "ok";
+                const lab = TASK_LABEL[r.task] || { ar: r.task, en: r.task };
+                return `<div class="r" data-wave-task="${r.task}">
+          <div class="rh">
+            <b data-ar="${lab.ar}" data-en="${lab.en}">${text(lab.ar, lab.en)}</b>
+            <span class="pill ${bad ? "bad" : "ok"}" data-ar="${bad ? "جودة تحتاج مراجعة" : "الجودة مقبولة"}" data-en="${bad ? "Quality needs review" : "Quality acceptable"}">
+              ${bad ? text("جودة تحتاج مراجعة", "Quality needs review") : text("الجودة مقبولة", "Quality acceptable")}
+            </span>
+          </div>
+          <audio data-task="${r.task}" controls preload="none"></audio>
+          <div class="q-chips">
+            <span class="q-chip ${q.volume_level === "low" ? "bad" : "ok"}">${text("الصوت", "Vol")}: ${q.volume_level || "-"}</span>
+            <span class="q-chip ${q.noise_level === "high" ? "bad" : "ok"}">${text("الضوضاء", "Noise")}: ${q.noise_level || "-"}</span>
+            <span class="q-chip">${text("المدة", "Len")}: ${q.duration_sec || r.duration_sec || 0}s</span>
+            ${q.snr_db != null ? `<span class="q-chip">SNR: ${q.snr_db}dB</span>` : ""}
+            ${q.clipping_pct != null ? `<span class="q-chip">${text("التشبع", "Clipping")}: ${q.clipping_pct}%</span>` : ""}
+            ${q.silence_pct != null ? `<span class="q-chip">${text("الصمت", "Silence")}: ${q.silence_pct}%</span>` : ""}
+          </div>
+          <div class="wave-tools">
+            <canvas class="wave-canvas" aria-label="${text("الموجة الصوتية", "Audio waveform")}"></canvas>
+            <div class="wave-controls">
+              <button type="button" data-speed="0.75">0.75×</button>
+              <button type="button" data-speed="1" class="active">1×</button>
+              <button type="button" data-speed="1.25">1.25×</button>
+              <span class="wave-current" data-wave-current>0:00</span>
+            </div>
+            <div class="wave-note-form">
+              <input data-wave-note-input placeholder="${text("ملاحظة عند الموضع الحالي", "Note at the current time")}" />
+              <button type="button" class="wave-add" data-wave-add>${text("إضافة ملاحظة", "Add note")}</button>
+            </div>
+            <div class="wave-notes" data-wave-notes></div>
+          </div>
+        </div>`;
+              })
+              .join("")}</div>`
+          : `<p
+              style="color:var(--muted);font-size:.85rem"
+              data-ar="لا توجد تسجيلات متاحة لهذا التقييم."
+              data-en="No recordings are available for this assessment."
+            >
+              ${text(
+                "لا توجد تسجيلات متاحة لهذا التقييم.",
+                "No recordings are available for this assessment.",
+              )}
+            </p>`;
+        const overall = aq.overall || "acceptable";
+        const overallStatus = {
+          acceptable: {
+            className: "ok",
+            ar: "الجودة الإجمالية: مقبولة",
+            en: "Overall quality: acceptable",
+          },
+          decoded: {
+            className: "ok",
+            ar: "تمت قراءة التسجيلات بنجاح",
+            en: "Recordings decoded successfully",
+          },
+          borderline: {
+            className: "warn",
+            ar: "الجودة الإجمالية: حدّية",
+            en: "Overall quality: borderline",
+          },
+          feature_warning: {
+            className: "warn",
+            ar: "اكتمل التحليل مع تنبيه في استخراج الخصائص",
+            en: "Analysis completed with a feature-extraction warning",
+          },
+        }[overall] || {
+          className: "bad",
+          ar: "الجودة تحتاج مراجعة",
+          en: "Quality requires review",
+        };
+        const recordings = sec(
+          "4",
+          "التسجيلات وفحص جودة الصوت",
+          "Recordings & audio quality",
+          `<div style="margin-bottom:10px"><span class="pill ${overallStatus.className}" data-ar="${overallStatus.ar}" data-en="${overallStatus.en}">${text(overallStatus.ar, overallStatus.en)}</span></div>${recBody}`,
+        );
+        // AI indicators
+        const inds = RESULT.detected_indicators || [];
+        const indBody = inds.length
+          ? `<div class="ind">${inds.map((i) => `<div class="i"><b data-ar="${i.label_ar}" data-en="${i.label_en}">${text(i.label_ar, i.label_en)}</b><div class="src">${text("مصادر الأدلة", "Evidence")}: ${(i.evidence_sources || []).join(", ")}</div></div>`).join("")}</div>`
+          : `<p style="color:var(--muted)" data-ar="لا مؤشرات." data-en="No indicators.">لا مؤشرات.</p>`;
+        const indicators = sec("x", "مؤشرات النموذج", "Model indicators", indBody);
+        // recommendation reasons (dynamic, from the engine)
+        const reasons = RESULT.reasons || [];
+        const reasonsBody = reasons.length
+          ? `<div class="ind">${reasons.map((r) => `<div class="i"><b data-ar="${r.text_ar}" data-en="${r.text_en}">${text(r.text_ar, r.text_en)}</b><div class="src">${text("مصادر", "Sources")}: ${(r.sources || []).join(", ")}</div></div>`).join("")}</div>`
+          : `<p style="color:var(--muted)" data-ar="لا أسباب مفصّلة." data-en="No detailed reasons.">لا أسباب مفصّلة.</p>`;
+        const reasonsSec = sec("x", "أسباب التوصية", "Recommendation reasons", reasonsBody);
+        const preliminary = RESULT.preliminary_summary || {};
+        const stutteringSummary = RESULT.stuttering_summary || {};
+        const preliminaryBody = `<div class="answers">
+          <div class="a">
+            <b>${text("نتيجة الفرز الأولية", "Preliminary screening result")}</b>
+            <span>${text(preliminary.label_ar || "—", preliminary.label_en || "—")}</span>
+          </div>
+          <div class="a">
+            <b>${text("مستوى الأولوية المقترح", "Suggested priority")}</b>
+            <span>${text(RESULT.priority.label_ar, RESULT.priority.label_en)}</span>
+          </div>
+          <div class="a">
+            <b>${text("الخدمة المقترحة", "Suggested service")}</b>
+            <span>${text(RESULT.recommended_service.label_ar, RESULT.recommended_service.label_en)}</span>
+          </div>
+          <div class="a">
+            <b>${text("عينات تجاوزت حد نموذج التأتأة", "Samples above the stuttering-model threshold")}</b>
+            <span>${stutteringSummary.flagged_samples || 0} / ${stutteringSummary.total_samples || 0}</span>
+          </div>
+          <div class="limits">
+            ${text(
+              stutteringSummary.interpretation_ar || "",
+              stutteringSummary.interpretation_en || "",
+            )}
+          </div>
+        </div>`;
+        const preliminarySection = sec(
+          "x",
+          "ملخص الفرز والتوصية",
+          "Screening and recommendation summary",
+          preliminaryBody,
+        );
+        const proposedPlan = RESULT.proposed_plan || {};
+        const planItems = lang === "ar"
+          ? proposedPlan.items_ar || []
+          : proposedPlan.items_en || [];
+        const proposedPlanBody = planItems.length
+          ? `<ol class="plan-list">
+              ${planItems.map((item) => `<li>${item}</li>`).join("")}
+            </ol>
+            <div class="limits">
+              ${text(
+                proposedPlan.treatment_note_ar || "",
+                proposedPlan.treatment_note_en || "",
+              )}
+            </div>`
+          : `<p style="color:var(--muted)">${text("لا توجد خطة مقترحة.", "No suggested plan.")}</p>`;
+        const proposedPlanSection = sec(
+          "x",
+          "الخطة المقترحة للأخصائي",
+          "Suggested specialist plan",
+          proposedPlanBody,
+        );
+        // Independent model outputs for every recording. Scores are not diagnoses.
+        const samples = RESULT.sample_results || [];
+        const sampleBody = samples.length
+          ? `<div class="model-samples">${samples
+              .map((sample) => {
+                const taskLabel = TASK_LABEL[sample.task] || { ar: sample.task, en: sample.task };
+                const extraction = sample.feature_extraction || {};
+                const extractionWarning =
+                  extraction.clinical_voice_features === "fallback_zero" ||
+                  (Array.isArray(extraction.warnings) && extraction.warnings.length > 0);
+                const extractionStatus = `<div class="q-chips" style="margin:0 0 10px">
+                  <span class="q-chip ${extractionWarning ? "bad" : "ok"}">
+                    ${
+                      extractionWarning
+                        ? text("خصائص الصوت تحتاج مراجعة", "Clinical voice features require review")
+                        : text("استخراج 115 خاصية مكتمل", "115-feature extraction complete")
+                    }
+                  </span>
+                  ${
+                    extraction.trimmed_duration_seconds != null
+                      ? `<span class="q-chip">${text("المدة المحللة", "Analyzed duration")}: ${extraction.trimmed_duration_seconds}s</span>`
+                      : ""
+                  }
+                </div>`;
+                const outputs = Object.entries(sample.results || {})
+                  .map(([code, output]) => {
+                    const condition = CONDITION_LABEL[code] || { ar: code, en: code };
+                    const score = Math.round(Number(output.probability) * 1000) / 10;
+                    const threshold = Math.round(Number(output.threshold) * 1000) / 10;
+                    return `<div class="model-output">
+                      <b data-ar="${condition.ar}" data-en="${condition.en}">${text(condition.ar, condition.en)}</b>
+                      <span class="pill ${output.detected ? "warn" : "ok"}">${
+                        output.detected ? text("تجاوز الحد", "Above threshold") : text("دون الحد", "Below threshold")
+                      }</span>
+                      <span class="model-number">${text("درجة النموذج", "Model score")}: ${score}% · ${text("الحد", "threshold")}: ${threshold}%</span>
+                    </div>`;
+                  })
+                  .join("");
+                return `<article class="model-sample">
+                  <h3 data-ar="${taskLabel.ar}" data-en="${taskLabel.en}">${text(taskLabel.ar, taskLabel.en)}</h3>
+                  ${extractionStatus}
+                  ${outputs}
+                </article>`;
+              })
+              .join("")}</div>`
+          : `<p style="color:var(--muted)">${text("لم تصل نتائج عينات تفصيلية.", "No per-sample results were returned.")}</p>`;
+        const sampleResults = sec(
+          "5",
+          "مخرجات النماذج لكل عينة",
+          "Per-sample model outputs",
+          sampleBody,
+        );
+        const limitationsText = RESULT.limitations || {};
+        const limitations = limitationsText.ar || limitationsText.en
+          ? sec(
+              "x",
+              "حدود تفسير النتيجة",
+              "Interpretation limits",
+              `<div class="limits" data-ar="${limitationsText.ar || ""}" data-en="${limitationsText.en || ""}">${text(
+                limitationsText.ar || "",
+                limitationsText.en || "",
+              )}</div>`,
+            )
+          : "";
+        // Optional feature attribution, only when the provider returns it.
+        const f = (RESULT.evidence && RESULT.evidence.speech_features) || {};
+        const features = Object.keys(f).length ? sec(
+          "6",
+          "الخصائص الصوتية (للأخصائي فقط)",
+          "Acoustic features (specialist-only)",
+          `<div class="feat">
+      <div class="f"><b data-ar="مؤشر وضوح الكلام" data-en="Speech clarity index">مؤشر وضوح الكلام</b><span>${f.speech_clarity_index ?? "-"}</span></div>
+      <div class="f"><b data-ar="مؤشر طول العبارة" data-en="Expressive length index">مؤشر طول العبارة</b><span>${f.expressive_length_index ?? "-"}</span></div>
+      <div class="f"><b data-ar="معدل أخطاء النطق" data-en="Articulation error rate">معدل أخطاء النطق</b><span>${f.articulation_error_rate ?? "-"}</span></div>
+      <div class="f"><b data-ar="مؤشر الطلاقة" data-en="Fluency index">مؤشر الطلاقة</b><span>${f.fluency_index ?? "-"}</span></div>
+      <div class="f"><b data-ar="وضوح الإشارة الصوتية" data-en="Signal clarity">وضوح الإشارة الصوتية</b><span>${f.signal_clarity_db != null ? f.signal_clarity_db + " dB" : "-"}</span></div>
+      <div class="f"><b data-ar="متوسط الصمت" data-en="Mean silence">متوسط الصمت</b><span>${f.mean_silence_pct != null ? f.mean_silence_pct + "%" : "-"}</span></div>
+    </div>`,
+        ) : "";
+        // matched facilities
+        const facs = RESULT.matched_facilities || [];
+        const facBody = `<div class="fac">${facs
+          .map(
+            (fc) => `<div class="fc ${fc.rank === 1 ? "top" : ""}">
+              <div>
+                <b data-ar="${fc.name_ar}" data-en="${fc.name_en}">
+                  ${text(fc.name_ar, fc.name_en)}
+                </b>
+                <br>
+                <small data-ar="يوفّر الخدمة المطلوبة" data-en="Provides the required service">
+                  ${text("يوفّر الخدمة المطلوبة", "Provides the required service")}
+                </small>
+              </div>
+              <small>
+                ${fc.distance_km} ${text("كم", "km")} ·
+                ${text("أقرب موعد", "next")} ${fc.next_slot_days}${text("ي", "d")}
+              </small>
+            </div>`,
+          )
+          .join("")}</div>`;
+        const facilities = facs.length
+          ? sec("7", "المنشآت المطابقة وقدراتها", "Matched facilities & capabilities", facBody)
+          : "";
+        // audit
+        const auditEntries = Array.isArray(a.audit_log) ? a.audit_log.slice(-8).reverse() : [];
+        const auditList = auditEntries.length
+          ? `<div class="answers">${auditEntries
+              .map((entry) => {
+                const label = EVENT_LABEL[entry.event] || { ar: entry.event, en: entry.event };
+                const when = new Date(entry.timestamp).toLocaleString(lang === "ar" ? "ar-SA" : "en-GB");
+                return `<div class="a"><b>${text(label.ar, label.en)}</b><span>${when}</span></div>`;
+              })
+              .join("")}</div>`
+          : `<p style="color:var(--muted)">${text("لا توجد أحداث مسجلة.", "No recorded events.")}</p>`;
+        const audit = sec(
+          "8",
+          "بيانات التدقيق",
+          "Audit trail",
+          `<dl class="kv">
+      <dt data-ar="إصدار النموذج" data-en="Model version">إصدار النموذج</dt><dd>${RESULT.model_version}</dd>
+      <dt data-ar="وقت التحليل" data-en="Analyzed at">وقت التحليل</dt><dd>${new Date(RESULT.analyzed_at).toLocaleString(lang === "ar" ? "ar-SA" : "en-GB")}</dd>
+      <dt data-ar="يستلزم مراجعة أخصائي" data-en="Requires clinician review">يستلزم مراجعة أخصائي</dt><dd><span class="pill info" data-ar="نعم" data-en="Yes">نعم</span></dd>
+    </dl>${auditList}`,
+        );
+        $("#left").innerHTML =
+          patient +
+          caseProfileSection +
+          safetySection +
+          questionnaire +
+          taskPlanSection +
+          hearing +
+          report +
+          pointing +
+          recordings +
+          sampleResults +
+          indicators +
+          reasonsSec +
+          preliminarySection +
+          proposedPlanSection +
+          limitations +
+          features +
+          facilities +
+          audit;
+        const vr = document.getElementById("viewReportBtn");
+        if (vr)
+          vr.onclick = async () => {
+            try {
+              const u = await WASL_STORE.getRecordingURL(RESULT.assessment_id, "hearing_report");
+              if (u) window.open(u, "_blank");
+            } catch (e) {}
+          };
+      }
+
+      async function mountAudio() {
+        urls.forEach((u) => URL.revokeObjectURL(u));
+        urls = [];
+        const players = $$("#recList audio[data-task]");
+        for (const el of players) {
+          try {
+            const u = await WASL_STORE.getRecordingURL(RESULT.assessment_id, el.dataset.task);
+            if (u) {
+              el.src = u;
+              urls.push(u);
+              const root = el.closest("[data-wave-task]");
+              const task = el.dataset.task;
+              const savedNotes =
+                (ASSESS && ASSESS.clinical_audio_notes && ASSESS.clinical_audio_notes[task]) || [];
+              await WASL_WAVEFORM.mount({
+                root,
+                audio: el,
+                url: u,
+                notes: savedNotes,
+                labels: {
+                  empty: text("لا توجد ملاحظات زمنية.", "No timestamped notes."),
+                  unavailable: text("تعذّر عرض الموجة الصوتية لهذا الملف.", "Waveform unavailable for this file."),
+                },
+                onSave: async (notes) => {
+                  const current = (await WASL_STORE.getAssessment(RESULT.assessment_id)) || ASSESS || {};
+                  const noteMap = Object.assign({}, current.clinical_audio_notes || {});
+                  noteMap[task] = notes;
+                  await WASL_STORE.patchAssessment(RESULT.assessment_id, {
+                    clinical_audio_notes: noteMap,
+                  });
+                  await WASL_STORE.appendAudit(RESULT.assessment_id, {
+                    event: "timestamped_audio_note_added",
+                    actor: "specialist",
+                    task,
+                    details: { note_count: notes.length },
+                  });
+                  ASSESS.clinical_audio_notes = noteMap;
+                  toast(text("تم حفظ الملاحظة الزمنية", "Timestamped note saved"));
+                },
+              });
+            }
+          } catch (e) {}
+        }
+      }
+
+      function renderDecision() {
+        const svc = [
+          ["SPEECH_LANGUAGE_ASSESSMENT", text("تقييم النطق واللغة", "Speech & language assessment")],
+          ["SPEECH_FLUENCY_ASSESSMENT", text("تقييم طلاقة الكلام", "Speech-fluency assessment")],
+          ["AUDIOLOGY_ASSESSMENT", text("تقييم سمعي", "Audiology assessment")],
+          ["ROUTINE_MONITORING", text("متابعة روتينية / إعادة فرز", "Routine monitoring / re-screen")],
+        ];
+        const pri = [
+          ["low", text("منخفضة", "Low")],
+          ["medium", text("متوسطة", "Medium")],
+          ["high", text("عالية", "High")],
+        ];
+        const confidenceBlock = Number.isFinite(RESULT.confidence)
+          ? `<div class="conf-line"><span data-ar="ثقة النموذج (للأخصائي)" data-en="Model confidence (specialist)">ثقة النموذج (للأخصائي)</span><b>${Math.round(RESULT.confidence * 100)}%</b></div>
+             <div class="conf-bar" style="margin-bottom:14px"><i style="width:${Math.round(RESULT.confidence * 100)}%"></i></div>`
+          : `<div class="limits" style="margin-bottom:14px">${text(
+              "لا يعيد الـ API درجة ثقة موحّدة. يرجى تحديد المسار والأولوية بعد مراجعة التسجيلات والمخرجات المستقلة.",
+              "The API does not return one overall confidence score. Select priority and pathway after reviewing the recordings and independent outputs.",
+            )}</div>`;
+        const retakeOptions = RECS.filter((recording) => recording.task !== "hearing_report")
+          .map((recording) => {
+            const label = TASK_LABEL[recording.task] || { ar: recording.task, en: recording.task };
+            return `<option value="${recording.task}">${text(label.ar, label.en)}</option>`;
+          })
+          .join("");
+        $("#decision").innerHTML =
+          `<h2><span data-ar="التوصية النهائية" data-en="Clinical decision">التوصية النهائية</span></h2>
+     ${confidenceBlock}
+     <div class="field"><label data-ar="مستوى الأولوية" data-en="Priority level">مستوى الأولوية</label>
+       <select id="priSel">
+         <option
+           value=""
+           ${!pri.some((p) => p[0] === decision.priority) ? "selected" : ""}
+           disabled
+         >
+           ${text("تحديد مستوى الأولوية", "Select priority")}
+         </option>
+         ${pri
+           .map(
+             (p) => `<option
+               value="${p[0]}"
+               ${p[0] === decision.priority ? "selected" : ""}
+             >
+               ${p[1]}
+             </option>`,
+           )
+           .join("")}
+       </select>
+     </div>
+     <div class="field"><label data-ar="الخدمة / المسار" data-en="Service / pathway">الخدمة / المسار</label>
+       <select id="svcSel">
+         <option
+           value=""
+           ${!svc.some((s) => s[0] === decision.service) ? "selected" : ""}
+           disabled
+         >
+           ${text("تحديد مسار التوجيه", "Select clinical pathway")}
+         </option>
+         ${svc
+           .map(
+             (s) => `<option
+               value="${s[0]}"
+               ${s[0] === decision.service ? "selected" : ""}
+             >
+               ${s[1]}
+             </option>`,
+           )
+           .join("")}
+       </select>
+     </div>
+     <div class="field"><label data-ar="ملاحظات الأخصائي" data-en="Clinical notes">ملاحظات الأخصائي</label><textarea id="notes" placeholder="${text("إضافة الملاحظات…", "Add your notes…")}">${decision.notes}</textarea></div>
+     <div class="field">
+       <label data-ar="الخطة العلاجية المبدئية" data-en="Initial care plan">
+         ${text("الخطة العلاجية المبدئية", "Initial care plan")}
+       </label>
+       <textarea
+         id="care"
+         placeholder="${text(
+           "مثال: جلستان أسبوعيًا لمدة ٦ أسابيع…",
+           "e.g. 2 sessions/week for 6 weeks…",
+         )}"
+       >${decision.care_plan}</textarea>
+     </div>
+     <div class="field"><label data-ar="العينة المطلوب إعادتها" data-en="Sample to retake">العينة المطلوب إعادتها</label><select id="retakeTask">${retakeOptions}</select></div>
+     <div class="btns">
+       <button class="retake" id="retakeBtn"><span data-ar="طلب إعادة تسجيل عيّنة" data-en="Request sample retake">طلب إعادة تسجيل عيّنة</span></button>
+       <button id="inpersonBtn"><span data-ar="طلب تقييم مباشر (حضوري)" data-en="Request in-person assessment">طلب تقييم مباشر (حضوري)</span></button>
+       <button id="printSummaryBtn"><span data-ar="طباعة / حفظ ملخص أولي (PDF)" data-en="Print / save preliminary summary (PDF)">طباعة / حفظ ملخص أولي (PDF)</span></button>
+       <button class="primary" id="approveBtn"><span data-ar="اعتماد التوصية النهائية" data-en="Submit final clinical decision">اعتماد التوصية النهائية</span></button>
+     </div>
+     <div class="decided" id="decided"></div>`;
+        $("#priSel").onchange = (e) => (decision.priority = e.target.value);
+        $("#svcSel").onchange = (e) => (decision.service = e.target.value);
+        $("#notes").oninput = (e) => (decision.notes = e.target.value);
+        $("#care").oninput = (e) => (decision.care_plan = e.target.value);
+        $("#retakeBtn").onclick = requestRetake;
+        $("#inpersonBtn").onclick = async () => {
+          decision.in_person = true;
+          await WASL_STORE.appendAudit(RESULT.assessment_id, {
+            event: "in_person_assessment_requested",
+            actor: "specialist",
+          });
+          toast(text("تم تسجيل طلب التقييم الحضوري", "In-person assessment requested"));
+        };
+        $("#approveBtn").onclick = submitFinal;
+        const _ps = $("#printSummaryBtn");
+        if (_ps) _ps.onclick = printPreliminarySummary;
+      }
+
+      // طباعة/حفظ ملخص أولي كـ PDF (نافذة نظيفة قابلة للطباعة)
+      function printPreliminarySummary() {
+        try {
+          const a = ASSESS || {};
+          const cp = a.case_profile || {};
+          const isW = a.workflow_case;
+          const childName = isW ? text(cp.patient_name_ar, cp.patient_name_en) : WASL_PATIENT.name(lang);
+          const childAge = isW ? text(cp.age_ar, cp.age_en) : WASL_PATIENT.ageText(lang);
+          const inds = (RESULT.detected_indicators || [])
+            .map((i) => "<li>" + text(i.label_ar, i.label_en) + "</li>")
+            .join("");
+          const reasons = (RESULT.reasons || [])
+            .map((r) => "<li>" + text(r.text_ar, r.text_en) + "</li>")
+            .join("");
+          const nextStep = text(
+            (RESULT.evidence && RESULT.evidence.next_recommended_step_ar) || "",
+            (RESULT.evidence && RESULT.evidence.next_recommended_step_en) || "",
+          );
+          const dir = lang === "ar" ? "rtl" : "ltr";
+          const t = (ar, en) => text(ar, en);
+          const win = window.open("", "_blank");
+          if (!win) {
+            toast(text("فعّل النوافذ المنبثقة للطباعة", "Allow pop-ups to print"));
+            return;
+          }
+          const doc =
+            "<!DOCTYPE html><html lang='" + lang + "' dir='" + dir + "'><head><meta charset='utf-8'>" +
+            "<title>" + t("ملخص فرز أولي", "Preliminary screening summary") + "</title><style>" +
+            "*{box-sizing:border-box}body{font:14px/1.7 'Tajawal',system-ui,Arial,sans-serif;color:#0f172a;margin:32px;}" +
+            "h1{font-size:20px;margin:0 0 4px}h2{font-size:15px;margin:18px 0 6px;color:#0f2350}" +
+            ".sim{background:#fef3c7;border:1px solid #f59e0b;color:#7c4a03;padding:10px 12px;border-radius:8px;margin:12px 0;font-size:12.5px}" +
+            ".kv{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;margin:8px 0}.kv b{color:#475569;font-weight:600}" +
+            "ul{margin:6px 0;padding-inline-start:20px}.pri{display:inline-block;padding:3px 10px;border-radius:999px;background:#eef2ff;color:#3730a3;font-weight:700;font-size:12px}" +
+            ".foot{margin-top:20px;color:#64748b;font-size:11.5px;border-top:1px solid #e2e8f0;padding-top:10px}" +
+            "@media print{body{margin:12mm}}</style></head><body>" +
+            "<h1>" + t("ملخص فرز أولي — عرض سير النظام", "Preliminary screening summary — system flow demo") + "</h1>" +
+            "<div class='sim'>" +
+            t(
+              "هذا الملخص فرز أولي مولّد لأغراض عرض سير النظام فقط، وليس ناتجًا عن نموذج ذكاء اصطناعي حقيقي، ولا يُعد تشخيصًا.",
+              "This summary is a preliminary screening generated to demonstrate the system flow only. It is not from a real AI model and is not a diagnosis.",
+            ) +
+            "</div>" +
+            "<div class='kv'>" +
+            "<b>" + t("الطفل", "Child") + "</b><span>" + childName + " (" + childAge + ")</span>" +
+            "<b>" + t("رقم التقييم", "Assessment ID") + "</b><span>" + RESULT.assessment_id + "</span>" +
+            "<b>" + t("الأولوية المقترحة", "Suggested priority") + "</b><span class='pri'>" +
+            text(RESULT.priority.label_ar, RESULT.priority.label_en) + "</span>" +
+            "<b>" + t("المسار الموصى به", "Recommended pathway") + "</b><span>" +
+            text(RESULT.recommended_service.label_ar, RESULT.recommended_service.label_en) + "</span>" +
+            "</div>" +
+            "<h2>" + t("الخلاصة الأولية", "Preliminary summary") + "</h2><p>" +
+            text(RESULT.preliminary_summary.label_ar, RESULT.preliminary_summary.label_en) + "</p>" +
+            (inds ? "<h2>" + t("المؤشرات الملحوظة", "Detected indicators") + "</h2><ul>" + inds + "</ul>" : "") +
+            (reasons ? "<h2>" + t("أسباب التوصية", "Reasons") + "</h2><ul>" + reasons + "</ul>" : "") +
+            (nextStep ? "<h2>" + t("الخطوة التالية", "Next step") + "</h2><p>" + nextStep + "</p>" : "") +
+            "<div class='foot'>" +
+            t("إصدار النموذج", "Model version") + ": " + RESULT.model_version + " · " +
+            new Date(RESULT.analyzed_at).toLocaleString(lang === "ar" ? "ar-SA" : "en-GB") +
+            "</div>" +
+            "<script>window.onload=function(){setTimeout(function(){window.print();},250);}<\/script>" +
+            "</body></html>";
+          win.document.open();
+          win.document.write(doc);
+          win.document.close();
+        } catch (e) {
+          toast(text("تعذّر إنشاء الملخص", "Could not create summary"));
+        }
+      }
+
+      async function requestRetake() {
+        const task = ($("#retakeTask") && $("#retakeTask").value) || "reading";
+        try {
+          await WASL_API.requestRetake(RESULT.assessment_id, task, "clarity");
+          await WASL_STORE.appendAudit(RESULT.assessment_id, {
+            event: "specialist_retake_requested",
+            actor: "specialist",
+            task,
+            details: { reason: "clarity" },
+          });
+          toast(text("تم إرسال طلب إعادة التسجيل", "Retake request sent"));
+        } catch (e) {
+          toast(text("تعذّر إرسال الطلب", "Could not send request"));
+        }
+      }
+      async function submitFinal() {
+        const modified =
+          decision.priority !== RESULT.priority.level || decision.service !== RESULT.recommended_service.code;
+        // Gating: consent, explicit clinical selection and a clinical note.
+        if (window._consentState !== "complete") {
+          toast(
+            text("لا يمكن الاعتماد قبل اكتمال موافقة ولي الأمر", "Cannot approve before guardian consent is complete"),
+          );
+          return;
+        }
+        if (!RESULT || RESULT.status !== "completed") {
+          toast(text("نتيجة التحليل غير متوفرة بعد", "Analysis result is not available yet"));
+          return;
+        }
+        if (!decision.priority || !decision.service) {
+          toast(text("يرجى تحديد مستوى الأولوية ومسار التوجيه", "Select a priority and clinical pathway"));
+          return;
+        }
+        if (!(decision.notes && decision.notes.trim())) {
+          toast(
+            text("يرجى إضافة ملاحظة مهنية توضح أساس التوصية", "Add a clinical note explaining the decision"),
+          );
+          return;
+        }
+        try {
+          await WASL_API.submitClinicalReview(RESULT.assessment_id, {
+            decision: "approved",
+            priority: decision.priority,
+            service: decision.service,
+            notes: decision.notes,
+            care_plan: decision.care_plan,
+            in_person: decision.in_person,
+            modified: modified,
+            reviewer: "specialist_demo",
+          });
+          await WASL_STORE.appendAudit(RESULT.assessment_id, {
+            event: "clinical_decision_approved",
+            actor: "specialist",
+            details: {
+              priority: decision.priority,
+              service: decision.service,
+              modified,
+            },
+          });
+          WASL_STORE.setResume({
+            assessment_id: RESULT.assessment_id,
+            url: "sehhaty.html",
+            step: "approved_result",
+            label_ar: "النتيجة المعتمدة في صحتي",
+            label_en: "Approved result in Sehhaty",
+          });
+          const d = $("#decided");
+          d.classList.add("show");
+          d.textContent = text(
+            "تم اعتماد القرار النهائي. أصبحت النتيجة جاهزة للعرض في صحتي.",
+            "The final decision is approved. The result is ready to view in Sehhaty.",
+          );
+          const resultButton = document.createElement("button");
+          resultButton.className = "primary";
+          resultButton.type = "button";
+          resultButton.textContent = text("عرض النتيجة المعتمدة في صحتي", "View the approved result in Sehhaty");
+          resultButton.onclick = () => (location.href = "sehhaty.html");
+          d.appendChild(resultButton);
+          toast(text("تم اعتماد القرار النهائي", "Final decision approved"));
+        } catch (e) {
+          toast(text("تعذّر حفظ القرار", "Could not save decision"));
+        }
+      }
+
+      window.setLang = function (n) {
+        lang = n;
+        document.documentElement.lang = n;
+        document.documentElement.dir = n === "ar" ? "rtl" : "ltr";
+        const lb = $("#langBtn");
+        if (lb) lb.textContent = n === "ar" ? "EN" : "ع";
+        render();
+        mountAudio();
+      };
+      $("#langBtn").onclick = () => setLang(lang === "ar" ? "en" : "ar");
+      function toast(m) {
+        const x = $("#toast");
+        x.textContent = m;
+        x.classList.add("show");
+        setTimeout(() => x.classList.remove("show"), 2400);
+      }
+      load();
+    </script>
+  </body>
+</html>

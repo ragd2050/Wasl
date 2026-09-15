@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>تقرير وصل لولي الأمر</title>
+    <link rel="stylesheet" href="assets/wasl-fonts.css" />
+    <link rel="stylesheet" href="assets/wasl-tokens.css" />
+    <link rel="stylesheet" href="assets/wasl-enhance.css" />
+    <link rel="stylesheet" href="assets/wasl-v29.css" />
+  </head>
+  <body>
+    <header class="v29-header">
+      <img class="v29-logo" src="assets/wasl-logo-1.webp" alt="وصل" />
+      <div class="v29-header-actions">
+        <a class="v29-back" href="sehhaty.html" data-ar="العودة" data-en="Back">العودة</a>
+        <button class="v29-lang" id="langBtn" type="button">EN</button>
+      </div>
+    </header>
+
+    <main class="v29-shell">
+      <section class="v29-card" id="report" aria-labelledby="pageTitle">
+        <div id="reportContent" class="v29-empty" data-ar="جارٍ تجهيز التقرير…" data-en="Preparing report…">
+          جارٍ تجهيز التقرير…
+        </div>
+      </section>
+    </main>
+
+    <script src="assets/wasl-store.js"></script>
+    <script src="assets/wasl-sim.js"></script>
+    <script src="assets/wasl-patient.js"></script>
+    <script>
+      const $ = (selector) => document.querySelector(selector);
+      let lang = "ar";
+      let assessment = null;
+
+      const PRIORITY = {
+        low: { ar: "أولوية اعتيادية", en: "Routine priority" },
+        medium: { ar: "أولوية قريبة", en: "Timely priority" },
+        high: { ar: "أولوية مرتفعة", en: "High priority" },
+      };
+
+      const SERVICE = {
+        SPEECH_LANGUAGE_ASSESSMENT: { ar: "تقييم متخصص في النطق واللغة", en: "Specialist speech-language assessment" },
+        SPEECH_FLUENCY_ASSESSMENT: { ar: "تقييم طلاقة الكلام لدى أخصائي", en: "Specialist speech-fluency assessment" },
+        ROUTINE_MONITORING: { ar: "متابعة روتينية وإعادة فرز عند اللزوم", en: "Routine monitoring, re-screen if needed" },
+        SLP_ASSESSMENT: { ar: "تقييم متخصص في النطق واللغة", en: "Specialist speech-language assessment" },
+        AUDIOLOGY_ASSESSMENT: { ar: "تقييم سمعي متخصص", en: "Specialist audiology assessment" },
+        MULTIDISCIPLINARY_ASSESSMENT: { ar: "تقييم مشترك للنطق والسمع", en: "Combined speech and hearing assessment" },
+      };
+
+      function text(ar, en) {
+        return lang === "ar" ? ar : en;
+      }
+
+      function escapeText(value) {
+        const node = document.createElement("span");
+        node.textContent = String(value || "");
+        return node.innerHTML;
+      }
+
+      function formatDate(value) {
+        const date = value ? new Date(value) : new Date();
+        return date.toLocaleDateString(lang === "ar" ? "ar-SA" : "en-GB", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+      }
+
+      function serviceLabel(code, result) {
+        const label = SERVICE[code];
+        if (label) return label[lang];
+        return lang === "ar"
+          ? result?.recommended_service?.label_ar || "تقييم لدى أخصائي"
+          : result?.recommended_service?.label_en || "Specialist assessment";
+      }
+
+      function render() {
+        if (!assessment || assessment.status !== "clinically_reviewed") {
+          $("#reportContent").className = "v29-empty";
+          $("#reportContent").innerHTML = `
+            <h1 class="v29-title">${text("التقرير غير متاح بعد", "Report not available yet")}</h1>
+            <p class="v29-lead">${text(
+              "يظهر التقرير بعد اكتمال مراجعة الأخصائي واعتماد الخطوة التالية.",
+              "The report appears after a specialist completes the review and approves the next step.",
+            )}</p>`;
+          return;
+        }
+
+        const result = assessment.result || {};
+        const review = assessment.clinical_review || {};
+        const priorityCode = review.priority || result.priority?.level || "medium";
+        const priority = PRIORITY[priorityCode] || PRIORITY.medium;
+        const service = serviceLabel(review.service || result.recommended_service?.code, result);
+        const nextStep = review.care_plan?.trim()
+          ? review.care_plan
+          : lang === "ar"
+            ? result.evidence?.next_recommended_step_ar || "اختيار المنشأة وحجز الموعد المناسب."
+            : result.evidence?.next_recommended_step_en || "Choose a facility and book a suitable appointment.";
+        const reviewedAt = review.reviewed_at || result.analyzed_at || assessment.updated_at;
+        const safetyReviewed = assessment.red_flags?.requires_staff_review;
+
+        // اسم الطفل وعمره من بيانات الحالة (مع التراجع إلى مصدر المريض الافتراضي)
+        const cp = assessment.case_profile || {};
+        const isW = assessment.workflow_case;
+        const childName = isW ? text(cp.patient_name_ar, cp.patient_name_en) : WASL_PATIENT.name(lang);
+        const childAge = isW ? text(cp.age_ar, cp.age_en) : WASL_PATIENT.ageText(lang);
+        const firstName = isW ? text(cp.first_ar || (cp.patient_name_ar || "").split(/\s+/)[0], cp.first_en || (cp.patient_name_en || "").split(/\s+/)[0]) : WASL_PATIENT.name(lang);
+        // رسالة ولي الأمر حسب الحالة (تُقرأ من النتيجة إن وُجدت)
+        const guardianMessage = text(
+          result.guardian_message_ar ||
+            "يلخص هذا التقرير مسار الفرز والخطوة التي اعتمدها الأخصائي. لا يمثل تشخيصًا طبيًا نهائيًا.",
+          result.guardian_message_en ||
+            "This report summarizes the triage pathway and the next step approved by the specialist. It is not a final medical diagnosis.",
+        );
+
+        $("#reportContent").className = "";
+        $("#reportContent").innerHTML = `
+          <span class="v29-eyebrow">${text("ملخص معتمد لولي الأمر", "Approved guardian summary")}</span>
+          <h1 class="v29-title" id="pageTitle">${text("تقرير تقييم " + firstName, firstName + "'s assessment report")}</h1>
+          <p class="v29-lead">${escapeText(guardianMessage)}</p>
+
+          <div class="v29-report-grid">
+            <div>
+              <article class="v29-summary">
+                <h2>${text("بيانات الطفل", "Child details")}</h2>
+                <div class="v29-value">${escapeText(childName)}</div>
+                <p>${escapeText(childAge)} · ${WASL_PATIENT.maskedId()}</p>
+              </article>
+              <article class="v29-summary">
+                <h2>${text("الخدمة الموصى بها", "Recommended service")}</h2>
+                <div class="v29-value">${escapeText(service)}</div>
+                <span class="v29-priority">${priority[lang]}</span>
+              </article>
+              <article class="v29-summary">
+                <h2>${text("الخطوة التالية", "Next step")}</h2>
+                <p class="v29-value">${escapeText(nextStep)}</p>
+              </article>
+            </div>
+
+            <div>
+              <article class="v29-summary">
+                <h2>${text("ما الذي تمت مراجعته؟", "What was reviewed?")}</h2>
+                <ul class="v29-list">
+                  <li>${text("إجابات ولي الأمر وتاريخ الحالة", "Guardian answers and case history")}</li>
+                  <li>${text("فحص السمع الأولي والتقرير المرفق إن وجد", "Initial hearing screen and any attached report")}</li>
+                  <li>${text("عينات النطق واللغة وجودة التسجيل", "Speech-language samples and recording quality")}</li>
+                  <li>${text("مراجعة الأخصائي والتوصية النهائية", "Specialist review and final recommendation")}</li>
+                  ${safetyReviewed ? `<li>${text("التنبيه الذي راجعه الموظف", "The alert reviewed by staff")}</li>` : ""}
+                </ul>
+              </article>
+              <article class="v29-summary">
+                <h2>${text("معلومات التقرير", "Report details")}</h2>
+                <p>${text("رقم التقييم", "Assessment ID")}: ${escapeText(assessment.assessment_id)}</p>
+                <p>${text("تاريخ الاعتماد", "Approval date")}: ${formatDate(reviewedAt)}</p>
+              </article>
+            </div>
+          </div>
+
+          <div class="v29-notice">
+            ${text(
+              "إذا تغيرت حالة الطفل أو ظهرت أعراض جديدة، تواصل مع مقدم الرعاية ولا تعتمد على هذا التقرير وحده.",
+              "If the child's condition changes or new symptoms appear, contact a care provider and do not rely on this report alone.",
+            )}
+          </div>
+
+          <div class="v29-actions">
+            <button class="v29-button" id="bookBtn" type="button">${text("حجز موعد", "Book appointment")}</button>
+            <button class="v29-button secondary" id="printBtn" type="button">${text("حفظ التقرير PDF أو طباعته", "Save as PDF or print")}</button>
+            <a class="v29-button secondary" href="visit-history.html">${text("عرض سجل المتابعة", "View follow-up history")}</a>
+            <a class="v29-button secondary" href="sehhaty.html#facilities">${text("اختيار المنشأة والموعد", "Choose facility and appointment")}</a>
+          </div>
+          <div id="bookConfirm" role="status" style="display:none;margin-top:14px;padding:12px 16px;border-radius:12px;background:#e7f7ee;border:1px solid #34c77b;color:#0f5132;font-weight:600;">
+            ${text("تم إرسال طلب الحجز — سنتواصل معكم لتأكيد الموعد. (محاكاة عرض)", "Your booking request has been sent — we'll contact you to confirm the appointment. (Demo simulation)")}
+          </div>`;
+        $("#printBtn").onclick = () => window.print();
+        const _book = $("#bookBtn");
+        if (_book)
+          _book.onclick = async () => {
+            const box = $("#bookConfirm");
+            if (box) box.style.display = "block";
+            _book.disabled = true;
+            _book.style.opacity = "0.6";
+            _book.textContent = text("تم إرسال الطلب ✓", "Request sent ✓");
+            try {
+              await WASL_STORE.appendAudit(assessment.assessment_id, {
+                event: "guardian_booking_requested",
+                actor: "guardian",
+                details: { source: "guardian_report", mode: "demo_flow" },
+              });
+            } catch (e) {}
+          };
+      }
+
+      function setLang(next) {
+        lang = next;
+        document.documentElement.lang = next;
+        document.documentElement.dir = next === "ar" ? "rtl" : "ltr";
+        document.querySelectorAll("[data-ar][data-en]").forEach((element) => {
+          element.textContent = element.dataset[next];
+        });
+        $("#langBtn").textContent = next === "ar" ? "EN" : "ع";
+        document.title = text("تقرير وصل لولي الأمر", "WASL guardian report");
+        render();
+      }
+
+      window.setLang = setLang;
+      $("#langBtn").onclick = () => setLang(lang === "ar" ? "en" : "ar");
+
+      (async function initialize() {
+        const pointer = WASL_STORE.getResume();
+        if (pointer?.assessment_id) assessment = await WASL_STORE.getAssessment(pointer.assessment_id);
+        if (assessment?.status === "clinically_reviewed") {
+          await WASL_STORE.appendAudit(assessment.assessment_id, {
+            event: "guardian_report_viewed",
+            actor: "guardian",
+          });
+        }
+        render();
+      })();
+    </script>
+    <script src="assets/wasl-enhance.js"></script>
+  </body>
+</html>

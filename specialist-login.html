@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>دخول الأخصائي | وصل</title>
+    <link rel="stylesheet" href="assets/wasl-fonts.css" />
+    <link rel="stylesheet" href="assets/wasl-tokens.css" />
+    <link rel="stylesheet" href="assets/wasl-enhance.css" />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        font-family: var(--font);
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 12% 12%, rgba(87, 84, 233, 0.1), transparent 30%),
+          radial-gradient(circle at 88% 88%, rgba(8, 216, 210, 0.1), transparent 30%), var(--bg);
+      }
+
+      .wrap {
+        min-height: 100dvh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+      }
+
+      .card {
+        width: min(420px, 100%);
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow);
+        padding: 34px clamp(24px, 5vw, 40px);
+      }
+
+      .top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 22px;
+      }
+
+      .logo {
+        width: 118px;
+        height: 46px;
+        object-fit: contain;
+      }
+
+      .role {
+        font-size: 0.72rem;
+        font-weight: 800;
+        color: #fff;
+        background: linear-gradient(105deg, var(--navy), var(--violet));
+        padding: 5px 12px;
+        border-radius: 999px;
+      }
+
+      h1 {
+        margin: 0 0 4px;
+        color: var(--navy);
+        font-size: 1.5rem;
+      }
+
+      .sub {
+        margin: 0 0 22px;
+        color: var(--muted);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      .field {
+        margin-bottom: 15px;
+      }
+
+      .field label {
+        display: block;
+        font-size: 0.82rem;
+        font-weight: 800;
+        color: var(--navy);
+        margin-bottom: 6px;
+      }
+
+      .field input {
+        width: 100%;
+        height: 48px;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-sm);
+        padding: 0 14px;
+        font: 600 0.9rem var(--font);
+        color: var(--ink);
+        background: #fff;
+      }
+
+      .field input:focus {
+        outline: 2px solid var(--violet);
+        outline-offset: 1px;
+      }
+
+      .primary {
+        width: 100%;
+        height: 50px;
+        margin-top: 6px;
+        border: 0;
+        border-radius: var(--radius-sm);
+        color: #fff;
+        font: 800 0.95rem var(--font);
+        background: linear-gradient(105deg, var(--navy), var(--violet));
+        box-shadow: 0 10px 22px rgba(87, 84, 233, 0.2);
+        cursor: pointer;
+      }
+
+      .note {
+        margin-top: 18px;
+        padding: 11px 14px;
+        border-radius: var(--radius-sm);
+        background: var(--soft);
+        border: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 0.78rem;
+        line-height: 1.6;
+      }
+
+      .lang {
+        height: 34px;
+        padding: 0 14px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: #fff;
+        color: var(--navy);
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .foot {
+        margin-top: 16px;
+        text-align: center;
+      }
+
+      .foot a {
+        color: var(--muted);
+        font-size: 0.78rem;
+        text-decoration: none;
+      }
+    </style>
+    <script src="assets/wasl-store.js"></script>
+    <script src="assets/wasl-sim.js"></script>
+    <script src="assets/wasl-api.js"></script>
+    <script defer src="assets/wasl-enhance.js"></script>
+  </head>
+  <body>
+    <div class="wrap">
+      <main class="card">
+        <div class="top">
+          <img class="logo" src="assets/wasl-logo-1.webp" alt="منصة وصل" />
+          <button class="lang" id="langBtn">EN</button>
+        </div>
+
+        <span class="role" data-ar="بوابة الأخصائيين" data-en="Specialist portal">بوابة الأخصائيين</span>
+        <h1 data-ar="دخول الأخصائي" data-en="Specialist sign in">دخول الأخصائي</h1>
+        <p
+          class="sub"
+          data-ar="واجهة مهنية منفصلة عن رحلة المريض. تُستخدم لمراجعة الحالات واعتماد التوصية النهائية."
+          data-en="A professional interface separate from the patient journey, used to review cases and approve the clinical decision."
+        >
+          واجهة مهنية منفصلة عن رحلة المريض. تُستخدم لمراجعة الحالات واعتماد التوصية النهائية.
+        </p>
+
+        <div class="field">
+          <label for="pid" data-ar="المعرّف المهني" data-en="Professional ID">المعرّف المهني</label>
+          <input id="pid" type="text" autocomplete="username" placeholder="SLP-0001" />
+        </div>
+
+        <div class="field">
+          <label for="pwd" data-ar="كلمة المرور" data-en="Password">كلمة المرور</label>
+          <input id="pwd" type="password" autocomplete="current-password" placeholder="••••••••" />
+        </div>
+
+        <button class="primary" id="signInBtn" data-ar="تسجيل الدخول" data-en="Sign in">تسجيل الدخول</button>
+
+        <div class="note" id="loginNote" data-ar="يرجى إدخال بيانات الحساب المهني للانتقال إلى قائمة الحالات." data-en="Enter your professional account details to open the case list.">
+          يرجى إدخال بيانات الحساب المهني للانتقال إلى قائمة الحالات.
+        </div>
+
+        <div class="foot">
+          <a href="index.html" data-ar="عودة إلى دخول الموظف" data-en="Back to staff sign in">عودة إلى دخول الموظف</a>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      let lang = "ar";
+      const $ = (s) => document.querySelector(s);
+
+      function text(ar, en) {
+        return lang === "ar" ? ar : en;
+      }
+
+      function goToCases() {
+        if (!$("#pid").value.trim() || !$("#pwd").value) {
+          const note = $("#loginNote");
+          note.textContent = text("يرجى إدخال المعرّف المهني وكلمة المرور.", "Enter the professional ID and password.");
+          note.style.color = "#b42318";
+          $("#pid").focus();
+          return;
+        }
+        const ptr = WASL_STORE.getResume();
+        const id = (ptr && ptr.assessment_id) || WASL_STORE.ensureAssessmentId("clinical");
+        WASL_STORE.setResume({ assessment_id: id, url: "specialist-cases.html", step: "clinical" });
+        location.href = "specialist-cases.html";
+      }
+
+      $("#signInBtn").onclick = goToCases;
+
+      window.setLang = function (n) {
+        lang = n;
+        document.documentElement.lang = n;
+        document.documentElement.dir = n === "ar" ? "rtl" : "ltr";
+        document.querySelectorAll("[data-ar][data-en]").forEach((e) => {
+          e.textContent = e.dataset[n];
+        });
+        $("#langBtn").textContent = n === "ar" ? "EN" : "ع";
+        document.title = text("دخول الأخصائي | وصل", "Specialist sign in | WASL");
+      };
+
+      $("#langBtn").onclick = () => setLang(lang === "ar" ? "en" : "ar");
+    </script>
+  </body>
+</html>

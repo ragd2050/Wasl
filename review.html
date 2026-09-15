@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>مراجعة وإرسال التقييم | وصل</title>
+    <link rel="stylesheet" href="assets/wasl-fonts.css" />
+    <link rel="stylesheet" href="assets/wasl-enhance.css" />
+    <style>
+      :root {
+        --navy: #112d72;
+        --violet: #5754e9;
+        --blue: #1597ed;
+        --cyan: #08d8d2;
+        --bg: #f4f7fc;
+        --muted: #6f7b90;
+        --line: #dfe6f1;
+        --soft: #f7f9fd;
+        --green: #16865b;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        font-family: "Tajawal", sans-serif;
+        color: #17213b;
+        background: var(--bg);
+      }
+      body {
+        overflow: hidden;
+      }
+      .app {
+        height: 100dvh;
+        display: grid;
+        grid-template-rows: 68px 1fr;
+        background: radial-gradient(circle at 4% 92%, rgba(8, 216, 210, 0.12), transparent 25%), var(--bg);
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 clamp(24px, 5vw, 70px);
+        background: #fff;
+        border-bottom: 1px solid var(--line);
+      }
+      .logo {
+        width: 126px;
+        height: 48px;
+        object-fit: contain;
+      }
+      .tools {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .secure {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        color: var(--green);
+        font-size: 0.8rem;
+      }
+      .secure i {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--green);
+      }
+      .lang {
+        height: 39px;
+        padding: 0 16px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: #fff;
+        color: var(--navy);
+        font-weight: 800;
+        cursor: pointer;
+      }
+      main {
+        min-height: 0;
+        padding: 20px clamp(22px, 5vw, 76px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .shell {
+        width: min(1050px, 100%);
+        max-height: calc(100dvh - 108px);
+        padding: 38px clamp(32px, 6vw, 72px);
+        border: 1px solid var(--line);
+        border-radius: 25px;
+        background: #fff;
+        box-shadow: 0 20px 55px rgba(17, 45, 114, 0.1);
+        display: flex;
+        flex-direction: column;
+      }
+      .heading small {
+        color: var(--violet);
+        font-size: 0.8rem;
+        font-weight: 800;
+      }
+      .heading h1 {
+        margin: 6px 0;
+        color: var(--navy);
+        font-size: clamp(1.7rem, 2.6vw, 2.25rem);
+      }
+      .heading p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+      .summary {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 13px;
+        margin-top: 25px;
+      }
+      .item {
+        padding: 17px;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: var(--soft);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .item .check {
+        flex: 0 0 34px;
+        height: 34px;
+        display: grid;
+        place-items: center;
+        border-radius: 11px;
+        background: #e2f6ed;
+        color: var(--green);
+        margin: 0;
+      }
+      .item .check svg {
+        width: 19px;
+        height: 19px;
+      }
+      .item strong {
+        display: block;
+        color: var(--navy);
+        font-size: 0.88rem;
+      }
+      .item span {
+        display: block;
+        margin-top: 2px;
+        color: var(--muted);
+        font-size: 0.72rem;
+      }
+      .privacy {
+        margin-top: 18px;
+        padding: 18px 20px;
+        border: 1px solid #dce7f7;
+        border-radius: 16px;
+        background: #f2f6fd;
+      }
+      .privacy strong {
+        display: block;
+        color: var(--navy);
+        font-size: 0.9rem;
+      }
+      .privacy p {
+        margin: 5px 0 12px;
+        color: var(--muted);
+        font-size: 0.78rem;
+      }
+      .consent {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        color: var(--navy);
+        font-size: 0.82rem;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .consent input {
+        width: 19px;
+        height: 19px;
+        accent-color: var(--blue);
+      }
+      .error {
+        min-height: 20px;
+        margin-top: 7px;
+        color: #b83249;
+        font-size: 0.76rem;
+        font-weight: 700;
+      }
+      .actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: auto;
+      }
+      .primary,
+      .secondary {
+        height: 49px;
+        padding: 0 25px;
+        border-radius: 12px;
+        font:
+          700 0.9rem "Tajawal",
+          sans-serif;
+        cursor: pointer;
+      }
+      .primary {
+        min-width: 220px;
+        border: 0;
+        color: #fff;
+        background: linear-gradient(105deg, var(--navy), var(--violet));
+        box-shadow: 0 9px 20px rgba(87, 84, 233, 0.18);
+      }
+      .secondary {
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--navy);
+      }
+      .finish {
+        position: fixed;
+        inset: 0;
+        display: none;
+        place-items: center;
+        padding: 20px;
+        background: rgba(5, 43, 43, 0.94);
+        z-index: 10;
+      }
+      .finish.show {
+        display: grid;
+      }
+      .finish-card {
+        width: min(570px, 100%);
+        text-align: center;
+        color: #fff;
+      }
+      .success {
+        width: 78px;
+        height: 78px;
+        margin: 0 auto 24px;
+        display: grid;
+        place-items: center;
+        border-radius: 22px;
+        background: linear-gradient(145deg, #2acb8c, #73e5ad);
+        font-size: 2.7rem;
+        box-shadow: 0 15px 35px rgba(42, 203, 140, 0.25);
+      }
+      .return-label {
+        display: inline-block;
+        padding: 9px 20px;
+        border-radius: 999px;
+        background: var(--violet);
+        font-weight: 800;
+        font-size: 0.9rem;
+      }
+      .finish h2 {
+        margin: 22px 0 8px;
+        font-size: 2rem;
+      }
+      .finish p {
+        margin: 0 auto 28px;
+        max-width: 520px;
+        color: #d9e9e7;
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+      .staff {
+        height: 54px;
+        padding: 0 28px;
+        border: 0;
+        border-radius: 13px;
+        background: #fff;
+        color: var(--navy);
+        font:
+          800 1rem "Tajawal",
+          sans-serif;
+        cursor: pointer;
+      }
+      @media (max-width: 760px) {
+        body {
+          overflow: auto;
+        }
+        .app {
+          height: auto;
+          min-height: 100dvh;
+        }
+        .secure {
+          display: none;
+        }
+        main {
+          padding: 14px;
+        }
+        .shell {
+          height: auto;
+          min-height: calc(100dvh - 96px);
+          padding: 28px 20px;
+        }
+        .summary {
+          grid-template-columns: 1fr;
+        }
+        .actions {
+          align-items: stretch;
+          flex-direction: column-reverse;
+          gap: 10px;
+          margin-top: 24px;
+        }
+        .primary,
+        .secondary {
+          width: 100%;
+        }
+        .logo {
+          width: 104px;
+        }
+        .finish h2 {
+          font-size: 1.65rem;
+        }
+      }
+    </style>
+    <script src="assets/wasl-store.js"></script>
+    <script src="assets/wasl-api.js"></script>
+    <script defer src="assets/wasl-enhance.js"></script>
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <img class="logo" src="assets/wasl-logo-1.webp" alt="منصة وصل" />
+        <div class="tools"><button class="lang" id="langBtn">EN</button></div>
+      </header>
+      <main>
+        <section class="shell">
+          <div class="heading">
+            <small id="eyebrow">الخطوة الأخيرة</small>
+            <h1 id="title">مراجعة وإرسال التقييم</h1>
+            <p id="subtitle">يرجى التأكد من اكتمال جميع أجزاء التقييم قبل الإرسال إلى موظف الاستقبال.</p>
+          </div>
+          <div class="summary">
+            <article class="item">
+              <span class="check"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="m5 12 5 5 9-10" /></svg
+              ></span>
+              <div>
+                <strong data-ar="الأسئلة الطبية" data-en="Medical questions">الأسئلة الطبية</strong
+                ><span data-ar="مكتملة" data-en="Completed">مكتملة</span>
+              </div>
+            </article>
+            <article class="item">
+              <span class="check"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="m5 12 5 5 9-10" /></svg
+              ></span>
+              <div>
+                <strong data-ar="فحص السمع والطلاقة" data-en="Hearing and fluency">فحص السمع والطلاقة</strong
+                ><span data-ar="مكتمل" data-en="Completed">مكتمل</span>
+              </div>
+            </article>
+            <article class="item">
+              <span class="check"
+                ><svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="m5 12 5 5 9-10" /></svg
+              ></span>
+              <div>
+                <strong data-ar="التقييم الصوتي" data-en="Voice assessment">التقييم الصوتي</strong
+                ><span data-ar="3 مقاطع محفوظة" data-en="3 clips saved">3 مقاطع محفوظة</span>
+              </div>
+            </article>
+          </div>
+          <section class="privacy">
+            <strong id="privacyTitle">حماية البيانات</strong>
+            <p id="privacyText">
+              تُعالج الإجابات وفق نظام حماية البيانات الشخصية، ولا تتم مشاركتها إلا مع الجهة الطبية التي سيتم توجيه سارة
+              إليها.
+            </p>
+            <div class="consent-group" style="display: grid; gap: 12px; margin-top: 6px">
+              <label class="consent"
+                ><input type="checkbox" id="consentAnswers" /><span id="consentAnswersText"
+                  >أوافق على معالجة إجابات الاستبيان لأغراض الفرز.</span
+                ></label
+              ><label class="consent"
+                ><input type="checkbox" id="consentAudio" /><span id="consentAudioText"
+                  >أوافق على معالجة التسجيلات الصوتية للطفل بواسطة أداة التحليل.</span
+                ></label
+              ><label class="consent"
+                ><input type="checkbox" id="consentShare" /><span id="consentShareText"
+                  >أوافق على مشاركة نتيجة الفرز مع المنشأة الطبية المطابقة للحالة.</span
+                ></label
+              >
+            </div>
+          </section>
+          <div class="error" id="error"></div>
+          <div class="actions">
+            <button class="secondary" id="backBtn">رجوع</button
+            ><button
+              class="secondary"
+              id="printReview"
+              type="button"
+              data-ar="طباعة الملخص"
+              data-en="Print summary"
+              style="display: inline-flex; align-items: center; gap: 8px"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                width="18"
+                height="18"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2M6 14h12v7H6Z"
+                /></svg
+              ><span data-ar="طباعة الملخص" data-en="Print summary">طباعة الملخص</span></button
+            ><button class="primary" id="submitBtn">إرسال التقييم</button>
+          </div>
+        </section>
+      </main>
+    </div>
+    <section class="finish" id="finish">
+      <div class="finish-card">
+        <div class="success">✓</div>
+        <span class="return-label" id="returnLabel">يرجى إعادة الجهاز إلى موظف الاستقبال</span>
+        <h2 id="doneTitle">تم، شكرًا لك</h2>
+        <p id="doneText">تم حفظ إجابات سارة وتسجيلاتها بنجاح. ستُراجع البيانات ويُؤكَّد إرسالها من قسم الاستقبال.</p>
+        <button class="staff" id="staffBtn">العودة إلى واجهة الموظف</button>
+      </div>
+    </section>
+    <script>
+      let lang = "ar";
+      const $ = (s) => document.querySelector(s),
+        $$ = (s) => document.querySelectorAll(s);
+      function text(ar, en) {
+        return lang === "ar" ? ar : en;
+      }
+      function setLang(n) {
+        lang = n;
+        document.documentElement.lang = n;
+        document.documentElement.dir = n === "ar" ? "rtl" : "ltr";
+        $$("[data-ar][data-en]").forEach((e) => (e.textContent = e.dataset[n]));
+        $("#langBtn").textContent = n === "ar" ? "EN" : "ع";
+        $("#eyebrow").textContent = text("الخطوة الأخيرة", "Final step");
+        $("#title").textContent = text("مراجعة وإرسال التقييم", "Review and submit assessment");
+        $("#subtitle").textContent = text(
+          "يرجى التأكد من اكتمال جميع أجزاء التقييم قبل الإرسال إلى موظف الاستقبال.",
+          "Confirm all assessment sections are complete before submitting to reception.",
+        );
+        $("#privacyTitle").textContent = text("حماية البيانات", "Data protection");
+        $("#privacyText").textContent = text(
+          "تُعالج الإجابات وفق نظام حماية البيانات الشخصية، ولا تتم مشاركتها إلا مع الجهة الطبية التي سيتم توجيه سارة إليها.",
+          "Answers are processed under Saudi PDPL and shared only with the matched medical provider.",
+        );
+        $("#consentAnswersText").textContent = text(
+          "أوافق على معالجة إجابات الاستبيان لأغراض الفرز.",
+          "I agree to processing the questionnaire answers for triage.",
+        );
+        $("#consentAudioText").textContent = text(
+          "أوافق على معالجة التسجيلات الصوتية للطفل بواسطة أداة التحليل.",
+          "I agree to processing the child’s voice recordings by the analysis tool.",
+        );
+        $("#consentShareText").textContent = text(
+          "أوافق على مشاركة نتيجة الفرز مع المنشأة الطبية المطابقة للحالة.",
+          "I agree to share the triage result with the matched medical facility.",
+        );
+        $("#backBtn").textContent = text("رجوع", "Back");
+        $("#submitBtn").textContent = text("إرسال التقييم", "Submit assessment");
+        $("#returnLabel").textContent = text(
+          "يرجى إعادة الجهاز إلى موظف الاستقبال",
+          "Please return the tablet to the front desk",
+        );
+        $("#doneTitle").textContent = text("تم، شكرًا لك", "All done, thank you");
+        $("#doneText").textContent = text(
+          "تم حفظ إجابات سارة وتسجيلاتها بنجاح. ستُراجع البيانات ويُؤكَّد إرسالها من قسم الاستقبال.",
+          "Sara’s answers and recordings were saved. The front desk will review and confirm submission.",
+        );
+        $("#staffBtn").textContent = text("العودة إلى واجهة الموظف", "Return to staff view");
+        document.title = text("مراجعة وإرسال التقييم | وصل", "Review and submit | WASL");
+      }
+      $("#langBtn").onclick = () => setLang(lang === "ar" ? "en" : "ar");
+      $("#backBtn").onclick = () => history.back();
+      $("#submitBtn").onclick = async () => {
+        const all = $("#consentAnswers").checked && $("#consentAudio").checked && $("#consentShare").checked;
+        if (!all) {
+          $("#error").textContent = text(
+            "يرجى الموافقة على البنود الثلاثة قبل الإرسال.",
+            "Please agree to all three items before submitting.",
+          );
+          return;
+        }
+        $("#error").textContent = "";
+        const id = WASL_STORE.ensureAssessmentId("review");
+        await WASL_STORE.patchAssessment(id, {
+          status: "submitted",
+          consent: { answers: true, audio: true, share: true, ts: Date.now() },
+        });
+        WASL_STORE.setResume({
+          assessment_id: id,
+          url: "ai-processing.html",
+          step: "ai",
+          label_ar: "تحليل التقييم",
+          label_en: "Assessment analysis",
+        });
+        location.href = "ai-processing.html";
+      };
+      [$("#consentAnswers"), $("#consentAudio"), $("#consentShare")].forEach(
+        (c) => (c.onchange = () => ($("#error").textContent = "")),
+      );
+      $("#staffBtn").onclick = () => (window.location.href = "index.html");
+      const sampleStatus = $(".item:nth-child(3) div span");
+      sampleStatus.dataset.ar = "مهام الصوت المطلوبة مكتملة";
+      sampleStatus.dataset.en = "Required voice tasks completed";
+      sampleStatus.textContent = "مهام الصوت المطلوبة مكتملة";
+      const summaryTitles = $$(".item strong"),
+        summaryNotes = $$(".item div span");
+      summaryTitles[0].dataset.ar = "استبيان تاريخ الحالة";
+      summaryTitles[0].dataset.en = "Case history questionnaire";
+      summaryTitles[0].textContent = "استبيان تاريخ الحالة";
+      summaryTitles[1].dataset.ar = "السمع واللغة والنطق والبلع";
+      summaryTitles[1].dataset.en = "Hearing, speech, language and swallowing";
+      summaryTitles[1].textContent = "السمع واللغة والنطق والبلع";
+      summaryNotes[1].dataset.ar = "مكتمل حسب نوع المشكلة";
+      summaryNotes[1].dataset.en = "Completed based on selected concerns";
+      summaryNotes[1].textContent = "مكتمل حسب نوع المشكلة";
+
+      $("#staffBtn").onclick = () => (window.location.href = "dashboard.html");
+      setLang(lang);
+
+      (function () {
+        var b = document.getElementById("printReview");
+        if (b)
+          b.onclick = function () {
+            window.print();
+          };
+      })();
+    </script>
+  </body>
+</html>
