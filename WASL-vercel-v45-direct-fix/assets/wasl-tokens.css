@@ -1,0 +1,51 @@
+/* ============================================================================
+ * WASL — Shared Design Tokens
+ * ----------------------------------------------------------------------------
+ * Central place for the WASL visual identity: colors, spacing, radii, shadows,
+ * and typography. Pages reference these variables instead of repeating raw
+ * values, so the look stays consistent and is easy to adjust in one place.
+ * ==========================================================================*/
+
+:root {
+  /* Brand colors */
+  --navy: #112d72;
+  --violet: #5754e9;
+  --blue: #1597ed;
+  --cyan: #08d8d2;
+
+  /* Surfaces & text */
+  --bg: #f4f7fc;
+  --surface: #ffffff;
+  --soft: #f7f9fd;
+  --ink: #17213b;
+  --muted: #6f7b90;
+  --line: #dfe6f1;
+
+  /* Status colors */
+  --green: #16865b;
+  --amber: #a55b12;
+  --red: #df4c60;
+
+  /* Sehhaty accent */
+  --sehhaty: #1c8f6a;
+
+  /* Radii */
+  --radius-sm: 11px;
+  --radius-md: 15px;
+  --radius-lg: 20px;
+  --radius-xl: 25px;
+
+  /* Spacing scale */
+  --space-1: 6px;
+  --space-2: 10px;
+  --space-3: 14px;
+  --space-4: 18px;
+  --space-5: 24px;
+  --space-6: 32px;
+
+  /* Shadow */
+  --shadow: 0 20px 55px rgba(17, 45, 114, 0.1);
+
+  /* Typography */
+  --font: "Tajawal", sans-serif;
+}
