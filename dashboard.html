@@ -661,6 +661,33 @@
         color: #8a97a8;
         font-weight: 600;
       }
+      /* Use normal page scrolling instead of trapping appointments inside a
+         fixed-height panel. This also works on short presentation screens. */
+      html,
+      body {
+        height: auto !important;
+        min-height: 100% !important;
+        overflow-y: auto !important;
+      }
+      .app {
+        height: auto !important;
+        min-height: 100dvh !important;
+        grid-template-rows: 72px auto !important;
+      }
+      main {
+        overflow: visible !important;
+      }
+      .schedule {
+        flex: none !important;
+        min-height: auto !important;
+        grid-template-rows: 66px auto !important;
+        overflow: visible !important;
+      }
+      .rows {
+        min-height: auto !important;
+        max-height: none !important;
+        overflow: visible !important;
+      }
     </style>
     <script src="assets/wasl-store.js"></script>
     <script src="assets/wasl-sim.js"></script>
@@ -1105,7 +1132,12 @@
             } catch (e) {}
           }
           if (btn.dataset.action === "start") {
-            location.href = "start.html";
+            const saved = JSON.parse(localStorage.getItem("waslSelectedPatient") || "{}");
+            const query = new URLSearchParams({
+              name_ar: saved.name_ar || "سارة عبدالله العتيبي",
+              name_en: saved.name_en || "Sara Abdullah Al-Otaibi"
+            });
+            location.href = "start.html?" + query.toString();
             return;
           }
           if (btn.dataset.action === "sim-case" || btn.dataset.action === "stuttering-case") {

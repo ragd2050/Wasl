@@ -459,6 +459,21 @@
         font-size: 50px;
         font-family: Tajawal, sans-serif;
       }
+      html,
+      body {
+        height: auto !important;
+        min-height: 100% !important;
+        overflow-y: auto !important;
+      }
+      .app {
+        height: auto !important;
+        min-height: 100dvh !important;
+      }
+      main,
+      .workspace {
+        overflow: visible !important;
+        max-height: none !important;
+      }
     </style>
     <script defer src="assets/wasl-enhance.js"></script>
   </head>
@@ -631,6 +646,39 @@
       let lang = "ar";
       const $ = (s) => document.querySelector(s),
         $$ = (s) => document.querySelectorAll(s);
+
+      // Apply the exact child selected from the appointments table. Query
+      // parameters make this reliable even when an older shared JS file is
+      // cached by Vercel or the browser.
+      (function applyAppointmentPatient() {
+        const params = new URLSearchParams(location.search);
+        let saved = {};
+        try {
+          saved = JSON.parse(localStorage.getItem("waslSelectedPatient") || "{}");
+        } catch (e) {}
+        const nameAr = params.get("name_ar") || saved.name_ar || "سارة عبدالله العتيبي";
+        const nameEn = params.get("name_en") || saved.name_en || "Sara Abdullah Al-Otaibi";
+        const firstAr = nameAr.trim().split(/\s+/)[0];
+        const firstEn = nameEn.trim().split(/\s+/)[0];
+        const title = document.querySelector(".main-panel h1");
+        const patientName = document.querySelector(".patient-card h2");
+        const patientInitial = document.querySelector(".patient-card .patient-avatar text");
+        if (title) {
+          title.dataset.ar = `بدء تقييم ${firstAr}`;
+          title.dataset.en = `Start ${firstEn}'s assessment`;
+          title.textContent = title.dataset.ar;
+        }
+        if (patientName) {
+          patientName.dataset.ar = nameAr;
+          patientName.dataset.en = nameEn;
+          patientName.textContent = nameAr;
+        }
+        if (patientInitial) {
+          patientInitial.dataset.ar = saved.initial_ar || firstAr.charAt(0);
+          patientInitial.dataset.en = saved.initial_en || firstEn.charAt(0);
+          patientInitial.textContent = patientInitial.dataset.ar;
+        }
+      })();
       function setLang(next) {
         lang = next;
         document.documentElement.lang = next;
