@@ -1084,6 +1084,26 @@
       $("#langBtn").addEventListener("click", () => setLang(lang === "ar" ? "en" : "ar"));
       $$("[data-action]").forEach((btn) =>
         btn.addEventListener("click", () => {
+          const appointment = btn.closest(".appointment");
+          if (appointment) {
+            const nameEl = appointment.querySelector(".patient strong");
+            const detailEl = appointment.querySelector(".patient span");
+            const avatarEl = appointment.querySelector(".patient-avatar text");
+            const ageMatch = ((detailEl && detailEl.dataset.ar) || "").match(/\d+/);
+            try {
+              localStorage.setItem("waslSelectedPatient", JSON.stringify({
+                name_ar: (nameEl && nameEl.dataset.ar) || "سارة عبدالله العتيبي",
+                name_en: (nameEl && nameEl.dataset.en) || "Sara Abdullah Al-Otaibi",
+                age: ageMatch ? Number(ageMatch[0]) : 6,
+                details_ar: (detailEl && detailEl.dataset.ar) || "6 سنوات · زيارة أولى",
+                details_en: (detailEl && detailEl.dataset.en) || "6 years · First visit",
+                initial_ar: (avatarEl && avatarEl.dataset.ar) || "س",
+                initial_en: (avatarEl && avatarEl.dataset.en) || "S",
+                national_id_masked: "XXXXXXXXXX",
+                national_id_masked_x: "XXXXXXXXXX"
+              }));
+            } catch (e) {}
+          }
           if (btn.dataset.action === "start") {
             location.href = "start.html";
             return;
